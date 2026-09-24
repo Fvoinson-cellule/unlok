@@ -183,8 +183,28 @@ function Offre() {
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {PLANS.map((plan) => (
+          {/* SÉANCE DÉCOUVERTE — au-dessus */}
+          <div className="mt-12 max-w-xl">
+            <div className="rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1 bg-glass backdrop-blur-md ring-1 ring-white/10">
+              <div className="font-mono text-xs text-primary">{PLANS[0].label}</div>
+              <h3 className="mt-3 font-display text-xl tracking-tight">{PLANS[0].name}</h3>
+              <div className="mt-4 font-display text-4xl tracking-tight">
+                {PLANS[0].price}
+                <span className="text-base text-muted-foreground">{PLANS[0].unit}</span>
+              </div>
+              <p className="mt-3 text-sm text-muted-foreground">{PLANS[0].desc}</p>
+              <a
+                href={PLANS[0].href}
+                className="mt-6 inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
+              >
+                {PLANS[0].cta}
+              </a>
+            </div>
+          </div>
+
+          {/* AUTRES FORMULES — empilées à la verticale */}
+          <div className="mt-4 flex flex-col gap-4 max-w-xl">
+            {PLANS.slice(1).map((plan) => (
               <div
                 key={plan.name}
                 className={
@@ -194,25 +214,23 @@ function Offre() {
                     : "bg-glass backdrop-blur-md ring-1 ring-white/10")
                 }
               >
-                <div className={"font-mono text-xs " + (plan.featured ? "text-primary" : "text-primary")}>
-                  {plan.label}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="font-mono text-xs text-primary">{plan.label}</div>
+                    <h3 className="mt-2 font-display text-xl tracking-tight">{plan.name}</h3>
+                    <div className="mt-2 font-display text-3xl tracking-tight">
+                      {plan.price}
+                      <span className="text-base text-muted-foreground">{plan.unit}</span>
+                    </div>
+                    <p className="mt-2 text-sm text-muted-foreground">{plan.desc}</p>
+                  </div>
+                  <a
+                    href={plan.href}
+                    className="inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg sm:w-auto sm:shrink-0"
+                  >
+                    {plan.cta}
+                  </a>
                 </div>
-                <h3 className="mt-3 font-display text-xl tracking-tight">{plan.name}</h3>
-                <div className="mt-4 font-display text-4xl tracking-tight">
-                  {plan.price}
-                  <span className={"text-base " + (plan.featured ? "text-muted-foreground" : "text-muted-foreground")}>
-                    {plan.unit}
-                  </span>
-                </div>
-                <p className={"mt-3 text-sm " + (plan.featured ? "text-muted-foreground" : "text-muted-foreground")}>
-                  {plan.desc}
-                </p>
-                <a
-                  href={plan.href}
-                  className="mt-6 inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
-                >
-                  {plan.cta}
-                </a>
               </div>
             ))}
           </div>
