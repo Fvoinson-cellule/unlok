@@ -14,13 +14,109 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      discovery_bookings: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          session_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          phone?: string | null
+          session_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discovery_bookings_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "discovery_availability"
+            referencedColumns: ["session_id"]
+          },
+          {
+            foreignKeyName: "discovery_bookings_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "discovery_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      discovery_sessions: {
+        Row: {
+          capacity: number
+          created_at: string
+          day_label: string
+          id: string
+          is_active: boolean
+          location: string
+          price_eur: number
+          starts_at: string
+          stripe_url: string
+          time_label: string
+        }
+        Insert: {
+          capacity?: number
+          created_at?: string
+          day_label: string
+          id?: string
+          is_active?: boolean
+          location: string
+          price_eur?: number
+          starts_at: string
+          stripe_url: string
+          time_label: string
+        }
+        Update: {
+          capacity?: number
+          created_at?: string
+          day_label?: string
+          id?: string
+          is_active?: boolean
+          location?: string
+          price_eur?: number
+          starts_at?: string
+          stripe_url?: string
+          time_label?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      discovery_availability: {
+        Row: {
+          booked: number | null
+          capacity: number | null
+          remaining: number | null
+          session_id: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      book_discovery_session: {
+        Args: {
+          p_email: string
+          p_full_name: string
+          p_phone?: string
+          p_session_id: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
