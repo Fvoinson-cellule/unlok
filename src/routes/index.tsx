@@ -98,8 +98,8 @@ function Index() {
                 <p>
                   Prenons l'exemple des finitions : à l'entraînement, ils maîtrisent une variété
                   infinie de gestes. En match, sous pression, 90 % finissent par un simple lay-up
-                  prévisible. Ce fossé entre l'entraînement et la réalité du jeu, c'est exactement
-                  pour le combler que j'ai créé{" "}
+                  prévisible. C'est précisément pour réduire cet écart entre le geste répété à
+                  l'entraînement et la décision en match que j'ai créé{" "}
                   <span className="font-medium text-foreground">UNLOK</span>.
                 </p>
               </div>
