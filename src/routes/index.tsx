@@ -230,7 +230,7 @@ function Index() {
 
 
         <div className="method-sheet text-court-foreground">
-          <div className="method-edge" aria-hidden="true" />
+
           <div className="mx-auto max-w-6xl px-6 pt-20 pb-24 md:pt-28 md:pb-32">
             <div className="grid gap-14 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-20">
               <div>
