@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 
 import {
@@ -60,8 +59,8 @@ function Places({ booked, capacity }: { booked: number; capacity: number }) {
 
 export function DiscoveryBooking({ className = "" }: { className?: string }) {
   const queryClient = useQueryClient();
-  const fetchSessions = useServerFn(listDiscoverySessions);
-  const submitBooking = useServerFn(bookDiscoverySession);
+  
+  
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [fullName, setFullName] = useState("");
@@ -78,7 +77,7 @@ export function DiscoveryBooking({ className = "" }: { className?: string }) {
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["discovery-sessions"],
-    queryFn: () => fetchSessions(),
+    queryFn: () => listDiscoverySessions(),
     staleTime: 20_000,
   });
 
@@ -106,14 +105,12 @@ export function DiscoveryBooking({ className = "" }: { className?: string }) {
 
     setIsSubmitting(true);
     try {
-      const result = await submitBooking({
-        data: {
-          sessionId: active.id,
-          fullName: cleanName,
-          email: cleanEmail,
-          phone: phone.trim(),
-          website,
-        },
+      const result = await bookDiscoverySession({
+        sessionId: active.id,
+        fullName: cleanName,
+        email: cleanEmail,
+        phone: phone.trim(),
+        website,
       });
 
       if (!result.ok) {
