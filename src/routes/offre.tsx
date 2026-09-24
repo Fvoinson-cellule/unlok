@@ -240,7 +240,7 @@ function Offre() {
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
             {SLOTS.map((slot) => (
-              <div key={slot.day} className="rounded-2xl bg-court-foreground/5 ring-1 ring-white/10 p-6">
+              <div key={slot.day} className="rounded-2xl bg-court-foreground/5 ring-1 ring-court-foreground/10 p-6">
                 <div className="font-mono text-xs text-court-foreground/60">{slot.day}</div>
                 <div className="mt-2 font-display text-2xl tracking-tight">{slot.time}</div>
                 <p className="mt-2 text-sm text-court-foreground/70">{slot.location}</p>
@@ -277,15 +277,15 @@ function Offre() {
                 <div className="font-display text-3xl tracking-tight">875 €</div>
               </div>
             </div>
-            <div className="mt-6 overflow-hidden rounded-2xl ring-1 ring-white/10">
+            <div className="mt-6 overflow-hidden rounded-2xl ring-1 ring-court-foreground/10">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-white/10 text-court-foreground/60 font-mono text-xs uppercase tracking-wider">
+                  <tr className="border-b border-court-foreground/10 text-court-foreground/60 font-mono text-xs uppercase tracking-wider">
                     <th className="px-4 py-3 text-left font-medium">Mois</th>
                     <th className="px-4 py-3 text-right font-medium">Tarif</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/10">
+                <tbody className="divide-y divide-court-foreground/10">
                   {MONTHLY_TARIFF.map(([month, price]) => (
                     <tr key={month}>
                       <td className="px-4 py-3">{month}</td>
