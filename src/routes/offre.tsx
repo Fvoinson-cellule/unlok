@@ -9,7 +9,7 @@ export const Route = createFileRoute("/offre")({
       {
         name: "description",
         content:
-          "Les formules Unlok : séance découverte 15€, abonnement mensuel 100€, carte 5 séances 250€, carte 10 séances 400€. Saison 2026-2027, Alsace.",
+          "Les formules Unlok : séance découverte 15 € (lundi 28/09 à Kaysersberg, mercredi 30/09 à Strasbourg), abonnement mensuel 100 €, carte 5 séances 250 €, carte 10 séances 400 €. Saison 2026-2027, Alsace.",
       },
       { property: "og:title", content: "Tarifs & formules · Unlok" },
       {
@@ -30,7 +30,7 @@ const PLANS = [
     name: "Séance découverte",
     price: "15€",
     unit: "/ séance unique",
-    desc: "Tarif permanent, un tarif préferentiel pour se faire une idée avant de choisir une formule.",
+    desc: "Tarif permanent, un tarif préférentiel pour se faire une idée avant de choisir une formule.",
     cta: "Réserver · 15€",
     href: "https://buy.stripe.com/14AfZh3nB50l2f00hU6sw04",
     featured: false,
@@ -64,6 +64,21 @@ const PLANS = [
     cta: "Réserver · 400€",
     href: "https://buy.stripe.com/cNidR9gancsN1aWaWy6sw02",
     featured: false,
+  },
+] as const;
+
+const DISCOVERY = [
+  {
+    day: "Lundi 28 septembre",
+    time: "18h30 – 19h30",
+    location: "Cosec de Kaysersberg",
+    href: "https://buy.stripe.com/14AfZh3nB50l2f00hU6sw04",
+  },
+  {
+    day: "Mercredi 30 septembre",
+    time: "17h00 – 18h00",
+    location: "Basket Center de Strasbourg",
+    href: "https://buy.stripe.com/14AfZh3nB50l2f00hU6sw04",
   },
 ] as const;
 
