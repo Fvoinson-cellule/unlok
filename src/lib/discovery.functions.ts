@@ -44,6 +44,7 @@ export type BookingReason =
   | "past"
   | "not_found"
   | "missing_fields"
+  | "invalid_email"
   | "rejected";
 
 export type BookingResult =

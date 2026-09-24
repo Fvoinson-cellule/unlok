@@ -16,6 +16,7 @@ const REASONS = {
   past: "Cette séance a déjà eu lieu.",
   not_found: "Ce créneau n'est plus disponible.",
   missing_fields: "Complète ton prénom, ton nom et ton email.",
+  invalid_email: "Cette adresse email n'est pas valide. Vérifie-la et réessaie.",
   rejected: "Ton inscription n'a pas pu être enregistrée. Écris-nous directement.",
 } as const;
 
