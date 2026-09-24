@@ -31,16 +31,18 @@ function Index() {
 
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 -z-0">
-          <div className="absolute -top-24 -right-32 h-[520px] w-[520px] rounded-[28px] bg-glass backdrop-blur-xl ring-1 ring-white/10 rotate-[18deg]" />
-          <div className="absolute top-40 -left-40 h-[420px] w-[420px] rounded-[28px] bg-glass backdrop-blur-xl ring-1 ring-white/10 rotate-[-14deg]" />
-          <div className="absolute top-1/2 right-1/4 h-[300px] w-[300px] rounded-[28px] bg-primary/10 backdrop-blur-lg rotate-[10deg]" />
-        </div>
+        <div
+          className="pointer-events-none absolute inset-0 -z-0"
+          style={{
+            background:
+              "linear-gradient(180deg, oklch(0.62 0.21 36 / 0.14), var(--color-background) 65%)",
+          }}
+        />
 
         <div className="relative mx-auto max-w-6xl px-6 pt-20 pb-24">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/60 px-3 py-1 text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground">
-              <span className="size-1.5 rounded-lg bg-primary" />
+              <span className="size-1.5 rounded-full bg-primary" />
               Coaching individuel · U13–U18 · Alsace
             </div>
 
@@ -58,14 +60,14 @@ function Index() {
             <div className="mt-10 flex flex-wrap items-center gap-4 rise" style={{ animationDelay: "0.2s" }}>
               <Link
                 to="/offre"
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground  hover:bg-foreground transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
               >
                 Voir les formules
-                <span className="font-mono">→</span>
+                <span>→</span>
               </Link>
               <a
                 href="#methode"
-                className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold hover:bg-foreground hover:text-primary-foreground transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
               >
                 Découvrir la méthode
               </a>
