@@ -132,7 +132,7 @@ function Index() {
               <img
                 src={portrait}
                 alt="Florian Voinson, coach de basket Unlok"
-                className="relative w-full max-w-[26rem] object-contain drop-shadow-[0_24px_48px_oklch(0_0_0/0.6)]"
+                className="portrait-fade relative w-full max-w-[26rem] object-contain"
                 loading="eager"
               />
             </div>
