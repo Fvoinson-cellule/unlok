@@ -1,5 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import logoAsset from "@/assets/unlok_logo_blanc.png.asset.json";
+import logoUrl from "@/assets/unlok-logo.png";
+
+const navBtn =
+  "inline-flex items-center rounded-lg border border-primary bg-background px-4 py-2 text-foreground transition-all hover:-translate-y-0.5 hover:shadow-glow";
 
 function InstagramIcon({ className = "" }: { className?: string }) {
   return (
@@ -26,7 +29,7 @@ export function SiteNav() {
       <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 leading-none text-foreground">
           <img
-            src={logoAsset.url}
+            src={logoUrl}
             alt="Unlok"
             className="h-9 w-9 rounded-full object-cover"
           />
@@ -34,11 +37,11 @@ export function SiteNav() {
             UNLOK<span className="text-primary">.</span>
           </span>
         </Link>
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-          <a href="/#methode" className="text-muted-foreground hover:text-foreground transition-colors">Méthode</a>
-          <a href="/#seance" className="text-muted-foreground hover:text-foreground transition-colors">Séance</a>
-          <a href="/#preuves" className="text-muted-foreground hover:text-foreground transition-colors">Cadre</a>
-          <Link to="/offre" className="text-muted-foreground hover:text-foreground transition-colors">Tarifs</Link>
+        <nav className="hidden md:flex items-center gap-3 text-sm font-medium">
+          <Link to="/" hash="methode" className={navBtn}>Méthode</Link>
+          <Link to="/" hash="seance" className={navBtn}>Séance</Link>
+          <Link to="/" hash="preuves" className={navBtn}>Cadre</Link>
+          <Link to="/offre" className={navBtn}>Tarifs</Link>
         </nav>
         <div className="flex items-center gap-3">
           <a
