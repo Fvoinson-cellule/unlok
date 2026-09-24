@@ -117,56 +117,76 @@ function Index() {
       </section>
 
       {/* METHOD */}
-      <section id="methode" className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <div className="grid grid-cols-12 gap-8">
-            <div className="col-span-12 md:col-span-4">
-              <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">(a) La méthode</div>
-              <h2 className="mt-4 font-display text-4xl tracking-tight text-balance">
-                L'approche par contraintes.
-              </h2>
-              <p className="mt-4 text-muted-foreground text-pretty">
-                Plutôt que faire répéter un geste « modèle » isolé, on aménage l'environnement pour
-                que le joueur explore et trouve lui-même des solutions adaptées.
-              </p>
-              <p className="mt-3 text-sm text-muted-foreground text-pretty">
-                Je m'appuie sur du concret : plutôt que des pourcentages, je mesure la progression
-                réelle, séance après séance. Les autres joueurs ne sont pas là pour « gagner » :
-                ils recréent la pression et l'imprévu où l'on apprend à décider.
-              </p>
-            </div>
-            <div className="col-span-12 md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
-                <div className="font-mono text-xs text-primary">01</div>
-                <h3 className="mt-3 font-display text-xl tracking-tight">Le joueur</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Entraîné dans des situations qui ressemblent au match, il développe une motricité
-                  adaptable plutôt qu'un geste figé.
+      <section id="methode" className="method-story border-t border-border">
+        <div className="mx-auto max-w-6xl px-6 pt-24 pb-16 md:pb-24">
+          <div className="max-w-3xl">
+            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">(a) La méthode</div>
+            <h2 className="mt-4 font-display text-5xl md:text-7xl text-balance">
+              L'approche par contraintes.
+            </h2>
+            <p className="mt-6 max-w-2xl text-lg text-muted-foreground text-pretty">
+              Plutôt que faire répéter un geste « modèle » isolé, on aménage l'environnement pour
+              que le joueur explore et trouve lui-même des solutions adaptées.
+            </p>
+          </div>
+        </div>
+
+        <div className="method-sheet text-court-foreground">
+          <div className="method-edge" aria-hidden="true" />
+          <div className="mx-auto max-w-6xl px-6 pt-20 pb-24 md:pt-28 md:pb-32">
+            <div className="grid gap-14 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-20">
+              <div>
+                <p className="font-display text-3xl md:text-5xl text-balance">
+                  Apprendre à décider dans le jeu.
+                </p>
+                <p className="mt-6 max-w-md text-sm leading-7 text-court-foreground/65 text-pretty">
+                  Je m'appuie sur du concret : plutôt que des pourcentages, je mesure la progression
+                  réelle, séance après séance. Les autres joueurs ne sont pas là pour « gagner » :
+                  ils recréent la pression et l'imprévu où l'on apprend à décider.
                 </p>
               </div>
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
-                <div className="font-mono text-xs text-primary">02</div>
-                <h3 className="mt-3 font-display text-xl tracking-tight">La tâche</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Des situations à contraintes précises qui isolent une décision, puis qu'on répète
-                  jusqu'à la maîtrise.
-                </p>
-              </div>
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
-                <div className="font-mono text-xs text-primary">03</div>
-                <h3 className="mt-3 font-display text-xl tracking-tight">L'environnement</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  La compétence naît de l'interaction entre trois contraintes : le joueur, la tâche,
-                  l'environnement.
-                </p>
-              </div>
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
-                <div className="font-mono text-xs text-primary">04</div>
-                <h3 className="mt-3 font-display text-xl tracking-tight">Le transfert</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Ce qui est travaillé ici se voit ensuite en match avec son équipe.
-                </p>
-              </div>
+
+              <ol className="method-steps border-t border-court-foreground/20">
+                <li className="method-step grid grid-cols-[3rem_1fr] gap-4 border-b border-court-foreground/20 py-7 md:grid-cols-[5rem_1fr] md:gap-8 md:py-9">
+                  <span className="font-display text-3xl text-primary">01</span>
+                  <div>
+                    <h3 className="font-display text-2xl md:text-3xl">Le joueur</h3>
+                    <p className="mt-2 max-w-xl text-sm leading-6 text-court-foreground/65">
+                      Entraîné dans des situations qui ressemblent au match, il développe une motricité
+                      adaptable plutôt qu'un geste figé.
+                    </p>
+                  </div>
+                </li>
+                <li className="method-step grid grid-cols-[3rem_1fr] gap-4 border-b border-court-foreground/20 py-7 md:grid-cols-[5rem_1fr] md:gap-8 md:py-9">
+                  <span className="font-display text-3xl text-primary">02</span>
+                  <div>
+                    <h3 className="font-display text-2xl md:text-3xl">La tâche</h3>
+                    <p className="mt-2 max-w-xl text-sm leading-6 text-court-foreground/65">
+                      Des situations à contraintes précises qui isolent une décision, puis qu'on répète
+                      jusqu'à la maîtrise.
+                    </p>
+                  </div>
+                </li>
+                <li className="method-step grid grid-cols-[3rem_1fr] gap-4 border-b border-court-foreground/20 py-7 md:grid-cols-[5rem_1fr] md:gap-8 md:py-9">
+                  <span className="font-display text-3xl text-primary">03</span>
+                  <div>
+                    <h3 className="font-display text-2xl md:text-3xl">L'environnement</h3>
+                    <p className="mt-2 max-w-xl text-sm leading-6 text-court-foreground/65">
+                      La compétence naît de l'interaction entre trois contraintes : le joueur, la tâche,
+                      l'environnement.
+                    </p>
+                  </div>
+                </li>
+                <li className="method-step grid grid-cols-[3rem_1fr] gap-4 border-b border-court-foreground/20 py-7 md:grid-cols-[5rem_1fr] md:gap-8 md:py-9">
+                  <span className="font-display text-3xl text-primary">04</span>
+                  <div>
+                    <h3 className="font-display text-2xl md:text-3xl">Le transfert</h3>
+                    <p className="mt-2 max-w-xl text-sm leading-6 text-court-foreground/65">
+                      Ce qui est travaillé ici se voit ensuite en match avec son équipe.
+                    </p>
+                  </div>
+                </li>
+              </ol>
             </div>
           </div>
         </div>
