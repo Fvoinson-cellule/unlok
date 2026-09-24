@@ -353,10 +353,10 @@ function Index() {
               </p>
               <Link
                 to="/offre"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
               >
                 Réserver la séance d'essai — 15 €
-                <span className="font-mono">→</span>
+                <span>→</span>
               </Link>
             </div>
             <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
@@ -367,7 +367,7 @@ function Index() {
               </p>
               <a
                 href="https://instagram.com/unlok.basketball"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold hover:bg-foreground hover:text-primary-foreground transition-colors"
+                className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
               >
                 Me suivre sur Instagram
               </a>
@@ -381,7 +381,7 @@ function Index() {
               </p>
               <a
                 href="mailto:unlok.basketball@gmail.com"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold hover:bg-foreground hover:text-primary-foreground transition-colors"
+                className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
               >
                 M'écrire
               </a>
@@ -409,10 +409,10 @@ function Index() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a
               href="https://instagram.com/unlok.basketball"
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
             >
               Écrire sur Instagram
-              <span className="font-mono">→</span>
+              <span>→</span>
             </a>
             <a
               href="mailto:unlok.basketball@gmail.com?subject=Inscription%20Unlok"
