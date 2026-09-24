@@ -290,45 +290,6 @@ function Index() {
         </div>
       </section>
 
-      {/* CONFIDENCE LEVELS */}
-      <section className="border-t border-border bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="max-w-2xl">
-            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Comment lire ce dossier</div>
-            <h2 className="mt-4 font-display text-3xl tracking-tight text-balance">
-              Je distingue le prouvé de ce que je vise.
-            </h2>
-            <p className="mt-4 text-muted-foreground text-pretty">
-              La confiance se construit quand on reste précis. Chaque affirmation de ce dossier
-              porte un niveau de certitude : plein, à moitié, ou vide.
-            </p>
-          </div>
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="rounded-2xl bg-background ring-1 ring-border p-6">
-              <div className="font-mono text-xs text-primary">Prouvé</div>
-              <h3 className="mt-3 font-display text-xl tracking-tight">Établi</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Principe documenté et reconnu dans la littérature scientifique.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-background ring-1 ring-border p-6">
-              <div className="font-mono text-xs text-primary">Mon application</div>
-              <h3 className="mt-3 font-display text-xl tracking-tight">Extrapolation</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Ce que j'en tire concrètement sur le terrain, en tant que praticien.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-background ring-1 ring-border p-6">
-              <div className="font-mono text-xs text-primary">Objectif</div>
-              <h3 className="mt-3 font-display text-xl tracking-tight">On y travaille</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Ce qu'on cherche à développer, et qu'on mesure séance après séance.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* LE CONSTAT */}
       <section className="border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-20">
@@ -344,51 +305,6 @@ function Index() {
                 En club, le joueur apprend au sein d'un groupe, c'est essentiel. Unlok ajoute la
                 dimension individuelle : peu de joueurs, beaucoup de répétitions utiles, sur ses
                 situations à lui.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SESSION BREAKDOWN */}
-      <section id="seance" className="border-t border-border bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <div className="max-w-2xl">
-            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Concrètement</div>
-            <h2 className="mt-4 font-display text-4xl tracking-tight text-balance">Une séance.</h2>
-            <p className="mt-4 text-muted-foreground text-pretty">
-              60 minutes, 6 joueurs maximum. Quatre temps, toujours les mêmes, pour que chaque
-              minute compte.
-            </p>
-          </div>
-
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="border-t-2 border-primary pt-4">
-              <div className="font-mono text-xs text-muted-foreground">01</div>
-              <h3 className="mt-2 font-display text-xl tracking-tight">Échauffement structuré</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Progressif, il prépare le système nerveux et articulaire au travail intense.
-              </p>
-            </div>
-            <div className="border-t-2 border-primary pt-4">
-              <div className="font-mono text-xs text-muted-foreground">02</div>
-              <h3 className="mt-2 font-display text-xl tracking-tight">Situations à contraintes</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Peu de consignes descendantes, beaucoup de mises en situation où le joueur cherche.
-              </p>
-            </div>
-            <div className="border-t-2 border-primary pt-4">
-              <div className="font-mono text-xs text-muted-foreground">03</div>
-              <h3 className="mt-2 font-display text-xl tracking-tight">Feedback individualisé</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Rendu possible par le très petit effectif : chacun repart avec du concret.
-              </p>
-            </div>
-            <div className="border-t-2 border-primary pt-4">
-              <div className="font-mono text-xs text-muted-foreground">04</div>
-              <h3 className="mt-2 font-display text-xl tracking-tight">Charge adaptée</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Ajustée au niveau et à la maturité du joueur, pas seulement à son âge.
               </p>
             </div>
           </div>
