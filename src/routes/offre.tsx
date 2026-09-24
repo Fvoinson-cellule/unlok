@@ -368,10 +368,10 @@ function Offre() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a
               href="https://instagram.com/unlok.basketball"
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
             >
               Écrire sur Instagram
-              <span className="font-mono">→</span>
+              <span>→</span>
             </a>
             <a
               href="mailto:unlok.basketball@gmail.com?subject=Inscription%20Unlok"
