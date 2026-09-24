@@ -33,7 +33,7 @@ function Places({ booked, capacity }: { booked: number; capacity: number }) {
           <span
             key={index}
             className={
-              index < booked
+              index < remaining
                 ? "h-3 w-1.5 bg-primary"
                 : "h-3 w-1.5 bg-muted-foreground/25"
             }
@@ -231,19 +231,13 @@ export function DiscoveryBooking({ className = "" }: { className?: string }) {
                 );
               })}
             </fieldset>
-            <dl className="grid gap-3 border-t border-border/60 pt-5 text-sm">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                <dt className="text-muted-foreground">Format</dt>
-                <dd className="text-foreground">1 heure, 6 joueurs maximum</dd>
-              </div>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                <dt className="text-muted-foreground">Tarif</dt>
-                <dd className="text-foreground">15 €, réglés en ligne après inscription</dd>
-              </div>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                <dt className="text-muted-foreground">À apporter</dt>
-                <dd className="text-foreground">Baskets, tenue d'entraînement, bouteille d'eau</dd>
-              </div>
+            <dl className="grid grid-cols-[7.5rem_1fr] gap-x-6 gap-y-3 border-t border-border/60 pt-5 text-sm">
+              <dt className="text-muted-foreground">Format</dt>
+              <dd className="text-foreground">1 heure, 6 joueurs maximum</dd>
+              <dt className="text-muted-foreground">Tarif</dt>
+              <dd className="text-foreground">15 €, réglés en ligne après inscription</dd>
+              <dt className="text-muted-foreground">À apporter</dt>
+              <dd className="text-foreground">Baskets, tenue d'entraînement, bouteille d'eau</dd>
             </dl>
             </div>
 
