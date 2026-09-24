@@ -1,3 +1,3 @@
 # Roadmap
 
-- [x] Représenter la méthode existante avec une animation sobre inspirée de la vidéo, sans changer son contenu.
+- [ ] Rendre l’animation de la méthode visible et fiable sur tous les navigateurs courants.

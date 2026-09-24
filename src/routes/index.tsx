@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 
@@ -25,6 +26,32 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const methodRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = methodRef.current;
+    if (!section) return;
+
+    section.classList.add("method-js");
+    const animatedElements = section.querySelectorAll<HTMLElement>(
+      ".method-intro, .method-sheet, .method-step",
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.18, rootMargin: "0px 0px -8%" },
+    );
+
+    animatedElements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground font-body antialiased selection:bg-primary/20">
       <SiteNav />
@@ -117,8 +144,8 @@ function Index() {
       </section>
 
       {/* METHOD */}
-      <section id="methode" className="method-story border-t border-border">
-        <div className="mx-auto max-w-6xl px-6 pt-24 pb-16 md:pb-24">
+      <section ref={methodRef} id="methode" className="method-story border-t border-border">
+        <div className="method-intro mx-auto max-w-6xl px-6 pt-24 pb-16 md:pb-24">
           <div className="max-w-3xl">
             <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">(a) La méthode</div>
             <h2 className="mt-4 font-display text-5xl md:text-7xl text-balance">
