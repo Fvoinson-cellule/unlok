@@ -15,6 +15,7 @@ export default defineConfig({
     server: { entry: "server" },
     ...(ghPages
       ? {
+          preset: "static",
           pages: [{ path: "/" }, { path: "/offre" }, { path: "/mentions-legales" }, { path: "/cgv" }],
           prerender: { enabled: true, autoStaticPathsDiscovery: false },
         }
