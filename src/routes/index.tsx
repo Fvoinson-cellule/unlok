@@ -106,24 +106,28 @@ function Index() {
                 <div className="font-mono text-xs text-primary">01</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">Réagir plus vite</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Votre joueur voit le jeu et réagit plus rapidement. On entraîne la perception
-                  et le traitement de l'information pour gagner en vitesse de réaction.
+                  Traiter l'information en une fraction de seconde : lire le placement de la défense,
+                  repérer l'aide, voir le démarquage d'un coéquipier et prendre la bonne décision sous
+                  pression. On entraîne la perception et le traitement de l'information pour gagner en
+                  vitesse de réaction.
                 </p>
               </div>
               <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-5 rise" style={{ animationDelay: "0.4s" }}>
                 <div className="font-mono text-xs text-primary">02</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">Faire le bon choix</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Face à la situation réelle, il choisit la meilleure option. En situations proches
-                  du match, il apprend à sélectionner la bonne réponse sous pression.
+                  En recréant des situations réelles de match, on confronte le joueur à des dilemmes
+                  permanents : shooter, passer ou attaquer le cercle ? On habitue le cerveau à anticiper
+                  pour exécuter le bon geste sous pression défensive.
                 </p>
               </div>
               <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-5 rise" style={{ animationDelay: "0.5s" }}>
                 <div className="font-mono text-xs text-primary">03</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">Ancrer durablement</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Ce qu'il gagne, il le garde. La répétition de situations signifiantes installe
-                  l'automatisme, pour que ça dure dans le temps.
+                  Répéter pour automatiser. En multipliant les répétitions à haute intensité, réagir
+                  vite et faire le bon choix ne demandent plus d'hésitation : le geste devient un
+                  réflexe naturel et instinctif en match.
                 </p>
               </div>
             </div>
@@ -151,10 +155,31 @@ function Index() {
             <h2 className="mt-4 font-display text-5xl md:text-7xl text-balance">
               L'approche par contraintes.
             </h2>
-            <p className="mt-6 max-w-2xl text-lg text-muted-foreground text-pretty">
-              Plutôt que faire répéter un geste « modèle » isolé, on aménage l'environnement pour
-              que le joueur explore et trouve lui-même des solutions adaptées.
-            </p>
+            <div className="mt-8 max-w-2xl space-y-5 text-lg text-muted-foreground text-pretty">
+              <p>
+                <span className="text-foreground font-medium">Je m'appelle Florian Voinson.</span>{" "}
+                J'entraîne depuis mes 17 ans, des U5 jusqu'au niveau NF3. Après des milliers d'heures
+                passées dans les gymnases, un constat s'est imposé : techniquement, les joueurs savent
+                tout faire à l'entraînement, dans la répétition sans opposition. Mais en match, ils
+                n'arrivent pas à le transférer.
+              </p>
+              <p>
+                Prenons l'exemple des finitions : à l'entraînement, ils maîtrisent une variété infinie
+                de gestes. En match, sous pression, 90 % finissent par un simple lay-up prévisible. Ce
+                fossé entre l'entraînement et la réalité du jeu, c'est exactement pour le combler que
+                j'ai créé <span className="text-foreground font-medium">UNLOK</span>.
+              </p>
+              <p>
+                Au cœur d'UNLOK, une philosophie : la{" "}
+                <span className="text-foreground font-medium">
+                  CLA (<em>Constraints-Led Approach</em>)
+                </span>
+                . Le principe ? Travailler sous contraintes ciblées (espace réduit, temps limité,
+                défense asymétrique) pour forcer le cerveau et le corps à trouver la solution en
+                direct. On ne forme pas des robots qui récitent des gammes, mais des joueurs créatifs,
+                adaptables et imprévisibles sur le terrain.
+              </p>
+            </div>
           </div>
         </div>
 
