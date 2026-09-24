@@ -151,3 +151,67 @@
 @utility rise {
   animation: rise 0.6s cubic-bezier(0.32, 0.72, 0, 1) both;
 }
+
+/* Method narrative — a restrained paper reveal inspired by the reference. */
+.method-story {
+  overflow: clip;
+}
+
+.method-sheet {
+  position: relative;
+  background: var(--color-court);
+}
+
+.method-edge {
+  position: absolute;
+  inset: -18px 0 auto;
+  height: 20px;
+  background: var(--color-court);
+  clip-path: polygon(0 70%, 5% 35%, 11% 62%, 17% 20%, 24% 55%, 31% 28%, 39% 70%, 46% 34%, 54% 58%, 62% 22%, 70% 66%, 78% 30%, 86% 61%, 93% 26%, 100% 54%, 100% 100%, 0 100%);
+}
+
+@supports (animation-timeline: view()) {
+  .method-sheet {
+    transform-origin: center bottom;
+    animation: method-sheet-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 48%;
+  }
+
+  .method-step {
+    animation: method-step-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 42%;
+  }
+}
+
+@keyframes method-sheet-reveal {
+  from {
+    opacity: 0.35;
+    transform: translateY(7rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes method-step-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .method-sheet,
+  .method-step {
+    animation: none;
+    transform: none;
+  }
+}
