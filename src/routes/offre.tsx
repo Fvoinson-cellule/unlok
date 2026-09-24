@@ -119,15 +119,18 @@ function Offre() {
 
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-border">
-        <div className="pointer-events-none absolute inset-0 -z-0">
-          <div className="absolute -top-24 -right-32 h-[460px] w-[460px] rounded-[28px] bg-glass backdrop-blur-xl ring-1 ring-white/10 rotate-[18deg]" />
-          <div className="absolute top-20 -left-40 h-[360px] w-[360px] rounded-[28px] bg-glass backdrop-blur-xl ring-1 ring-white/10 rotate-[-14deg]" />
-        </div>
+        <div
+          className="pointer-events-none absolute inset-0 -z-0"
+          style={{
+            background:
+              "linear-gradient(180deg, oklch(0.62 0.21 36 / 0.14), var(--color-background) 65%)",
+          }}
+        />
 
         <div className="relative mx-auto max-w-6xl px-6 pt-20 pb-16">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/60 px-3 py-1 text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground">
-              <span className="size-1.5 rounded-lg bg-primary" />
+              <span className="size-1.5 rounded-full bg-primary" />
               Coaching basket · U13 / U18 · Alsace
             </div>
             <h1 className="mt-6 font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.92] tracking-tight text-balance rise">
@@ -141,10 +144,10 @@ function Offre() {
             <div className="mt-8 rise" style={{ animationDelay: "0.2s" }}>
               <a
                 href="#formules"
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground  hover:bg-foreground transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
               >
                 Choisir ma formule
-                <span className="font-mono">→</span>
+                <span>→</span>
               </a>
             </div>
           </div>
@@ -187,7 +190,7 @@ function Offre() {
                 className={
                   "rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1 " +
                   (plan.featured
-                    ? "bg-court text-court-foreground ring-1 ring-white/10"
+                    ? "bg-secondary text-foreground ring-1 ring-primary"
                     : "bg-glass backdrop-blur-md ring-1 ring-white/10")
                 }
               >
@@ -197,28 +200,19 @@ function Offre() {
                 <h3 className="mt-3 font-display text-xl tracking-tight">{plan.name}</h3>
                 <div className="mt-4 font-display text-4xl tracking-tight">
                   {plan.price}
-                  <span className={"text-base " + (plan.featured ? "text-court-foreground/60" : "text-muted-foreground")}>
+                  <span className={"text-base " + (plan.featured ? "text-muted-foreground" : "text-muted-foreground")}>
                     {plan.unit}
                   </span>
                 </div>
-                <p className={"mt-3 text-sm " + (plan.featured ? "text-court-foreground/70" : "text-muted-foreground")}>
+                <p className={"mt-3 text-sm " + (plan.featured ? "text-muted-foreground" : "text-muted-foreground")}>
                   {plan.desc}
                 </p>
-                {plan.href.startsWith("#") ? (
-                  <a
-                    href={plan.href}
-                    className="mt-6 inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
-                  >
-                    {plan.cta}
-                  </a>
-                ) : (
-                  <a
-                    href={plan.href}
-                    className="mt-6 inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
-                  >
-                    {plan.cta}
-                  </a>
-                )}
+                <a
+                  href={plan.href}
+                  className="mt-6 inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
+                >
+                  {plan.cta}
+                </a>
               </div>
             ))}
           </div>
