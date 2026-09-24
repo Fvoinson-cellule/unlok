@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { DiscoveryBooking } from "@/components/discovery-booking";
 
 export const Route = createFileRoute("/offre")({
   head: () => ({
@@ -9,7 +10,7 @@ export const Route = createFileRoute("/offre")({
       {
         name: "description",
         content:
-          "Les formules Unlok : séance découverte 15€, abonnement mensuel 100€, carte 5 séances 250€, carte 10 séances 400€. Saison 2026-2027, Alsace.",
+          "Les formules Unlok : séance découverte 15 € (lundi 28/09 à Kaysersberg, mercredi 30/09 à Strasbourg), abonnement mensuel 100 €, carte 5 séances 250 €, carte 10 séances 400 €. Saison 2026-2027, Alsace.",
       },
       { property: "og:title", content: "Tarifs & formules · Unlok" },
       {
@@ -30,9 +31,9 @@ const PLANS = [
     name: "Séance découverte",
     price: "15€",
     unit: "/ séance unique",
-    desc: "Tarif permanent, un tarif préferentiel pour se faire une idée avant de choisir une formule.",
-    cta: "Réserver · 15€",
-    href: "https://buy.stripe.com/14AfZh3nB50l2f00hU6sw04",
+    desc: "Tarif permanent, un tarif préférentiel pour se faire une idée avant de choisir une formule.",
+    cta: "Choisir un créneau",
+    href: "#seance-decouverte",
     featured: false,
   },
   {
@@ -169,6 +170,8 @@ function Offre() {
         </div>
       </section>
 
+      <DiscoveryBooking />
+
       {/* PRICING CARDS */}
       <section id="formules" className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-24">
@@ -181,25 +184,6 @@ function Offre() {
               Une séance découverte pour tester, deux cartes ponctuelles pour suivre à ton rythme,
               un abonnement pour un vrai rendez-vous hebdomadaire sur la saison.
             </p>
-          </div>
-
-          {/* BANNIÈRE DÉCOUVERTE — horizontale, au-dessus des formules */}
-          <div className="mt-12 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-border border-l-4 border-l-primary bg-glass backdrop-blur-md p-6 sm:p-7">
-            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-              <span className="font-mono text-xs uppercase tracking-[0.14em] text-primary">{PLANS[0].label}</span>
-              <span className="font-display text-2xl tracking-tight">{PLANS[0].name}</span>
-              <span className="font-display text-2xl font-extrabold text-primary">
-                {PLANS[0].price}
-                <span className="font-body text-xs font-medium text-muted-foreground">{PLANS[0].unit}</span>
-              </span>
-            </div>
-            <a
-              href={PLANS[0].href}
-              className="inline-flex shrink-0 justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg w-full sm:w-auto"
-            >
-              {PLANS[0].cta}
-            </a>
-            <p className="w-full text-sm text-muted-foreground">{PLANS[0].desc}</p>
           </div>
 
           {/* 3 FORMULES — verticales, côte à côte */}

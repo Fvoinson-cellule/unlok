@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { MethodLoop } from "@/components/method-loop";
+import { DiscoveryBooking } from "@/components/discovery-booking";
 import portrait from "@/assets/florian-portrait.png";
 
 
@@ -169,6 +170,8 @@ function Index() {
           </p>
         </div>
       </section>
+
+      <DiscoveryBooking />
 
       {/* METHOD */}
       <section ref={methodRef} id="methode" className="method-story border-t border-border">
