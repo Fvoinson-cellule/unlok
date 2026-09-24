@@ -30,7 +30,7 @@ const PLANS = [
     name: "Séance découverte",
     price: "15€",
     unit: "/ séance unique",
-    desc: "Tarif permanent, pas une offre de lancement — pour se faire une idée avant de choisir une formule.",
+    desc: "Tarif permanent, un tarif préferentiel pour se faire une idée avant de choisir une formule.",
     cta: "Réserver — 15€",
     href: "https://buy.stripe.com/14AfZh3nB50l2f00hU6sw04",
     featured: false,
