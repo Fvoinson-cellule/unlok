@@ -159,7 +159,7 @@ function Offre() {
         <div className="mx-auto max-w-4xl px-6 py-16">
           <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Le principe</div>
           <h2 className="mt-4 font-display text-3xl tracking-tight text-balance">
-            Un complément du club, pas un remplacement.
+            Un complément du club
           </h2>
           <p className="mt-4 text-muted-foreground text-pretty">
             Chaque créneau réunit 6 joueurs maximum, pour un vrai suivi individuel dans un cadre
