@@ -9,17 +9,17 @@ import portrait from "@/assets/florian-portrait.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Unlok — Coaching basket individualisé U13–U18 · Alsace" },
+      { title: "Unlok — Coaching basket individualisé · Alsace" },
       {
         name: "description",
         content:
-          "Unlok : coaching de basketball individualisé pour les jeunes (U13–U18) en Alsace. Méthode par contraintes, effectif de 6 maximum, en complément du club.",
+          "Unlok : coaching de basketball individualisé pour joueurs et joueuses, jeunes et adultes, en Alsace. Méthode par contraintes, effectif de 6 maximum, en complément du club.",
       },
       { property: "og:title", content: "Unlok — Coaching basket individualisé" },
       {
         property: "og:description",
         content:
-          "Coaching de basketball individuel pour les jeunes joueurs d'Alsace. Réagir plus vite, faire le bon choix, ancrer durablement.",
+          "Coaching de basketball individualisé en Alsace, pour jeunes et adultes. Réagir plus vite, faire le bon choix, ancrer durablement.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -163,7 +163,7 @@ function Index() {
         <div className="mx-auto max-w-4xl px-6 py-20">
           <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">La promesse</div>
           <p className="mt-6 font-display text-2xl sm:text-3xl leading-snug tracking-tight text-balance text-foreground">
-            Votre enfant s'entraîne à faire les bons choix dans les moments de pression, sur ses
+            Le joueur s'entraîne à faire les bons choix dans les moments de pression, sur ses
             situations à lui, en petit groupe. À force de les revivre à l'entraînement, il les
             aborde en match avec plus de lucidité et d'aisance.
           </p>
@@ -174,7 +174,7 @@ function Index() {
       <section ref={methodRef} id="methode" className="method-story border-t border-border">
         <div className="method-intro mx-auto max-w-6xl px-6 pt-24 pb-16 md:pb-20">
           <div className="max-w-3xl">
-            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">(a) La méthode</div>
+            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">La méthode</div>
             <h2 className="mt-4 font-display text-5xl md:text-7xl text-balance">
               L'approche par contraintes.
             </h2>
@@ -341,7 +341,7 @@ function Index() {
             </div>
             <div className="col-span-12 md:col-span-7">
               <p className="text-lg text-muted-foreground text-pretty">
-                En club, votre enfant apprend au sein d'un groupe, c'est essentiel. Unlok ajoute la
+                En club, le joueur apprend au sein d'un groupe, c'est essentiel. Unlok ajoute la
                 dimension individuelle : peu de joueurs, beaucoup de répétitions utiles, sur ses
                 situations à lui.
               </p>
@@ -354,7 +354,7 @@ function Index() {
       <section id="seance" className="border-t border-border bg-secondary/40">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="max-w-2xl">
-            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">(b) Concrètement</div>
+            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Concrètement</div>
             <h2 className="mt-4 font-display text-4xl tracking-tight text-balance">Une séance.</h2>
             <p className="mt-4 text-muted-foreground text-pretty">
               60 minutes, 6 joueurs maximum. Quatre temps, toujours les mêmes, pour que chaque
@@ -388,7 +388,7 @@ function Index() {
               <div className="font-mono text-xs text-muted-foreground">04</div>
               <h3 className="mt-2 font-display text-xl tracking-tight">Charge adaptée</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Ajustée à la maturité du jeune, pas seulement à son âge civil.
+                Ajustée au niveau et à la maturité du joueur, pas seulement à son âge.
               </p>
             </div>
           </div>
@@ -444,7 +444,7 @@ function Index() {
             </div>
             <div>
               <div className="font-mono text-xs text-court-foreground/60">Public</div>
-              <div className="mt-2 font-display text-xl tracking-tight">U13 → U18</div>
+              <div className="mt-2 font-display text-xl tracking-tight">Jeunes & Adultes</div>
             </div>
             <div>
               <div className="font-mono text-xs text-court-foreground/60">Statut</div>
@@ -468,11 +468,11 @@ function Index() {
           </div>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
-              <div className="font-mono text-xs text-primary">Parent</div>
+              <div className="font-mono text-xs text-primary">Joueur ou parent</div>
               <h3 className="mt-3 font-display text-xl tracking-tight">Un accompagnement individualisé</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Pour votre enfant, en complément du club, pour l'aider à mieux lire le jeu et décider
-                sous pression.
+                En complément du club, pour mieux lire le jeu et décider sous pression. Jeunes
+                comme adultes, chaque joueur progresse sur ses situations à lui.
               </p>
               <Link
                 to="/offre"
@@ -523,7 +523,7 @@ function Index() {
       <section className="border-t border-border bg-court text-court-foreground">
         <div className="mx-auto max-w-6xl px-6 py-24 text-center">
           <h2 className="font-display text-4xl md:text-5xl tracking-tight text-balance">
-            Parlons de la saison de votre joueur.
+            Parlons de votre saison.
           </h2>
           <p className="mt-4 text-court-foreground/70 max-w-xl mx-auto">
             Places limitées à 6 joueurs par créneau. Écrivez-nous pour réserver ou poser vos

@@ -10,7 +10,7 @@ export function SiteFooter() {
               UNLOK<span className="text-primary">.</span>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground max-w-[30ch]">
-              Coaching individuel de basketball pour les jeunes joueurs d'Alsace.
+              Coaching individuel de basketball pour joueurs et joueuses, jeunes et adultes, en Alsace.
             </p>
           </div>
           <div>
@@ -41,7 +41,7 @@ export function SiteFooter() {
         <div className="mt-12 pt-6 border-t border-border text-xs text-muted-foreground flex flex-wrap gap-4">
           <span>© 2026 Unlok</span>
           <span>BPJEPS · DETB</span>
-          <span>U13–U18</span>
+          <span>Jeunes & Adultes</span>
           <span>Coaching basket individualisé</span>
         </div>
       </div>
