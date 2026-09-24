@@ -131,7 +131,7 @@ export const bookDiscoverySession = createServerFn({ method: "POST" })
         p_session_id: data.sessionId,
         p_full_name: data.fullName,
         p_email: data.email,
-        p_phone: data.phone || undefined,
+        ...(data.phone ? { p_phone: data.phone } : {}),
       },
     );
 
