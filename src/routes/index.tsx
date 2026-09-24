@@ -172,39 +172,62 @@ function Index() {
 
       {/* METHOD */}
       <section ref={methodRef} id="methode" className="method-story border-t border-border">
-        <div className="method-intro mx-auto max-w-6xl px-6 pt-24 pb-16 md:pb-24">
+        <div className="method-intro mx-auto max-w-6xl px-6 pt-24 pb-16 md:pb-20">
           <div className="max-w-3xl">
             <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">(a) La méthode</div>
             <h2 className="mt-4 font-display text-5xl md:text-7xl text-balance">
               L'approche par contraintes.
             </h2>
-            <div className="mt-8 max-w-2xl space-y-5 text-lg text-muted-foreground text-pretty">
-              <p>
-                <span className="text-foreground font-medium">Je m'appelle Florian Voinson.</span>{" "}
-                J'entraîne depuis mes 17 ans, des U5 jusqu'au niveau NF3. Après des milliers d'heures
-                passées dans les gymnases, un constat s'est imposé : techniquement, les joueurs savent
-                tout faire à l'entraînement, dans la répétition sans opposition. Mais en match, ils
-                n'arrivent pas à le transférer.
-              </p>
-              <p>
-                Prenons l'exemple des finitions : à l'entraînement, ils maîtrisent une variété infinie
-                de gestes. En match, sous pression, 90 % finissent par un simple lay-up prévisible. Ce
-                fossé entre l'entraînement et la réalité du jeu, c'est exactement pour le combler que
-                j'ai créé <span className="text-foreground font-medium">UNLOK</span>.
-              </p>
-              <p>
-                Au cœur d'UNLOK, une philosophie : la{" "}
-                <span className="text-foreground font-medium">
-                  CLA (<em>Constraints-Led Approach</em>)
-                </span>
-                . Le principe ? Travailler sous contraintes ciblées (espace réduit, temps limité,
-                défense asymétrique) pour forcer le cerveau et le corps à trouver la solution en
-                direct. On ne forme pas des robots qui récitent des gammes, mais des joueurs créatifs,
-                adaptables et imprévisibles sur le terrain.
-              </p>
+            <p className="mt-8 max-w-2xl text-lg text-muted-foreground text-pretty">
+              Au cœur d'UNLOK, une philosophie : la{" "}
+              <span className="font-medium text-foreground">
+                CLA (<em>Constraints-Led Approach</em>)
+              </span>
+              . Le principe ? Travailler sous contraintes ciblées (espace réduit, temps limité,
+              défense asymétrique) pour forcer le cerveau et le corps à trouver la solution en
+              direct. On ne forme pas des robots qui récitent des gammes, mais des joueurs créatifs,
+              adaptables et imprévisibles sur le terrain.
+            </p>
+          </div>
+
+          {/* Boucle de la méthode */}
+          <div className="mt-16 grid items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-16">
+            <div className="flex justify-center text-foreground">
+              <MethodLoop />
             </div>
+            <ol className="space-y-6">
+              <li className="rounded-2xl bg-glass p-5 ring-1 ring-white/10 backdrop-blur-md">
+                <div className="font-mono text-xs text-primary">01</div>
+                <h3 className="mt-3 font-display text-2xl tracking-tight">Réagir plus vite</h3>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Traiter l'information en une fraction de seconde : lire le placement de la défense,
+                  repérer l'aide, voir le démarquage d'un coéquipier et prendre la bonne décision
+                  sous pression. On entraîne la perception et le traitement de l'information pour
+                  gagner en vitesse de réaction.
+                </p>
+              </li>
+              <li className="rounded-2xl bg-glass p-5 ring-1 ring-white/10 backdrop-blur-md">
+                <div className="font-mono text-xs text-primary">02</div>
+                <h3 className="mt-3 font-display text-2xl tracking-tight">Faire le bon choix</h3>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  En recréant des situations réelles de match, on confronte le joueur à des dilemmes
+                  permanents : shooter, passer ou attaquer le cercle ? On habitue le cerveau à
+                  anticiper pour exécuter le bon geste sous pression défensive.
+                </p>
+              </li>
+              <li className="rounded-2xl bg-glass p-5 ring-1 ring-white/10 backdrop-blur-md">
+                <div className="font-mono text-xs text-primary">03</div>
+                <h3 className="mt-3 font-display text-2xl tracking-tight">Ancrer durablement</h3>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Répéter pour automatiser. En multipliant les répétitions à haute intensité, réagir
+                  vite et faire le bon choix ne demandent plus d'hésitation : le geste devient un
+                  réflexe naturel et instinctif en match.
+                </p>
+              </li>
+            </ol>
           </div>
         </div>
+
 
         <div className="method-sheet text-court-foreground">
           <div className="method-edge" aria-hidden="true" />
