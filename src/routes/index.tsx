@@ -356,7 +356,12 @@ function Index() {
           <div className="max-w-2xl">
             <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">(b) Concrètement</div>
             <h2 className="mt-4 font-display text-4xl tracking-tight text-balance">Une séance.</h2>
+            <p className="mt-4 text-muted-foreground text-pretty">
+              60 minutes, 6 joueurs maximum. Quatre temps, toujours les mêmes, pour que chaque
+              minute compte.
+            </p>
           </div>
+
           <div className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="border-t-2 border-primary pt-4">
               <div className="font-mono text-xs text-muted-foreground">01</div>
