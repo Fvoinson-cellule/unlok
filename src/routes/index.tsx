@@ -9,13 +9,13 @@ import portrait from "@/assets/florian-portrait.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Unlok — Coaching basket individualisé · Alsace" },
+      { title: "Unlok · Coaching basket individualisé · Alsace" },
       {
         name: "description",
         content:
           "Unlok : coaching de basketball individualisé pour joueurs et joueuses, jeunes et adultes, en Alsace. Méthode par contraintes, effectif de 6 maximum, en complément du club.",
       },
-      { property: "og:title", content: "Unlok — Coaching basket individualisé" },
+      { property: "og:title", content: "Unlok · Coaching basket individualisé" },
       {
         property: "og:description",
         content:
@@ -112,7 +112,7 @@ function Index() {
                   to="/offre"
                   className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
                 >
-                  Réserver une séance découverte — 15 €
+                  Réserver une séance découverte · 15 €
                   <span>→</span>
                 </Link>
                 <a
@@ -395,7 +395,7 @@ function Index() {
                 to="/offre"
                 className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
               >
-                Réserver la séance d'essai — 15 €
+                Réserver la séance d'essai · 15 €
                 <span>→</span>
               </Link>
             </div>
