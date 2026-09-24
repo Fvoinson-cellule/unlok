@@ -101,8 +101,14 @@ export type Database = {
         Row: {
           booked: number | null
           capacity: number | null
+          day_label: string | null
+          location: string | null
+          price_eur: number | null
           remaining: number | null
           session_id: string | null
+          starts_at: string | null
+          stripe_url: string | null
+          time_label: string | null
         }
         Relationships: []
       }

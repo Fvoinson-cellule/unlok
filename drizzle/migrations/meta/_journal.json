@@ -8,6 +8,13 @@
       "when": 1790268272375,
       "tag": "0000_create_discovery_sessions",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790268337919,
+      "tag": "0001_expose_discovery_session_details",
+      "breakpoints": true
     }
   ]
 }
