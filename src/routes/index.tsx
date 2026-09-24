@@ -219,9 +219,10 @@ function Index() {
                 <div className="font-mono text-xs text-primary">03</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">Ancrer durablement</h3>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  Répéter pour automatiser. En multipliant les répétitions à haute intensité, réagir
-                  vite et faire le bon choix ne demandent plus d'hésitation : le geste devient un
-                  réflexe naturel et instinctif en match.
+                  Répéter, mais jamais à l'identique. Par la CLA, chaque situation est différente,
+                  comme en match. En multipliant ces répétitions à haute intensité, réagir vite et
+                  faire le bon choix ne demandent plus d'hésitation : le geste devient un réflexe
+                  naturel et instinctif.
                 </p>
               </li>
             </ol>
