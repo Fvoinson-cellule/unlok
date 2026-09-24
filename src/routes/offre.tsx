@@ -246,10 +246,11 @@ function Offre() {
             <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Créneaux</div>
             <h2 className="mt-4 font-display text-4xl tracking-tight text-balance">Tes créneaux.</h2>
             <p className="mt-4 text-court-foreground/70 text-pretty">
-              3 créneaux ouverts pour commencer : lundi, mardi et mercredi — petits groupes de 6
-              joueurs maximum, 18 places au total par semaine. D'autres créneaux ouvriront dès que
-              ceux-ci seront remplis.
+              3 créneaux ouverts pour commencer : lundi, mardi et mercredi — séances de 60 minutes,
+              petits groupes de 6 joueurs maximum, 18 places au total par semaine. D'autres créneaux
+              ouvriront dès que ceux-ci seront remplis.
             </p>
+
           </div>
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
