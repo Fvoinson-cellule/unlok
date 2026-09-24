@@ -183,42 +183,42 @@ function Offre() {
             </p>
           </div>
 
-          {/* SÉANCE DÉCOUVERTE — au-dessus */}
-          <div className="mt-12 max-w-xl">
-            <div className="rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1 bg-glass backdrop-blur-md ring-1 ring-white/10">
-              <div className="font-mono text-xs text-primary">{PLANS[0].label}</div>
-              <h3 className="mt-3 font-display text-xl tracking-tight">{PLANS[0].name}</h3>
-              <div className="mt-4 font-display text-4xl tracking-tight">
+          {/* BANNIÈRE DÉCOUVERTE — horizontale, au-dessus des formules */}
+          <div className="mt-12 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-border border-l-4 border-l-primary bg-glass backdrop-blur-md p-6 sm:p-7">
+            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <span className="font-mono text-xs uppercase tracking-[0.14em] text-primary">{PLANS[0].label}</span>
+              <span className="font-display text-2xl tracking-tight">{PLANS[0].name}</span>
+              <span className="font-display text-2xl font-extrabold text-primary">
                 {PLANS[0].price}
-                <span className="text-base text-muted-foreground">{PLANS[0].unit}</span>
-              </div>
-              <p className="mt-3 text-sm text-muted-foreground">{PLANS[0].desc}</p>
-              <a
-                href={PLANS[0].href}
-                className="mt-6 inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
-              >
-                {PLANS[0].cta}
-              </a>
+                <span className="font-body text-xs font-medium text-muted-foreground">{PLANS[0].unit}</span>
+              </span>
             </div>
+            <a
+              href={PLANS[0].href}
+              className="inline-flex shrink-0 justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg w-full sm:w-auto"
+            >
+              {PLANS[0].cta}
+            </a>
+            <p className="w-full text-sm text-muted-foreground">{PLANS[0].desc}</p>
           </div>
 
-          {/* AUTRES FORMULES — empilées à la verticale */}
-          <div className="mt-4 flex flex-col gap-4 max-w-xl">
+          {/* 3 FORMULES — verticales, côte à côte */}
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             {PLANS.slice(1).map((plan) => (
               <div
                 key={plan.name}
                 className={
-                  "rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1 " +
+                  "flex flex-col rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1 " +
                   (plan.featured
                     ? "bg-secondary text-foreground ring-1 ring-primary"
                     : "bg-glass backdrop-blur-md ring-1 ring-white/10")
                 }
               >
-                <div className="font-mono text-xs text-primary">{plan.label}</div>
-                <h3 className="mt-3 font-display text-xl tracking-tight">{plan.name}</h3>
-                <div className="mt-4 font-display text-4xl tracking-tight">
+                <div className="font-mono text-xs uppercase tracking-[0.14em] text-primary">{plan.label}</div>
+                <h3 className="mt-2 font-display text-xl tracking-tight">{plan.name}</h3>
+                <div className="mt-3 font-display text-4xl font-extrabold text-primary">
                   {plan.price}
-                  <span className="text-base text-muted-foreground">{plan.unit}</span>
+                  <span className="text-base font-medium text-muted-foreground">{plan.unit}</span>
                 </div>
                 <p className="mt-3 text-sm text-muted-foreground">{plan.desc}</p>
                 <a
