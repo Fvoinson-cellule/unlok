@@ -18,8 +18,10 @@ export function SiteFooter() {
             <div className="mt-4 space-y-1 text-sm">
               <p className="font-medium text-foreground">Florian Voinson</p>
               <p className="text-muted-foreground">06 89 18 04 09</p>
-              <p className="text-muted-foreground">unlok.basketball@gmail.com</p>
-              <a href="https://instagram.com/unlok.basketball" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a href="mailto:unlok.basketball@gmail.com" className="text-muted-foreground hover:text-foreground transition-colors">
+                unlok.basketball@gmail.com
+              </a>
+              <a href="https://www.instagram.com/unlok.basketball/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
                 @unlok.basketball
               </a>
               <p className="text-muted-foreground">Alsace, France</p>
