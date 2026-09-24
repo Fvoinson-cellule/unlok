@@ -20,7 +20,15 @@ jobs:
       - run: bun run build
         env:
           GH_PAGES: "true"
-      - run: touch dist/client/.nojekyll && cp dist/client/index.html dist/client/404.html
+      - run: find dist -type f | head -40
+      - run: |
+          touch dist/client/.nojekyll
+          if [ -f dist/client/index.html ]; then
+            cp dist/client/index.html dist/client/404.html
+          else
+            echo "index.html not found, listing dist/client:" && ls -la dist/client/
+            exit 1
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/client
