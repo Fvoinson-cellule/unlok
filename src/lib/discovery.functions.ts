@@ -2,6 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
+import type { Database } from "@/integrations/supabase/types";
+
 /**
  * Séances découverte : lecture des créneaux et inscription directe, sans
  * compte à créer. Les coordonnées restent lisibles uniquement côté serveur,
