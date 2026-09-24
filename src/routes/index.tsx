@@ -31,15 +31,17 @@ function Index() {
 
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 -z-0">
-          <div className="absolute -top-24 -right-32 h-[520px] w-[520px] rounded-[28px] bg-glass backdrop-blur-xl ring-1 ring-white/40 rotate-[18deg]" />
-          <div className="absolute top-40 -left-40 h-[420px] w-[420px] rounded-[28px] bg-glass backdrop-blur-xl ring-1 ring-white/40 rotate-[-14deg]" />
-          <div className="absolute top-1/2 right-1/4 h-[300px] w-[300px] rounded-[28px] bg-primary/10 backdrop-blur-lg rotate-[10deg]" />
-        </div>
+        <div
+          className="pointer-events-none absolute inset-0 -z-0"
+          style={{
+            background:
+              "linear-gradient(180deg, oklch(0.62 0.21 36 / 0.14), var(--color-background) 65%)",
+          }}
+        />
 
         <div className="relative mx-auto max-w-6xl px-6 pt-20 pb-24">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground">
+            <div className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/60 px-3 py-1 text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground">
               <span className="size-1.5 rounded-full bg-primary" />
               Coaching individuel · U13–U18 · Alsace
             </div>
@@ -58,14 +60,14 @@ function Index() {
             <div className="mt-10 flex flex-wrap items-center gap-4 rise" style={{ animationDelay: "0.2s" }}>
               <Link
                 to="/offre"
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground ring-1 ring-black/5 hover:bg-foreground transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
               >
                 Voir les formules
-                <span className="font-mono">→</span>
+                <span>→</span>
               </Link>
               <a
                 href="#methode"
-                className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold hover:bg-foreground hover:text-primary-foreground transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
               >
                 Découvrir la méthode
               </a>
@@ -73,7 +75,7 @@ function Index() {
 
             {/* 3-effect loop */}
             <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/40 p-5 rise" style={{ animationDelay: "0.3s" }}>
+              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-5 rise" style={{ animationDelay: "0.3s" }}>
                 <div className="font-mono text-xs text-primary">01</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">Réagir plus vite</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -81,7 +83,7 @@ function Index() {
                   et le traitement de l'information pour gagner en vitesse de réaction.
                 </p>
               </div>
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/40 p-5 rise" style={{ animationDelay: "0.4s" }}>
+              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-5 rise" style={{ animationDelay: "0.4s" }}>
                 <div className="font-mono text-xs text-primary">02</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">Faire le bon choix</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -89,7 +91,7 @@ function Index() {
                   du match, il apprend à sélectionner la bonne réponse sous pression.
                 </p>
               </div>
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/40 p-5 rise" style={{ animationDelay: "0.5s" }}>
+              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-5 rise" style={{ animationDelay: "0.5s" }}>
                 <div className="font-mono text-xs text-primary">03</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">Ancrer durablement</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -134,7 +136,7 @@ function Index() {
               </p>
             </div>
             <div className="col-span-12 md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/40 p-6">
+              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
                 <div className="font-mono text-xs text-primary">01</div>
                 <h3 className="mt-3 font-display text-xl tracking-tight">Le joueur</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -142,7 +144,7 @@ function Index() {
                   adaptable plutôt qu'un geste figé.
                 </p>
               </div>
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/40 p-6">
+              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
                 <div className="font-mono text-xs text-primary">02</div>
                 <h3 className="mt-3 font-display text-xl tracking-tight">La tâche</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -150,7 +152,7 @@ function Index() {
                   jusqu'à la maîtrise.
                 </p>
               </div>
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/40 p-6">
+              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
                 <div className="font-mono text-xs text-primary">03</div>
                 <h3 className="mt-3 font-display text-xl tracking-tight">L'environnement</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -158,7 +160,7 @@ function Index() {
                   l'environnement.
                 </p>
               </div>
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/40 p-6">
+              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
                 <div className="font-mono text-xs text-primary">04</div>
                 <h3 className="mt-3 font-display text-xl tracking-tight">Le transfert</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -285,15 +287,15 @@ function Index() {
             </p>
             <div className="mt-8 flex flex-wrap gap-6 text-sm">
               <div className="flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-primary" />
+                <span className="size-1.5 rounded-lg bg-primary" />
                 Aligné sur l'éducateur
               </div>
               <div className="flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-primary" />
+                <span className="size-1.5 rounded-lg bg-primary" />
                 En soutien du club
               </div>
               <div className="flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-primary" />
+                <span className="size-1.5 rounded-lg bg-primary" />
                 Service pour le territoire
               </div>
             </div>
@@ -342,7 +344,7 @@ function Index() {
             <h2 className="mt-4 font-display text-4xl tracking-tight text-balance">Selon votre profil.</h2>
           </div>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/40 p-6">
+            <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
               <div className="font-mono text-xs text-primary">Parent</div>
               <h3 className="mt-3 font-display text-xl tracking-tight">Un accompagnement individualisé</h3>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -351,13 +353,13 @@ function Index() {
               </p>
               <Link
                 to="/offre"
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
               >
                 Réserver la séance d'essai — 15 €
-                <span className="font-mono">→</span>
+                <span>→</span>
               </Link>
             </div>
-            <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/40 p-6">
+            <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
               <div className="font-mono text-xs text-primary">Coach</div>
               <h3 className="mt-3 font-display text-xl tracking-tight">Un échange entre gens du métier</h3>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -365,12 +367,12 @@ function Index() {
               </p>
               <a
                 href="https://instagram.com/unlok.basketball"
-                className="mt-6 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2.5 text-sm font-semibold hover:bg-foreground hover:text-primary-foreground transition-colors"
+                className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
               >
                 Me suivre sur Instagram
               </a>
             </div>
-            <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/40 p-6">
+            <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
               <div className="font-mono text-xs text-primary">Clubs & structures</div>
               <h3 className="mt-3 font-display text-xl tracking-tight">Un service d'individualisation encadré</h3>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -379,7 +381,7 @@ function Index() {
               </p>
               <a
                 href="mailto:unlok.basketball@gmail.com"
-                className="mt-6 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2.5 text-sm font-semibold hover:bg-foreground hover:text-primary-foreground transition-colors"
+                className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
               >
                 M'écrire
               </a>
@@ -407,14 +409,14 @@ function Index() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a
               href="https://instagram.com/unlok.basketball"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
             >
               Écrire sur Instagram
-              <span className="font-mono">→</span>
+              <span>→</span>
             </a>
             <a
               href="mailto:unlok.basketball@gmail.com?subject=Inscription%20Unlok"
-              className="inline-flex items-center gap-2 rounded-full border border-court-foreground/30 px-6 py-3 text-sm font-semibold hover:bg-court-foreground/10 transition-colors"
+              className="inline-flex items-center gap-2 rounded-lg border border-court-foreground/30 px-6 py-3 text-sm font-semibold hover:bg-court-foreground/10 transition-colors"
             >
               Ou par email
             </a>

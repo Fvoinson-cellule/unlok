@@ -15,10 +15,10 @@ export function SiteNav() {
         </nav>
         <Link
           to="/offre"
-          className="inline-flex items-center gap-2 rounded-full bg-court px-4 py-2 text-sm font-semibold text-court-foreground ring-1 ring-black/5 hover:bg-foreground hover:text-background transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
         >
           Réserver
-          <span className="font-mono text-xs">→</span>
+          <span className="text-xs">→</span>
         </Link>
       </div>
     </header>
