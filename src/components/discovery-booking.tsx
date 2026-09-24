@@ -10,14 +10,14 @@ import {
 
 const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-const REASONS: Record<string, string> = {
+const REASONS = {
   full: "Cette séance est complète. Choisis l'autre créneau ou écris-nous pour la prochaine.",
   duplicate: "Cette adresse email est déjà inscrite à cette séance.",
   past: "Cette séance a déjà eu lieu.",
   not_found: "Ce créneau n'est plus disponible.",
   missing_fields: "Complète ton prénom, ton nom et ton email.",
   rejected: "Ton inscription n'a pas pu être enregistrée. Écris-nous directement.",
-};
+} as const;
 
 const MAILTO =
   "mailto:unlok.basketball@gmail.com?subject=S%C3%A9ance%20d%C3%A9couverte%20UNLOK";
@@ -179,6 +179,7 @@ export function DiscoveryBooking({ className = "" }: { className?: string }) {
           </div>
         ) : (
           <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,32rem)]">
+            <div className="space-y-6">
             <fieldset className="space-y-3">
               <legend className="sr-only">Choisis ton créneau</legend>
               {sessions.map((session) => {
@@ -229,10 +230,22 @@ export function DiscoveryBooking({ className = "" }: { className?: string }) {
                   </label>
                 );
               })}
-              <p className="text-xs text-muted-foreground">
-                Groupe de 6 maximum, matériel personnel fourni par le club.
-              </p>
             </fieldset>
+            <dl className="grid gap-3 border-t border-border/60 pt-5 text-sm">
+              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                <dt className="text-muted-foreground">Format</dt>
+                <dd className="text-foreground">1 heure, 6 joueurs maximum</dd>
+              </div>
+              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                <dt className="text-muted-foreground">Tarif</dt>
+                <dd className="text-foreground">15 €, réglés en ligne après inscription</dd>
+              </div>
+              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                <dt className="text-muted-foreground">À apporter</dt>
+                <dd className="text-foreground">Baskets, tenue d'entraînement, bouteille d'eau</dd>
+              </div>
+            </dl>
+            </div>
 
             {confirmation ? (
               <div className="rounded-lg border border-primary/50 bg-card p-6">

@@ -88,18 +88,33 @@ export const listDiscoverySessions = createServerFn({ method: "GET" }).handler(
 
     if (error) throw error;
 
-    return (data ?? []).map((row) => ({
-      id: row.session_id,
-      startsAt: row.starts_at,
-      dayLabel: row.day_label,
-      timeLabel: row.time_label,
-      location: row.location,
-      capacity: row.capacity,
-      priceEur: row.price_eur,
-      stripeUrl: row.stripe_url,
-      booked: row.booked,
-      remaining: row.remaining,
-    }));
+    return (data ?? []).flatMap((row) => {
+      if (
+        !row.session_id ||
+        !row.starts_at ||
+        !row.day_label ||
+        !row.time_label ||
+        !row.location ||
+        !row.stripe_url
+      ) {
+        return [];
+      }
+
+      return [
+        {
+          id: row.session_id,
+          startsAt: row.starts_at,
+          dayLabel: row.day_label,
+          timeLabel: row.time_label,
+          location: row.location,
+          capacity: row.capacity ?? 6,
+          priceEur: row.price_eur ?? 15,
+          stripeUrl: row.stripe_url,
+          booked: row.booked ?? 0,
+          remaining: row.remaining ?? 0,
+        },
+      ];
+    });
   },
 );
 
@@ -116,7 +131,7 @@ export const bookDiscoverySession = createServerFn({ method: "POST" })
         p_session_id: data.sessionId,
         p_full_name: data.fullName,
         p_email: data.email,
-        p_phone: data.phone || null,
+        p_phone: data.phone || undefined,
       },
     );
 
