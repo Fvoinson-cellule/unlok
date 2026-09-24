@@ -155,10 +155,31 @@ function Index() {
             <h2 className="mt-4 font-display text-5xl md:text-7xl text-balance">
               L'approche par contraintes.
             </h2>
-            <p className="mt-6 max-w-2xl text-lg text-muted-foreground text-pretty">
-              Plutôt que faire répéter un geste « modèle » isolé, on aménage l'environnement pour
-              que le joueur explore et trouve lui-même des solutions adaptées.
-            </p>
+            <div className="mt-8 max-w-2xl space-y-5 text-lg text-muted-foreground text-pretty">
+              <p>
+                <span className="text-foreground font-medium">Je m'appelle Florian Voinson.</span>{" "}
+                J'entraîne depuis mes 17 ans, des U5 jusqu'au niveau NF3. Après des milliers d'heures
+                passées dans les gymnases, un constat s'est imposé : techniquement, les joueurs savent
+                tout faire à l'entraînement, dans la répétition sans opposition. Mais en match, ils
+                n'arrivent pas à le transférer.
+              </p>
+              <p>
+                Prenons l'exemple des finitions : à l'entraînement, ils maîtrisent une variété infinie
+                de gestes. En match, sous pression, 90 % finissent par un simple lay-up prévisible. Ce
+                fossé entre l'entraînement et la réalité du jeu, c'est exactement pour le combler que
+                j'ai créé <span className="text-foreground font-medium">UNLOK</span>.
+              </p>
+              <p>
+                Au cœur d'UNLOK, une philosophie : la{" "}
+                <span className="text-foreground font-medium">
+                  CLA (<em>Constraints-Led Approach</em>)
+                </span>
+                . Le principe ? Travailler sous contraintes ciblées (espace réduit, temps limité,
+                défense asymétrique) pour forcer le cerveau et le corps à trouver la solution en
+                direct. On ne forme pas des robots qui récitent des gammes, mais des joueurs créatifs,
+                adaptables et imprévisibles sur le terrain.
+              </p>
+            </div>
           </div>
         </div>
 
