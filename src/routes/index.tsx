@@ -59,84 +59,104 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground font-body antialiased selection:bg-primary/20">
       <SiteNav />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden">
+      {/* HERO — présentation du coach */}
+      <section className="relative overflow-hidden border-b border-border">
         <div
           className="pointer-events-none absolute inset-0 -z-0"
           style={{
             background:
-              "linear-gradient(180deg, oklch(0.62 0.21 36 / 0.14), var(--color-background) 65%)",
+              "radial-gradient(70% 55% at 78% 30%, oklch(0.62 0.21 36 / 0.16), transparent 70%)",
           }}
         />
 
-        <div className="relative mx-auto max-w-6xl px-6 pt-20 pb-24">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/60 px-3 py-1 text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-primary" />
-              Coaching individuel · U13–U18 · Alsace
+        <div className="relative mx-auto max-w-6xl px-6 pt-14 pb-16 md:pt-20 md:pb-24">
+          <div className="grid items-center gap-12 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:gap-16">
+            {/* Colonne texte */}
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/60 px-3 py-1 text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground">
+                <span className="size-1.5 rounded-full bg-primary" />
+                Coaching individuel · Alsace
+              </div>
+
+              <h1 className="mt-6 font-display text-[clamp(2.6rem,6.4vw,4.75rem)] leading-[0.95] tracking-tight text-balance rise">
+                Du geste répété<br />
+                <span className="text-primary">au geste décisif</span><br />
+                en match.
+              </h1>
+
+              <div
+                className="mt-7 max-w-[52ch] space-y-4 text-[15px] leading-7 text-muted-foreground text-pretty rise"
+                style={{ animationDelay: "0.1s" }}
+              >
+                <p>
+                  <span className="font-medium text-foreground">Je m'appelle Florian Voinson.</span>{" "}
+                  J'entraîne depuis mes 17 ans, des U5 jusqu'au niveau NF3. Après des milliers
+                  d'heures passées dans les gymnases, un constat s'est imposé : techniquement, les
+                  joueurs savent tout faire à l'entraînement, dans la répétition sans opposition.
+                  Mais en match, ils n'arrivent pas à le transférer.
+                </p>
+                <p>
+                  Prenons l'exemple des finitions : à l'entraînement, ils maîtrisent une variété
+                  infinie de gestes. En match, sous pression, 90 % finissent par un simple lay-up
+                  prévisible. Ce fossé entre l'entraînement et la réalité du jeu, c'est exactement
+                  pour le combler que j'ai créé{" "}
+                  <span className="font-medium text-foreground">UNLOK</span>.
+                </p>
+              </div>
+
+              <div
+                className="mt-9 flex flex-wrap items-center gap-3 rise"
+                style={{ animationDelay: "0.2s" }}
+              >
+                <Link
+                  to="/offre"
+                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
+                >
+                  Réserver une séance découverte — 15 €
+                  <span>→</span>
+                </Link>
+                <a
+                  href="#methode"
+                  className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
+                >
+                  Découvrir la méthode
+                </a>
+              </div>
             </div>
 
-            <h1 className="mt-6 font-display text-[clamp(3rem,8vw,6.5rem)] leading-[0.92] tracking-tight text-balance rise">
-              Réagir plus vite.<br />
-              <span className="text-primary">Faire le bon choix.</span><br />
-              Ancrer durablement.
-            </h1>
-
-            <p className="mt-8 max-w-[46ch] text-lg text-pretty text-muted-foreground rise" style={{ animationDelay: "0.1s" }}>
-              Un entraînement qui tourne en boucle. Trois effets qui se renforcent,
-              séance après séance : un joueur plus vif, plus juste, et qui garde ses acquis.
-            </p>
-
-            <div className="mt-10 flex flex-wrap items-center gap-4 rise" style={{ animationDelay: "0.2s" }}>
-              <Link
-                to="/offre"
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
-              >
-                Voir les formules
-                <span>→</span>
-              </Link>
-              <a
-                href="#methode"
-                className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
-              >
-                Découvrir la méthode
-              </a>
-            </div>
-
-            {/* 3-effect loop */}
-            <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-5 rise" style={{ animationDelay: "0.3s" }}>
-                <div className="font-mono text-xs text-primary">01</div>
-                <h3 className="mt-3 font-display text-2xl tracking-tight">Réagir plus vite</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Traiter l'information en une fraction de seconde : lire le placement de la défense,
-                  repérer l'aide, voir le démarquage d'un coéquipier et prendre la bonne décision sous
-                  pression. On entraîne la perception et le traitement de l'information pour gagner en
-                  vitesse de réaction.
-                </p>
-              </div>
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-5 rise" style={{ animationDelay: "0.4s" }}>
-                <div className="font-mono text-xs text-primary">02</div>
-                <h3 className="mt-3 font-display text-2xl tracking-tight">Faire le bon choix</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  En recréant des situations réelles de match, on confronte le joueur à des dilemmes
-                  permanents : shooter, passer ou attaquer le cercle ? On habitue le cerveau à anticiper
-                  pour exécuter le bon geste sous pression défensive.
-                </p>
-              </div>
-              <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-5 rise" style={{ animationDelay: "0.5s" }}>
-                <div className="font-mono text-xs text-primary">03</div>
-                <h3 className="mt-3 font-display text-2xl tracking-tight">Ancrer durablement</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Répéter pour automatiser. En multipliant les répétitions à haute intensité, réagir
-                  vite et faire le bon choix ne demandent plus d'hésitation : le geste devient un
-                  réflexe naturel et instinctif en match.
-                </p>
-              </div>
+            {/* Colonne portrait */}
+            <div
+              className="portrait-halo relative mx-auto flex w-full max-w-sm justify-center rise md:max-w-none"
+              style={{ animationDelay: "0.15s" }}
+            >
+              <img
+                src={portrait}
+                alt="Florian Voinson, coach de basket Unlok"
+                className="relative w-full max-w-[26rem] object-contain drop-shadow-[0_24px_48px_oklch(0_0_0/0.6)]"
+                loading="eager"
+              />
             </div>
           </div>
+
+          {/* Repères */}
+          <dl className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-4">
+            {[
+              { k: "Expérience", v: "U5 → NF3" },
+              { k: "Diplômes d'État", v: "BPJEPS · DETB" },
+              { k: "Durée d'une séance", v: "60 min" },
+              { k: "Effectif", v: "6 joueurs max" },
+            ].map((item) => (
+              <div key={item.k} className="bg-background px-5 py-6">
+                <dt className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
+                  {item.k}
+                </dt>
+                <dd className="mt-2 font-display text-2xl tracking-tight">{item.v}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
+
 
       {/* LA PROMESSE */}
       <section className="border-t border-border bg-secondary/40">
