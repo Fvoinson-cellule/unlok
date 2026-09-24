@@ -131,7 +131,7 @@ function Offre() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/60 px-3 py-1 text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground">
               <span className="size-1.5 rounded-full bg-primary" />
-              Coaching basket · U13 / U18 · Alsace
+              Coaching basket · Jeunes & Adultes · Alsace
             </div>
             <h1 className="mt-6 font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.92] tracking-tight text-balance rise">
               Progresse sur le terrain,<br />

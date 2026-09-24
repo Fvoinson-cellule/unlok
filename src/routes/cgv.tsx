@@ -53,18 +53,18 @@ function CGV() {
             <h2 className="font-display text-xl tracking-tight text-foreground">2. Objet</h2>
             <p className="mt-2">
               Les présentes conditions régissent la vente de séances de coaching de basketball
-              individualisé en petit groupe (6 joueurs maximum), destinées principalement aux
-              joueurs de U13 à U18, en complément de l'entraînement en club. Toute réservation
+              individualisé en petit groupe (6 joueurs maximum), destinées aux joueurs et joueuses,
+              jeunes et adultes, en complément de l'entraînement en club. Toute réservation
               implique l'acceptation sans réserve des présentes conditions.
             </p>
           </section>
 
           <section>
-            <h2 className="font-display text-xl tracking-tight text-foreground">3. Réservation par un représentant légal</h2>
+            <h2 className="font-display text-xl tracking-tight text-foreground">3. Réservation</h2>
             <p className="mt-2">
-              Le joueur étant généralement mineur, la réservation et le paiement sont effectués par
-              l'un de ses représentants légaux, qui déclare agir avec l'accord de l'autre
-              représentant légal.
+              La réservation et le paiement sont effectués par le joueur lui-même ou, pour les
+              mineurs, par l'un de ses représentants légaux, qui déclare agir avec l'accord de
+              l'autre représentant légal.
             </p>
           </section>
 
