@@ -106,24 +106,28 @@ function Index() {
                 <div className="font-mono text-xs text-primary">01</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">Réagir plus vite</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Votre joueur voit le jeu et réagit plus rapidement. On entraîne la perception
-                  et le traitement de l'information pour gagner en vitesse de réaction.
+                  Traiter l'information en une fraction de seconde : lire le placement de la défense,
+                  repérer l'aide, voir le démarquage d'un coéquipier et prendre la bonne décision sous
+                  pression. On entraîne la perception et le traitement de l'information pour gagner en
+                  vitesse de réaction.
                 </p>
               </div>
               <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-5 rise" style={{ animationDelay: "0.4s" }}>
                 <div className="font-mono text-xs text-primary">02</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">Faire le bon choix</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Face à la situation réelle, il choisit la meilleure option. En situations proches
-                  du match, il apprend à sélectionner la bonne réponse sous pression.
+                  En recréant des situations réelles de match, on confronte le joueur à des dilemmes
+                  permanents : shooter, passer ou attaquer le cercle ? On habitue le cerveau à anticiper
+                  pour exécuter le bon geste sous pression défensive.
                 </p>
               </div>
               <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-5 rise" style={{ animationDelay: "0.5s" }}>
                 <div className="font-mono text-xs text-primary">03</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">Ancrer durablement</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Ce qu'il gagne, il le garde. La répétition de situations signifiantes installe
-                  l'automatisme, pour que ça dure dans le temps.
+                  Répéter pour automatiser. En multipliant les répétitions à haute intensité, réagir
+                  vite et faire le bon choix ne demandent plus d'hésitation : le geste devient un
+                  réflexe naturel et instinctif en match.
                 </p>
               </div>
             </div>
