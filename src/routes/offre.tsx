@@ -120,14 +120,14 @@ function Offre() {
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-border">
         <div className="pointer-events-none absolute inset-0 -z-0">
-          <div className="absolute -top-24 -right-32 h-[460px] w-[460px] rounded-[28px] bg-glass backdrop-blur-xl ring-1 ring-white/40 rotate-[18deg]" />
-          <div className="absolute top-20 -left-40 h-[360px] w-[360px] rounded-[28px] bg-glass backdrop-blur-xl ring-1 ring-white/40 rotate-[-14deg]" />
+          <div className="absolute -top-24 -right-32 h-[460px] w-[460px] rounded-[28px] bg-glass backdrop-blur-xl ring-1 ring-white/10 rotate-[18deg]" />
+          <div className="absolute top-20 -left-40 h-[360px] w-[360px] rounded-[28px] bg-glass backdrop-blur-xl ring-1 ring-white/10 rotate-[-14deg]" />
         </div>
 
         <div className="relative mx-auto max-w-6xl px-6 pt-20 pb-16">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-primary" />
+            <div className="inline-flex items-center gap-2 rounded-lg border border-border bg-background/60 px-3 py-1 text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground">
+              <span className="size-1.5 rounded-lg bg-primary" />
               Coaching basket · U13 / U18 · Alsace
             </div>
             <h1 className="mt-6 font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.92] tracking-tight text-balance rise">
@@ -141,7 +141,7 @@ function Offre() {
             <div className="mt-8 rise" style={{ animationDelay: "0.2s" }}>
               <a
                 href="#formules"
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground ring-1 ring-black/5 hover:bg-foreground transition-colors"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground  hover:bg-foreground transition-colors"
               >
                 Choisir ma formule
                 <span className="font-mono">→</span>
@@ -188,7 +188,7 @@ function Offre() {
                   "rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1 " +
                   (plan.featured
                     ? "bg-court text-court-foreground ring-1 ring-white/10"
-                    : "bg-glass backdrop-blur-md ring-1 ring-white/40")
+                    : "bg-glass backdrop-blur-md ring-1 ring-white/10")
                 }
               >
                 <div className={"font-mono text-xs " + (plan.featured ? "text-primary" : "text-primary")}>
@@ -207,14 +207,14 @@ function Offre() {
                 {plan.href.startsWith("#") ? (
                   <a
                     href={plan.href}
-                    className="mt-6 inline-flex w-full justify-center rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+                    className="mt-6 inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
                   >
                     {plan.cta}
                   </a>
                 ) : (
                   <a
                     href={plan.href}
-                    className="mt-6 inline-flex w-full justify-center rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+                    className="mt-6 inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
                   >
                     {plan.cta}
                   </a>
@@ -252,7 +252,7 @@ function Offre() {
                 <p className="mt-2 text-sm text-court-foreground/70">{slot.location}</p>
                 <a
                   href={slot.href}
-                  className="mt-4 inline-flex w-full justify-center rounded-full border border-court-foreground/30 px-4 py-2 text-sm font-semibold hover:bg-court-foreground/10 transition-colors"
+                  className="mt-4 inline-flex w-full justify-center rounded-lg border border-court-foreground/30 px-4 py-2 text-sm font-semibold hover:bg-court-foreground/10 transition-colors"
                 >
                   Réserver ce créneau
                 </a>
@@ -374,14 +374,14 @@ function Offre() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a
               href="https://instagram.com/unlok.basketball"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               Écrire sur Instagram
               <span className="font-mono">→</span>
             </a>
             <a
               href="mailto:unlok.basketball@gmail.com?subject=Inscription%20Unlok"
-              className="inline-flex items-center gap-2 rounded-full border border-court-foreground/30 px-6 py-3 text-sm font-semibold hover:bg-court-foreground/10 transition-colors"
+              className="inline-flex items-center gap-2 rounded-lg border border-court-foreground/30 px-6 py-3 text-sm font-semibold hover:bg-court-foreground/10 transition-colors"
             >
               Ou par email
             </a>
