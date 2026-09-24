@@ -2,6 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { MethodLoop } from "@/components/method-loop";
+import portrait from "@/assets/florian-portrait.png";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
