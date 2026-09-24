@@ -5,12 +5,12 @@ import { SiteFooter } from "@/components/site-footer";
 export const Route = createFileRoute("/mentions-legales")({
   head: () => ({
     meta: [
-      { title: "Mentions légales — Unlok" },
+      { title: "Mentions légales · Unlok" },
       {
         name: "description",
-        content: "Mentions légales du site Unlok — éditeur, hébergement, paiements, données personnelles.",
+        content: "Mentions légales du site Unlok, éditeur, hébergement, paiements, données personnelles.",
       },
-      { property: "og:title", content: "Mentions légales — Unlok" },
+      { property: "og:title", content: "Mentions légales · Unlok" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

@@ -5,13 +5,13 @@ import { SiteFooter } from "@/components/site-footer";
 export const Route = createFileRoute("/offre")({
   head: () => ({
     meta: [
-      { title: "Tarifs & formules — Unlok · Coaching basket individualisé" },
+      { title: "Tarifs & formules · Unlok · Coaching basket individualisé" },
       {
         name: "description",
         content:
           "Les formules Unlok : séance découverte 15€, abonnement mensuel 100€, carte 5 séances 250€, carte 10 séances 400€. Saison 2026-2027, Alsace.",
       },
-      { property: "og:title", content: "Tarifs & formules — Unlok" },
+      { property: "og:title", content: "Tarifs & formules · Unlok" },
       {
         property: "og:description",
         content:
@@ -31,7 +31,7 @@ const PLANS = [
     price: "15€",
     unit: "/ séance unique",
     desc: "Tarif permanent, un tarif préferentiel pour se faire une idée avant de choisir une formule.",
-    cta: "Réserver — 15€",
+    cta: "Réserver · 15€",
     href: "https://buy.stripe.com/14AfZh3nB50l2f00hU6sw04",
     featured: false,
   },
@@ -49,9 +49,9 @@ const PLANS = [
     label: "Carte flexible",
     name: "5 séances",
     price: "250€",
-    unit: "— 50€ / séance",
+    unit: "50€ / séance",
     desc: "Séances utilisées au rythme du joueur. Aucun créneau fixe imposé. Carte valable 5 mois.",
-    cta: "Réserver — 250€",
+    cta: "Réserver · 250€",
     href: "https://buy.stripe.com/fZu14n5vJ78t9Hsd4G6sw01",
     featured: false,
   },
@@ -59,9 +59,9 @@ const PLANS = [
     label: "Carte régulière",
     name: "10 séances",
     price: "400€",
-    unit: "— 40€ / séance",
+    unit: "40€ / séance",
     desc: "−20% par séance vs la carte 5. Toujours sans créneau fixe imposé. Carte valable 5 mois.",
-    cta: "Réserver — 400€",
+    cta: "Réserver · 400€",
     href: "https://buy.stripe.com/cNidR9gancsN1aWaWy6sw02",
     featured: false,
   },
@@ -234,7 +234,7 @@ function Offre() {
           <p className="mt-8 text-xs text-muted-foreground">
             En réservant, tu acceptes nos{" "}
             <Link to="/cgv" className="underline hover:text-foreground">conditions générales de vente</Link>.
-            {" "}Paiement sécurisé par Stripe. Prix nets — TVA non applicable, art. 293 B du CGI.
+            {" "}Paiement sécurisé par Stripe. Prix nets, TVA non applicable, art. 293 B du CGI.
           </p>
         </div>
       </section>
@@ -246,7 +246,7 @@ function Offre() {
             <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Créneaux</div>
             <h2 className="mt-4 font-display text-4xl tracking-tight text-balance">Tes créneaux.</h2>
             <p className="mt-4 text-court-foreground/70 text-pretty">
-              3 créneaux ouverts pour commencer : lundi, mardi et mercredi — séances de 60 minutes,
+              3 créneaux ouverts pour commencer : lundi, mardi et mercredi, séances de 60 minutes,
               petits groupes de 6 joueurs maximum, 18 places au total par semaine. D'autres créneaux
               ouvriront dès que ceux-ci seront remplis.
             </p>
@@ -283,7 +283,7 @@ function Offre() {
             <div className="flex items-end justify-between flex-wrap gap-4">
               <div>
                 <div className="font-mono text-xs uppercase tracking-[0.15em] text-court-foreground/60">
-                  Abonnement mensuel — ce que tu payes chaque mois
+                  Abonnement mensuel · ce que tu payes chaque mois
                 </div>
                 <h3 className="mt-2 font-display text-3xl tracking-tight">Un tarif fixe par mois.</h3>
               </div>
@@ -311,7 +311,7 @@ function Offre() {
               </table>
             </div>
             <p className="mt-3 text-sm text-court-foreground/60">
-              Juin est un mois plus creux (moins de semaines de cours) — d'où le tarif réduit.
+              Juin est un mois plus creux (moins de semaines de cours), d'où le tarif réduit.
             </p>
           </div>
         </div>
@@ -362,7 +362,7 @@ function Offre() {
             </table>
           </div>
           <p className="mt-4 text-sm text-muted-foreground text-pretty">
-            Aucune séance n'est annulée pendant les vacances scolaires — seuls les jours fériés sont
+            Aucune séance n'est annulée pendant les vacances scolaires, seuls les jours fériés sont
             retirés du calendrier (11 novembre, lundi de Pâques, Ascension, lundi de Pentecôte). Un
             2ᵉ créneau le mercredi et un créneau le jeudi ouvriront dès que les 3 créneaux ci-dessus
             seront complets.

@@ -5,12 +5,12 @@ import { SiteFooter } from "@/components/site-footer";
 export const Route = createFileRoute("/cgv")({
   head: () => ({
     meta: [
-      { title: "Conditions générales de vente — Unlok" },
+      { title: "Conditions générales de vente · Unlok" },
       {
         name: "description",
-        content: "CGV Unlok — coaching basket individualisé. Saison 2026-2027.",
+        content: "CGV Unlok, coaching basket individualisé. Saison 2026-2027.",
       },
-      { property: "og:title", content: "CGV — Unlok" },
+      { property: "og:title", content: "CGV · Unlok" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -28,7 +28,7 @@ function CGV() {
         </Link>
         <h1 className="mt-6 font-display text-4xl tracking-tight">Conditions générales de vente</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Version du 23 septembre 2026 — saison 2026-2027.
+          Version du 23 septembre 2026, saison 2026-2027.
         </p>
 
         <div className="mt-10 space-y-8 text-sm text-muted-foreground">
@@ -42,7 +42,7 @@ function CGV() {
             <p className="mt-2">
               Contact :{" "}
               <a href="mailto:unlok.basketball@gmail.com" className="text-primary hover:underline">unlok.basketball@gmail.com</a>{" "}
-              — 06 89 18 04 09.
+              06 89 18 04 09.
             </p>
             <p className="mt-2">
               Diplômes : BPJEPS, DETB. Carte professionnelle d'éducateur sportif n° 03825ED0066.
@@ -204,7 +204,7 @@ function CGV() {
             </p>
             <p className="mt-2">
               Unlok est couvert par une assurance responsabilité civile professionnelle [souscription
-              en cours — nom de l'assureur et n° de contrat à ajouter dès finalisation],
+              en cours, nom de l'assureur et n° de contrat à ajouter dès finalisation],
               conformément à l'article L321-7 du Code du sport.
             </p>
           </section>
@@ -234,7 +234,7 @@ function CGV() {
             <p className="mt-2">
               En cas de litige, contactez d'abord Unlok par email. À défaut d'accord amiable, vous
               pouvez saisir gratuitement le médiateur de la consommation dont Unlok relève :{" "}
-              <strong className="text-foreground">CM2C — Centre de la Médiation de la Consommation de
+              <strong className="text-foreground">CM2C, Centre de la Médiation de la Consommation de
               Conciliateurs de Justice</strong>, 49 rue de Ponthieu, 75008 Paris,{" "}
               <a href="https://www.cm2c.net/" className="text-primary hover:underline">www.cm2c.net</a>.
             </p>
