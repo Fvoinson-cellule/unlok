@@ -15,6 +15,13 @@
       "when": 1790268337919,
       "tag": "0001_expose_discovery_session_details",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790268482772,
+      "tag": "0002_fix_discovery_email_check",
+      "breakpoints": true
     }
   ]
 }

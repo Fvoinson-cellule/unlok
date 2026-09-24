@@ -104,7 +104,7 @@ export const listDiscoverySessions = createServerFn({ method: "GET" }).handler(
 );
 
 export const bookDiscoverySession = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => bookingSchema.parse(data))
+  .validator((data: unknown) => bookingSchema.parse(data))
   .handler(async ({ data }): Promise<BookingResult> => {
     if (data.website) return { ok: false, reason: "rejected" };
 
