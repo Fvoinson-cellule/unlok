@@ -6,10 +6,18 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// GH_PAGES=true => static export served under https://fvoinson-cellule.github.io/unlok/
+const ghPages = process.env.GH_PAGES === "true";
+
 export default defineConfig({
+  vite: ghPages ? { base: "/unlok/" } : {},
   tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
     server: { entry: "server" },
+    ...(ghPages
+      ? {
+          pages: [{ path: "/" }, { path: "/offre" }, { path: "/mentions-legales" }, { path: "/cgv" }],
+          prerender: { enabled: true, autoStaticPathsDiscovery: false },
+        }
+      : {}),
   },
 });
