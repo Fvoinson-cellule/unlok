@@ -6,3 +6,4 @@
 - [x] Mettre à jour la RC Pro et l’identité EI dans les pages juridiques.
 - [x] Harmoniser abonnement, données personnelles et médiation dans les informations légales.
 - [x] Vérifier les pages juridiques et l’affichage après modification.
+- [ ] Unifier les inscriptions séance d’essai et abonnement sur les créneaux réguliers, avec 6 places partagées.
