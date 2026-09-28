@@ -11,6 +11,10 @@ export const Route = createFileRoute("/cgv")({
         content: "CGV Unlok, coaching basket individualisé. Saison 2026-2027.",
       },
       { property: "og:title", content: "CGV · Unlok" },
+      {
+        property: "og:description",
+        content: "Conditions générales de vente des séances et abonnements de coaching basket Unlok.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -28,15 +32,15 @@ function CGV() {
         </Link>
         <h1 className="mt-6 font-display text-4xl tracking-tight">Conditions générales de vente</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Version du 23 septembre 2026, saison 2026-2027.
+          Version du 28 septembre 2026, saison 2026-2027.
         </p>
 
         <div className="mt-10 space-y-8 text-sm text-muted-foreground">
           <section>
             <h2 className="font-display text-xl tracking-tight text-foreground">1. Qui sommes-nous</h2>
             <p className="mt-2">
-              Les prestations Unlok sont proposées par <strong className="text-foreground">Florian Voinson</strong>,
-              entrepreneur individuel (micro-entreprise), SIRET 752 888 511 00041, domicilié 211 le
+              Les prestations Unlok sont proposées par <strong className="text-foreground">Florian Voinson, entrepreneur individuel (EI)</strong>,
+              sous le régime de la micro-entreprise, SIRET 752 888 511 00041, domicilié 211 le
               Limbach, 68910 Labaroche.
             </p>
             <p className="mt-2">
@@ -97,8 +101,8 @@ function CGV() {
                   </tr>
                   <tr>
                     <td className="px-4 py-3 text-foreground">Abonnement mensuel</td>
-                    <td className="px-4 py-3">100 €/mois (oct. 2026–mai 2027), 75 € en juin 2027</td>
-                    <td className="px-4 py-3">Créneau hebdomadaire fixe réservé. Fin automatique le 30 juin 2027.</td>
+                    <td className="px-4 py-3">100 €/mois, puis dernière échéance ajustée au prorata en juin 2027</td>
+                    <td className="px-4 py-3">Créneau hebdomadaire fixe réservé jusqu'à la fin de la saison, le 20 juin 2027.</td>
                   </tr>
                 </tbody>
               </table>
@@ -126,16 +130,17 @@ function CGV() {
             </p>
             <p className="mt-2">
               Pour l'abonnement, le premier mois est payé à la réservation. Les mois suivants sont
-              prélevés automatiquement à la même date chaque mois. L'abonnement se termine
-              automatiquement après l'échéance de juin 2027. Une facture est émise pour chaque
-              paiement.
+              prélevés automatiquement à la date anniversaire de la souscription. La dernière
+              échéance, en juin 2027, est ajustée au prorata des séances restant à effectuer avant
+              la fin de la saison, le 20 juin 2027. L'abonnement prend ensuite fin automatiquement.
+              Une facture est émise pour chaque paiement.
             </p>
           </section>
 
           <section>
             <h2 className="font-display text-xl tracking-tight text-foreground">6. Résiliation de l'abonnement</h2>
             <p className="mt-2">
-              L'abonnement est souscrit pour la durée de la saison, jusqu'au 30 juin 2027. Il ne
+              L'abonnement est souscrit pour la durée de la saison, jusqu'au 20 juin 2027. Il ne
               peut être résilié de façon anticipée que pour un <strong className="text-foreground">motif
               légitime dûment justifié</strong> : blessure ou inaptitude médicale justifiée par
               certificat, déménagement rendant la poursuite des séances impossible, ou tout autre
@@ -203,9 +208,11 @@ function CGV() {
               tenue adaptée.
             </p>
             <p className="mt-2">
-              Unlok est couvert par une assurance responsabilité civile professionnelle [souscription
-              en cours, nom de l'assureur et n° de contrat à ajouter dès finalisation],
-              conformément à l'article L321-7 du Code du sport.
+              Unlok a souscrit une assurance responsabilité civile professionnelle auprès de Hiscox,
+              contrat n° RCPH278655510 géré par Orus France SAS. La couverture prend effet le
+              5 octobre 2026 et reste valable jusqu'au 4 octobre 2027, sous réserve du paiement de la
+              cotisation et des conditions du contrat. Elle s'applique dans le monde entier, hors
+              États-Unis et Canada, dans les limites et exclusions prévues au contrat.
             </p>
           </section>
 
@@ -216,11 +223,17 @@ function CGV() {
               écrit des deux parents</strong>.
             </p>
             <p className="mt-2">
-              Les données collectées (nom du parent et du joueur, catégorie, créneau, coordonnées)
-              servent uniquement à organiser les séances et à établir les factures, sur la base de
-              l'exécution du contrat qui vous lie à Unlok. Elles sont conservées le temps nécessaire
-              à cette finalité, puis selon les durées légales de conservation applicables en matière
-              comptable. Vous pouvez y accéder, les faire corriger ou supprimer en écrivant à{" "}
+              Le responsable du traitement est Florian Voinson, EI. Les données collectées lors de
+              la réservation (nom, adresse email, téléphone et créneau choisi) servent à traiter la
+              demande, organiser les séances et assurer le suivi contractuel. Ce traitement repose
+              sur les mesures précontractuelles demandées et sur l'exécution du contrat. Les données
+              nécessaires à la réservation sont conservées pendant la relation contractuelle, puis
+              archivées uniquement pendant les durées imposées par la loi. Les factures et pièces
+              comptables sont conservées dix ans. Les données sont accessibles à Unlok et, dans la
+              limite nécessaire à leurs missions, à ses prestataires techniques et de paiement.
+              Vous pouvez demander l'accès, la rectification, l'effacement ou la limitation de vos
+              données et, lorsque la loi le prévoit, vous opposer à leur traitement ou exercer votre
+              droit à la portabilité, en écrivant à{" "}
               <a href="mailto:unlok.basketball@gmail.com" className="text-primary hover:underline">unlok.basketball@gmail.com</a>.
               Vous disposez également du droit d'introduire une réclamation auprès de la CNIL ({" "}
               <a href="https://www.cnil.fr/" className="text-primary hover:underline">cnil.fr</a>) si
@@ -232,11 +245,10 @@ function CGV() {
           <section>
             <h2 className="font-display text-xl tracking-tight text-foreground">11. Médiation et litiges</h2>
             <p className="mt-2">
-              En cas de litige, contactez d'abord Unlok par email. À défaut d'accord amiable, vous
-              pouvez saisir gratuitement le médiateur de la consommation dont Unlok relève :{" "}
-              <strong className="text-foreground">CM2C, Centre de la Médiation de la Consommation de
-              Conciliateurs de Justice</strong>, 49 rue de Ponthieu, 75008 Paris,{" "}
-              <a href="https://www.cm2c.net/" className="text-primary hover:underline">www.cm2c.net</a>.
+              En cas de litige, contactez d'abord Unlok par email. À défaut d'accord amiable, le
+              consommateur pourra saisir gratuitement le médiateur de la consommation désigné par
+              Unlok. Cette désignation est en cours. Ses coordonnées et l'adresse de son site
+              internet seront publiées ici dès la prise d'effet de la convention.
             </p>
             <p className="mt-2">
               Les présentes conditions sont soumises au droit français.

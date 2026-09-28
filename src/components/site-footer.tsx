@@ -16,7 +16,7 @@ export function SiteFooter() {
           <div>
             <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Contact</div>
             <div className="mt-4 space-y-1 text-sm">
-              <p className="font-medium text-foreground">Florian Voinson</p>
+              <p className="font-medium text-foreground">Florian Voinson, EI</p>
               <p className="text-muted-foreground">06 89 18 04 09</p>
               <a href="mailto:unlok.basketball@gmail.com" className="block text-muted-foreground hover:text-foreground transition-colors">
                 unlok.basketball@gmail.com
