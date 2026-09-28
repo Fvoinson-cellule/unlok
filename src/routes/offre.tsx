@@ -89,17 +89,6 @@ const SLOTS = [
   },
 ] as const;
 
-const MONTHLY_TARIFF = [
-  ["Octobre 2026", "100 €"],
-  ["Novembre 2026", "100 €"],
-  ["Décembre 2026", "100 €"],
-  ["Janvier 2027", "100 €"],
-  ["Février 2027", "100 €"],
-  ["Mars 2027", "100 €"],
-  ["Avril 2027", "100 €"],
-  ["Mai 2027", "100 €"],
-  ["Juin 2027", "75 €"],
-] as const;
 
 const CALENDAR = [
   ["Octobre 2026", "5, 12, 19, 26", "6, 13, 20, 27", "7, 14, 21, 28"],
@@ -258,46 +247,11 @@ function Offre() {
             complet : écris-nous pour la liste d'attente.
           </p>
           <p className="mt-3 text-sm text-court-foreground/60">
-            Premier mois payé à la réservation : 100€/mois d'octobre à mai, 75€ en juin. Paiement
-            par carte ou prélèvement SEPA. Arrêt automatique fin juin 2027.
+            Premier mois payé à la réservation, puis 100€ prélevés chaque mois à la même date.
+            Paiement par carte ou prélèvement SEPA. Le dernier mois, en juin, est ajusté au prorata
+            des séances restantes.
           </p>
 
-          {/* MONTHLY TARIFF TABLE */}
-          <div className="mt-16">
-            <div className="flex items-end justify-between flex-wrap gap-4">
-              <div>
-                <div className="font-mono text-xs uppercase tracking-[0.15em] text-court-foreground/60">
-                  Abonnement mensuel · ce que tu payes chaque mois
-                </div>
-                <h3 className="mt-2 font-display text-3xl tracking-tight">Un tarif fixe par mois.</h3>
-              </div>
-              <div className="text-right">
-                <div className="font-mono text-xs text-court-foreground/60">Total saison</div>
-                <div className="font-display text-3xl tracking-tight">875 €</div>
-              </div>
-            </div>
-            <div className="mt-6 overflow-hidden rounded-2xl ring-1 ring-court-foreground/10">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-court-foreground/10 text-court-foreground/60 font-mono text-xs uppercase tracking-wider">
-                    <th className="px-4 py-3 text-left font-medium">Mois</th>
-                    <th className="px-4 py-3 text-right font-medium">Tarif</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-court-foreground/10">
-                  {MONTHLY_TARIFF.map(([month, price]) => (
-                    <tr key={month}>
-                      <td className="px-4 py-3">{month}</td>
-                      <td className="px-4 py-3 text-right font-mono">{price}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="mt-3 text-sm text-court-foreground/60">
-              Juin est un mois plus creux (moins de semaines de cours), d'où le tarif réduit.
-            </p>
-          </div>
         </div>
       </section>
 
