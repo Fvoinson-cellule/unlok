@@ -58,9 +58,10 @@ function MentionsLegales() {
             <h2 className="font-display text-xl tracking-tight text-foreground">2. Assurance professionnelle</h2>
             <p className="mt-2">
               Responsabilité civile professionnelle souscrite auprès de Hiscox, contrat
-              n° RCPH278655510 géré par Orus France SAS, valable du 5 octobre 2026 au 4 octobre
-              2027. La couverture s'applique dans le monde entier, hors États-Unis et Canada, dans
-              les limites, conditions et exclusions du contrat.
+              n° RCPH278655510 géré par Orus France SAS. La couverture prend effet le 5 octobre
+              2026 et reste valable jusqu'au 4 octobre 2027, sous réserve du paiement de la
+              cotisation et des conditions du contrat. Elle s'applique dans le monde entier, hors
+              États-Unis et Canada, dans les limites et exclusions prévues au contrat.
             </p>
           </section>
 

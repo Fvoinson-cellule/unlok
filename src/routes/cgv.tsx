@@ -32,7 +32,7 @@ function CGV() {
         </Link>
         <h1 className="mt-6 font-display text-4xl tracking-tight">Conditions générales de vente</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Version du 23 septembre 2026, saison 2026-2027.
+          Version du 28 septembre 2026, saison 2026-2027.
         </p>
 
         <div className="mt-10 space-y-8 text-sm text-muted-foreground">
@@ -208,10 +208,11 @@ function CGV() {
               tenue adaptée.
             </p>
             <p className="mt-2">
-              Unlok est couvert par une assurance responsabilité civile professionnelle auprès de
-              Hiscox, contrat n° RCPH278655510 géré par Orus France SAS, valable du 5 octobre 2026
-              au 4 octobre 2027. La couverture s'applique dans le monde entier, hors États-Unis et
-              Canada, dans les limites, conditions et exclusions du contrat.
+              Unlok a souscrit une assurance responsabilité civile professionnelle auprès de Hiscox,
+              contrat n° RCPH278655510 géré par Orus France SAS. La couverture prend effet le
+              5 octobre 2026 et reste valable jusqu'au 4 octobre 2027, sous réserve du paiement de la
+              cotisation et des conditions du contrat. Elle s'applique dans le monde entier, hors
+              États-Unis et Canada, dans les limites et exclusions prévues au contrat.
             </p>
           </section>
 

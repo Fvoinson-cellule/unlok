@@ -5,4 +5,4 @@
 - [x] Inscription directe aux séances découverte, 6 places maximum par séance, avec confirmation et paiement 15 €.
 - [x] Mettre à jour la RC Pro et l’identité EI dans les pages juridiques.
 - [x] Harmoniser abonnement, données personnelles et médiation dans les informations légales.
-- [ ] Vérifier les pages juridiques et l’affichage après modification.
+- [x] Vérifier les pages juridiques et l’affichage après modification.
