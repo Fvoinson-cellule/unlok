@@ -60,6 +60,13 @@ export type Database = {
             referencedRelation: "coaching_slots"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "coaching_bookings_slot_id_fkey"
+            columns: ["slot_id"]
+            isOneToOne: false
+            referencedRelation: "coaching_upcoming_sessions"
+            referencedColumns: ["slot_id"]
+          },
         ]
       }
       coaching_slots: {
@@ -69,6 +76,7 @@ export type Database = {
           created_at: string
           day_label: string
           day_order: number
+          excluded_dates: string[]
           id: string
           is_active: boolean
           location: string
@@ -86,6 +94,7 @@ export type Database = {
           created_at?: string
           day_label: string
           day_order: number
+          excluded_dates?: string[]
           id?: string
           is_active?: boolean
           location: string
@@ -103,6 +112,7 @@ export type Database = {
           created_at?: string
           day_label?: string
           day_order?: number
+          excluded_dates?: string[]
           id?: string
           is_active?: boolean
           location?: string
@@ -219,6 +229,19 @@ export type Database = {
         }
         Relationships: []
       }
+      coaching_upcoming_sessions: {
+        Row: {
+          booked: number | null
+          capacity: number | null
+          day_order: number | null
+          position: number | null
+          remaining: number | null
+          session_at: string | null
+          session_date: string | null
+          slot_id: string | null
+        }
+        Relationships: []
+      }
       discovery_availability: {
         Row: {
           booked: number | null
@@ -236,6 +259,17 @@ export type Database = {
       }
     }
     Functions: {
+      book_coaching_session: {
+        Args: {
+          p_booking_type: string
+          p_email: string
+          p_full_name: string
+          p_phone?: string
+          p_session_date: string
+          p_slot_id: string
+        }
+        Returns: Json
+      }
       book_coaching_slot: {
         Args: {
           p_booking_type: string

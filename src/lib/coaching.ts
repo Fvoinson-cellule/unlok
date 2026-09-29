@@ -9,6 +9,14 @@ const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 export type BookingType = "trial" | "subscription";
 
+export type CoachingSession = {
+  date: string;
+  at: string;
+  capacity: number;
+  booked: number;
+  remaining: number;
+};
+
 export type CoachingSlot = {
   id: string;
   dayLabel: string;
@@ -23,6 +31,7 @@ export type CoachingSlot = {
   trialUrl: string;
   subscriptionPrice: number;
   subscriptionUrl: string;
+  sessions: CoachingSession[];
 };
 
 export type CoachingReason =
@@ -40,13 +49,28 @@ export type CoachingReason =
 export type CoachingResult = { ok: true } | { ok: false; reason: CoachingReason };
 
 export async function listCoachingSlots(): Promise<CoachingSlot[]> {
-  const { data, error } = await supabase
-    .from("coaching_availability")
-    .select("*")
-    .order("day_order", { ascending: true });
-  if (error) throw error;
+  const [slotsRes, sessionsRes] = await Promise.all([
+    supabase.from("coaching_availability").select("*").order("day_order", { ascending: true }),
+    supabase.from("coaching_upcoming_sessions").select("*").order("position", { ascending: true }),
+  ]);
+  if (slotsRes.error) throw slotsRes.error;
+  if (sessionsRes.error) throw sessionsRes.error;
 
-  return (data ?? []).flatMap((row) =>
+  const sessionsBySlot = new Map<string, CoachingSession[]>();
+  for (const row of sessionsRes.data ?? []) {
+    if (!row.slot_id || !row.session_date) continue;
+    const list = sessionsBySlot.get(row.slot_id) ?? [];
+    list.push({
+      date: row.session_date,
+      at: row.session_at ?? row.session_date,
+      capacity: row.capacity ?? 6,
+      booked: row.booked ?? 0,
+      remaining: row.remaining ?? 0,
+    });
+    sessionsBySlot.set(row.slot_id, list);
+  }
+
+  return (slotsRes.data ?? []).flatMap((row) =>
     row.slot_id && row.day_label
       ? [
           {
@@ -63,6 +87,7 @@ export async function listCoachingSlots(): Promise<CoachingSlot[]> {
             trialUrl: row.trial_stripe_url ?? "",
             subscriptionPrice: row.subscription_price_eur ?? 100,
             subscriptionUrl: row.subscription_stripe_url ?? "",
+            sessions: sessionsBySlot.get(row.slot_id) ?? [],
           },
         ]
       : [],
@@ -72,6 +97,7 @@ export async function listCoachingSlots(): Promise<CoachingSlot[]> {
 export async function bookCoachingSlot(input: {
   slotId: string;
   type: BookingType;
+  sessionDate: string | null;
   fullName: string;
   email: string;
   phone: string;
@@ -84,9 +110,10 @@ export async function bookCoachingSlot(input: {
   if (fullName.length < 2) return { ok: false, reason: "missing_fields" };
   if (!EMAIL_PATTERN.test(email)) return { ok: false, reason: "invalid_email" };
 
-  const { data, error } = await supabase.rpc("book_coaching_slot", {
+  const { data, error } = await supabase.rpc("book_coaching_session", {
     p_slot_id: input.slotId,
     p_booking_type: input.type,
+    p_session_date: input.sessionDate as string,
     p_full_name: fullName,
     p_email: email,
     ...(phone ? { p_phone: phone } : {}),

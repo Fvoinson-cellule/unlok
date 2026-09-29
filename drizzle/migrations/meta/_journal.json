@@ -50,6 +50,27 @@
       "when": 1790666781313,
       "tag": "0006_allow_public_coaching_availability_counts",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1790699731051,
+      "tag": "0007_coaching_upcoming_sessions",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1790699749965,
+      "tag": "0008_backfill_basket_center_october_break",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1790699860742,
+      "tag": "0009_coaching_views_count_bookings",
+      "breakpoints": true
     }
   ]
 }
