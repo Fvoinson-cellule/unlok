@@ -14,6 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
+      coaching_bookings: {
+        Row: {
+          booking_type: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          session_date: string | null
+          slot_id: string
+        }
+        Insert: {
+          booking_type: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          phone?: string | null
+          session_date?: string | null
+          slot_id: string
+        }
+        Update: {
+          booking_type?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          session_date?: string | null
+          slot_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coaching_bookings_slot_id_fkey"
+            columns: ["slot_id"]
+            isOneToOne: false
+            referencedRelation: "coaching_availability"
+            referencedColumns: ["slot_id"]
+          },
+          {
+            foreignKeyName: "coaching_bookings_slot_id_fkey"
+            columns: ["slot_id"]
+            isOneToOne: false
+            referencedRelation: "coaching_slots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coaching_slots: {
+        Row: {
+          booking_open: boolean
+          capacity: number
+          created_at: string
+          day_label: string
+          day_order: number
+          id: string
+          is_active: boolean
+          location: string
+          next_session_at: string | null
+          season_ends_on: string | null
+          subscription_price_eur: number
+          subscription_stripe_url: string
+          time_label: string
+          trial_price_eur: number
+          trial_stripe_url: string
+        }
+        Insert: {
+          booking_open?: boolean
+          capacity?: number
+          created_at?: string
+          day_label: string
+          day_order: number
+          id?: string
+          is_active?: boolean
+          location: string
+          next_session_at?: string | null
+          season_ends_on?: string | null
+          subscription_price_eur?: number
+          subscription_stripe_url: string
+          time_label: string
+          trial_price_eur?: number
+          trial_stripe_url: string
+        }
+        Update: {
+          booking_open?: boolean
+          capacity?: number
+          created_at?: string
+          day_label?: string
+          day_order?: number
+          id?: string
+          is_active?: boolean
+          location?: string
+          next_session_at?: string | null
+          season_ends_on?: string | null
+          subscription_price_eur?: number
+          subscription_stripe_url?: string
+          time_label?: string
+          trial_price_eur?: number
+          trial_stripe_url?: string
+        }
+        Relationships: []
+      }
       discovery_bookings: {
         Row: {
           created_at: string
@@ -97,6 +199,26 @@ export type Database = {
       }
     }
     Views: {
+      coaching_availability: {
+        Row: {
+          booked: number | null
+          booking_open: boolean | null
+          capacity: number | null
+          day_label: string | null
+          day_order: number | null
+          location: string | null
+          next_session_at: string | null
+          remaining: number | null
+          season_ends_on: string | null
+          slot_id: string | null
+          subscription_price_eur: number | null
+          subscription_stripe_url: string | null
+          time_label: string | null
+          trial_price_eur: number | null
+          trial_stripe_url: string | null
+        }
+        Relationships: []
+      }
       discovery_availability: {
         Row: {
           booked: number | null
@@ -114,6 +236,16 @@ export type Database = {
       }
     }
     Functions: {
+      book_coaching_slot: {
+        Args: {
+          p_booking_type: string
+          p_email: string
+          p_full_name: string
+          p_phone?: string
+          p_slot_id: string
+        }
+        Returns: Json
+      }
       book_discovery_session: {
         Args: {
           p_email: string

@@ -29,6 +29,27 @@
       "when": 1790268752932,
       "tag": "0003_validate_email_in_function",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790666680778,
+      "tag": "0004_create_shared_coaching_slot_bookings",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790666741647,
+      "tag": "0005_roll_coaching_slots_weekly",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790666781313,
+      "tag": "0006_allow_public_coaching_availability_counts",
+      "breakpoints": true
     }
   ]
 }
