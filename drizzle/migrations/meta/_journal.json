@@ -64,6 +64,13 @@
       "when": 1790699749965,
       "tag": "0008_backfill_basket_center_october_break",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1790699860742,
+      "tag": "0009_coaching_views_count_bookings",
+      "breakpoints": true
     }
   ]
 }
