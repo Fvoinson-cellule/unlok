@@ -43,6 +43,13 @@
       "when": 1790666741647,
       "tag": "0005_roll_coaching_slots_weekly",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790666781313,
+      "tag": "0006_allow_public_coaching_availability_counts",
+      "breakpoints": true
     }
   ]
 }
