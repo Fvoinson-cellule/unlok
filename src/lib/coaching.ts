@@ -113,7 +113,7 @@ export async function bookCoachingSlot(input: {
   const { data, error } = await supabase.rpc("book_coaching_session", {
     p_slot_id: input.slotId,
     p_booking_type: input.type,
-    p_session_date: input.sessionDate,
+    p_session_date: input.sessionDate as string,
     p_full_name: fullName,
     p_email: email,
     ...(phone ? { p_phone: phone } : {}),
