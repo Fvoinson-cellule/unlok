@@ -73,6 +73,7 @@ export type Database = {
           is_active: boolean
           location: string
           next_session_at: string | null
+          season_ends_on: string | null
           subscription_price_eur: number
           subscription_stripe_url: string
           time_label: string
@@ -89,6 +90,7 @@ export type Database = {
           is_active?: boolean
           location: string
           next_session_at?: string | null
+          season_ends_on?: string | null
           subscription_price_eur?: number
           subscription_stripe_url: string
           time_label: string
@@ -105,6 +107,7 @@ export type Database = {
           is_active?: boolean
           location?: string
           next_session_at?: string | null
+          season_ends_on?: string | null
           subscription_price_eur?: number
           subscription_stripe_url?: string
           time_label?: string
@@ -206,6 +209,7 @@ export type Database = {
           location: string | null
           next_session_at: string | null
           remaining: number | null
+          season_ends_on: string | null
           slot_id: string | null
           subscription_price_eur: number | null
           subscription_stripe_url: string | null
