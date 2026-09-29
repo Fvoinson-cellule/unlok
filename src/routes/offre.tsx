@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { DiscoveryBooking } from "@/components/discovery-booking";
+import { CoachingBooking } from "@/components/coaching-booking";
 
 export const Route = createFileRoute("/offre")({
   head: () => ({
@@ -43,7 +43,7 @@ const PLANS = [
     unit: "/ mois",
     desc: "Tarif fixe par mois, quel que soit le nombre de séances. Créneau hebdomadaire fixe réservé, maintenu toute l' année y compris pendant les vacances scolaires.",
     cta: "Choisir un créneau",
-    href: "#creneaux",
+    href: "#seance-decouverte",
     featured: true,
   },
   {
@@ -68,26 +68,6 @@ const PLANS = [
   },
 ] as const;
 
-const SLOTS = [
-  {
-    day: "Lundi",
-    location: "Cosec du collège de Kientzheim",
-    time: "18h30 – 19h30",
-    href: "https://buy.stripe.com/00w6oHf6jfEZbPA0hU6sw06",
-  },
-  {
-    day: "Mardi",
-    location: "Basket Center de Strasbourg",
-    time: "Horaire à confirmer",
-    href: "https://buy.stripe.com/cNi4gz4rFboJcTE6Gi6sw07",
-  },
-  {
-    day: "Mercredi",
-    location: "Basket Center de Strasbourg",
-    time: "Horaire à confirmer",
-    href: "https://buy.stripe.com/6oU00jf6j64p06S4ya6sw08",
-  },
-] as const;
 
 
 const CALENDAR = [
@@ -159,7 +139,7 @@ function Offre() {
         </div>
       </section>
 
-      <DiscoveryBooking />
+      <CoachingBooking />
 
       {/* PRICING CARDS */}
       <section id="formules" className="border-b border-border">
@@ -213,7 +193,7 @@ function Offre() {
       </section>
 
       {/* TIME SLOTS */}
-      <section id="creneaux" className="border-b border-border bg-court text-court-foreground">
+      <section className="border-b border-border bg-court text-court-foreground">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="max-w-2xl">
             <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Créneaux</div>
@@ -226,25 +206,9 @@ function Offre() {
 
           </div>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
-            {SLOTS.map((slot) => (
-              <div key={slot.day} className="rounded-2xl bg-court-foreground/5 ring-1 ring-court-foreground/10 p-6">
-                <div className="font-mono text-xs text-court-foreground/60">{slot.day}</div>
-                <div className="mt-2 font-display text-2xl tracking-tight">{slot.time}</div>
-                <p className="mt-2 text-sm text-court-foreground/70">{slot.location}</p>
-                <a
-                  href={slot.href}
-                  className="mt-4 inline-flex w-full justify-center rounded-lg border border-court-foreground/30 px-4 py-2 text-sm font-semibold hover:bg-court-foreground/10 transition-colors"
-                >
-                  Réserver ce créneau
-                </a>
-              </div>
-            ))}
-          </div>
-
           <p className="mt-6 text-sm text-court-foreground/60">
-            6 places par créneau. Si le paiement indique que le lien est désactivé, le créneau est
-            complet : écris-nous pour la liste d'attente.
+            6 places par créneau, partagées entre abonnés et séances d'essai. Inscription dans la
+            section « Réserve ta place » ci-dessus.
           </p>
           <p className="mt-3 text-sm text-court-foreground/60">
             Premier mois payé à la réservation, puis 100€ prélevés chaque mois à la même date.
