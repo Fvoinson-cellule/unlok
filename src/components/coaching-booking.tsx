@@ -94,7 +94,7 @@ export function CoachingBooking() {
   const bookable = (s: CoachingSlot) => s.bookingOpen && slotSessions(s).some((x) => x.remaining > 0);
   const active = slots.find((s) => s.id === selectedId && bookable(s)) ?? slots.find(bookable) ?? null;
 
-  const sessions: CoachingSession[] = active?.sessions ?? [];
+  const sessions: CoachingSession[] = active ? slotSessions(active) : [];
   const session =
     sessions.find((s) => s.date === selectedDate) ?? sessions.find((s) => s.remaining > 0) ?? sessions[0] ?? null;
   const price = active ? (type === "trial" ? active.trialPrice : active.subscriptionPrice) : 0;
@@ -166,7 +166,7 @@ export function CoachingBooking() {
               {slots.map((slot) => {
                 const isActive = active?.id === slot.id;
                 const disabled = !bookable(slot);
-                const next = slot.sessions[0] ?? null;
+                const next = slotSessions(slot)[0] ?? null;
                 return (
                   <label
                     key={slot.id}
@@ -207,10 +207,10 @@ export function CoachingBooking() {
                         <span className="text-xs text-muted-foreground">Ouverture prochainement</span>
                       )}
                     </div>
-                    {slot.bookingOpen && slot.sessions.length > 0 ? (
+                    {slot.bookingOpen && slotSessions(slot).length > 0 ? (
                       <span className="text-xs text-muted-foreground">
                         Prochaines séances :{" "}
-                        {slot.sessions.map((s) => formatShortDate(s.at)).join(" · ")}
+                        {slotSessions(slot).map((s) => formatShortDate(s.at)).join(" · ")}
                       </span>
                     ) : null}
                   </label>
