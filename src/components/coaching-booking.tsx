@@ -90,7 +90,8 @@ export function CoachingBooking() {
   });
 
   const slots = data ?? [];
-  const bookable = (s: CoachingSlot) => s.bookingOpen && s.sessions.some((x) => x.remaining > 0);
+  const slotSessions = (s: CoachingSlot): CoachingSession[] => s.sessions ?? [];
+  const bookable = (s: CoachingSlot) => s.bookingOpen && slotSessions(s).some((x) => x.remaining > 0);
   const active = slots.find((s) => s.id === selectedId && bookable(s)) ?? slots.find(bookable) ?? null;
 
   const sessions: CoachingSession[] = active?.sessions ?? [];
