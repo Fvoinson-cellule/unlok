@@ -6,6 +6,7 @@ import {
   listCoachingSlots,
   type BookingType,
   type CoachingReason,
+  type CoachingSession,
   type CoachingSlot,
 } from "@/lib/coaching";
 
@@ -13,8 +14,8 @@ const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const MAILTO = "mailto:unlok.basketball@gmail.com?subject=Inscription%20UNLOK";
 
 const REASONS: Record<CoachingReason, string> = {
-  full: "Ce créneau est complet. Choisis un autre jour ou écris-nous pour la liste d'attente.",
-  duplicate: "Cette adresse email est déjà inscrite sur ce créneau.",
+  full: "Cette séance est complète. Choisis une autre date ou écris-nous pour la liste d'attente.",
+  duplicate: "Cette adresse email est déjà inscrite sur cette séance.",
   past: "Cette séance a déjà eu lieu.",
   not_found: "Ce créneau n'est plus disponible.",
   missing_fields: "Complète ton prénom, ton nom et ton email.",
@@ -31,6 +32,15 @@ function formatDate(iso: string | null) {
     weekday: "long",
     day: "numeric",
     month: "long",
+    timeZone: "Europe/Paris",
+  }).format(new Date(iso));
+}
+
+function formatShortDate(iso: string) {
+  return new Intl.DateTimeFormat("fr-FR", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
     timeZone: "Europe/Paris",
   }).format(new Date(iso));
 }
@@ -61,6 +71,7 @@ const inputClass =
 export function CoachingBooking() {
   const queryClient = useQueryClient();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [type, setType] = useState<BookingType>("trial");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -68,7 +79,9 @@ export function CoachingBooking() {
   const [website, setWebsite] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState<{ slot: CoachingSlot; type: BookingType } | null>(null);
+  const [done, setDone] = useState<{ slot: CoachingSlot; type: BookingType; date: string | null } | null>(
+    null,
+  );
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["coaching-slots"],
@@ -77,9 +90,12 @@ export function CoachingBooking() {
   });
 
   const slots = data ?? [];
-  const bookable = (s: CoachingSlot) => s.bookingOpen && s.remaining > 0;
-  const active =
-    slots.find((s) => s.id === selectedId && bookable(s)) ?? slots.find(bookable) ?? null;
+  const bookable = (s: CoachingSlot) => s.bookingOpen && s.sessions.some((x) => x.remaining > 0);
+  const active = slots.find((s) => s.id === selectedId && bookable(s)) ?? slots.find(bookable) ?? null;
+
+  const sessions: CoachingSession[] = active?.sessions ?? [];
+  const session =
+    sessions.find((s) => s.date === selectedDate) ?? sessions.find((s) => s.remaining > 0) ?? sessions[0] ?? null;
   const price = active ? (type === "trial" ? active.trialPrice : active.subscriptionPrice) : 0;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -89,11 +105,21 @@ export function CoachingBooking() {
     if (!EMAIL_PATTERN.test(email.trim())) return setError("Entre une adresse email valide.");
     if (!active) return;
 
+    const date = type === "trial" ? (session?.date ?? null) : null;
+
     setSubmitting(true);
     try {
-      const result = await bookCoachingSlot({ slotId: active.id, type, fullName, email, phone, website });
+      const result = await bookCoachingSlot({
+        slotId: active.id,
+        type,
+        sessionDate: date,
+        fullName,
+        email,
+        phone,
+        website,
+      });
       if (!result.ok) return setError(REASONS[result.reason] ?? REASONS.rejected);
-      setDone({ slot: active, type });
+      setDone({ slot: active, type, date: date ?? sessions[0]?.date ?? null });
       setPhone("");
       queryClient.invalidateQueries({ queryKey: ["coaching-slots"] });
     } catch {
@@ -113,8 +139,8 @@ export function CoachingBooking() {
             Réserve ta place.
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Choisis ton créneau, puis une séance d'essai (15 €) ou l'abonnement (100 € / mois). Les
-            essais se font pendant les séances des abonnés, dans la limite de 6 joueurs.
+            Choisis ton créneau et ta date, puis une séance d'essai (15 €) ou l'abonnement (100 € / mois).
+            Les essais se font pendant les séances des abonnés, dans la limite de 6 joueurs.
           </p>
         </div>
 
@@ -139,6 +165,7 @@ export function CoachingBooking() {
               {slots.map((slot) => {
                 const isActive = active?.id === slot.id;
                 const disabled = !bookable(slot);
+                const next = slot.sessions[0] ?? null;
                 return (
                   <label
                     key={slot.id}
@@ -157,6 +184,7 @@ export function CoachingBooking() {
                       disabled={disabled}
                       onChange={() => {
                         setSelectedId(slot.id);
+                        setSelectedDate(null);
                         setDone(null);
                         setError(null);
                       }}
@@ -172,15 +200,16 @@ export function CoachingBooking() {
                     </div>
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <span className="text-sm text-muted-foreground">{slot.location}</span>
-                      {slot.bookingOpen ? (
-                        <Places remaining={slot.remaining} capacity={slot.capacity} />
+                      {slot.bookingOpen && next ? (
+                        <Places remaining={next.remaining} capacity={next.capacity} />
                       ) : (
                         <span className="text-xs text-muted-foreground">Ouverture prochainement</span>
                       )}
                     </div>
-                    {slot.bookingOpen && slot.nextSessionAt ? (
+                    {slot.bookingOpen && slot.sessions.length > 0 ? (
                       <span className="text-xs text-muted-foreground">
-                        Prochaine séance : {formatDate(slot.nextSessionAt)}
+                        Prochaines séances :{" "}
+                        {slot.sessions.map((s) => formatShortDate(s.at)).join(" · ")}
                       </span>
                     ) : null}
                   </label>
@@ -195,9 +224,7 @@ export function CoachingBooking() {
                   {done.type === "trial" ? "Séance d'essai" : "Abonnement"} · {done.slot.dayLabel}
                 </h3>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {done.type === "trial" && done.slot.nextSessionAt
-                    ? `${formatDate(done.slot.nextSessionAt)} · `
-                    : ""}
+                  {done.date ? `${formatDate(done.date)} · ` : ""}
                   {done.slot.timeLabel} · {done.slot.location}
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
@@ -253,6 +280,49 @@ export function CoachingBooking() {
                   ))}
                 </div>
 
+                {type === "trial" && sessions.length > 0 ? (
+                  <div role="radiogroup" aria-label="Date de la séance">
+                    <span className="text-xs font-medium uppercase text-muted-foreground">
+                      Date de la séance
+                    </span>
+                    <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                      {sessions.map((s) => {
+                        const isOn = session?.date === s.date;
+                        const full = s.remaining === 0;
+                        return (
+                          <button
+                            key={s.date}
+                            type="button"
+                            role="radio"
+                            aria-checked={isOn}
+                            disabled={full}
+                            onClick={() => {
+                              setSelectedDate(s.date);
+                              setError(null);
+                            }}
+                            className={`rounded-md border px-3 py-3 text-left transition-colors ${
+                              full
+                                ? "cursor-not-allowed border-border/40 opacity-50"
+                                : isOn
+                                  ? "border-primary bg-primary/10"
+                                  : "border-border/60 hover:border-primary/40"
+                            }`}
+                          >
+                            <span className="block text-sm font-semibold text-foreground">
+                              {formatShortDate(s.at)}
+                            </span>
+                            <span className="block text-xs text-muted-foreground">
+                              {s.remaining === 0
+                                ? "Complet"
+                                : `${s.remaining} place${s.remaining > 1 ? "s" : ""}`}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : null}
+
                 <div>
                   <label htmlFor="coaching-name" className="text-xs font-medium uppercase text-muted-foreground">
                     Prénom et nom du joueur
@@ -295,8 +365,10 @@ export function CoachingBooking() {
                 </button>
                 <p className="text-xs text-muted-foreground">
                   {type === "trial"
-                    ? "L'essai a lieu à la prochaine séance du créneau choisi."
-                    : "Premier mois payé à l'inscription, puis prélevé chaque mois à la même date."}{" "}
+                    ? "Choisis la date qui t'arrange parmi les prochaines séances."
+                    : `Ta place est réservée pour la saison, dès le ${
+                        sessions[0] ? formatDate(sessions[0].at) : "prochain créneau"
+                      }.`}{" "}
                   Tes coordonnées servent uniquement à Florian pour organiser la séance.
                 </p>
               </form>
