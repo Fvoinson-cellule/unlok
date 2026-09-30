@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 import {
@@ -394,7 +395,7 @@ export function CoachingBooking() {
                   {type === "trial"
                     ? "Choisis la date qui t'arrange parmi les prochaines séances."
                     : `Ta place est réservée pour la saison, dès le ${
-                        sessions[0] ? formatDate(sessions[0].at) : "prochain créneau"
+                        session ? formatDate(session.at) : "prochain créneau"
                       }.`}{" "}
                   Tes coordonnées servent uniquement à Florian pour organiser la séance.
                 </p>
