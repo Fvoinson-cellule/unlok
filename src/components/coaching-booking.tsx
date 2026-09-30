@@ -247,7 +247,10 @@ export function CoachingBooking() {
                 </a>
                 <button
                   type="button"
-                  onClick={() => setDone(null)}
+                  onClick={() => {
+                    setDone(null);
+                    setAcceptTerms(false);
+                  }}
                   className="mt-3 block text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
                 >
                   Inscrire quelqu'un d'autre
