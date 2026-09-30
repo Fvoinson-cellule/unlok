@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 import {
@@ -77,6 +78,7 @@ export function CoachingBooking() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [website, setWebsite] = useState("");
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState<{ slot: CoachingSlot; type: BookingType; date: string | null } | null>(
@@ -104,9 +106,10 @@ export function CoachingBooking() {
     setError(null);
     if (fullName.trim().length < 2) return setError("Indique ton prénom et ton nom.");
     if (!EMAIL_PATTERN.test(email.trim())) return setError("Entre une adresse email valide.");
+    if (!acceptTerms) return setError("Merci d'accepter les conditions générales de vente pour continuer.");
     if (!active) return;
 
-    const date = type === "trial" ? (session?.date ?? null) : null;
+    const date = session?.date ?? null;
 
     setSubmitting(true);
     try {
@@ -244,7 +247,10 @@ export function CoachingBooking() {
                 </a>
                 <button
                   type="button"
-                  onClick={() => setDone(null)}
+                  onClick={() => {
+                    setDone(null);
+                    setAcceptTerms(false);
+                  }}
                   className="mt-3 block text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
                 >
                   Inscrire quelqu'un d'autre
@@ -281,10 +287,10 @@ export function CoachingBooking() {
                   ))}
                 </div>
 
-                {type === "trial" && sessions.length > 0 ? (
+                {sessions.length > 0 ? (
                   <div role="radiogroup" aria-label="Date de la séance">
                     <span className="text-xs font-medium uppercase text-muted-foreground">
-                      Date de la séance
+                      {type === "trial" ? "Date de la séance" : "Première séance"}
                     </span>
                     <div className="mt-2 grid gap-2 sm:grid-cols-2">
                       {sessions.map((s) => {
@@ -353,11 +359,35 @@ export function CoachingBooking() {
                   className="absolute left-[-9999px] h-0 w-0 opacity-0"
                 />
 
+                <label htmlFor="coaching-cgv" className="flex items-start gap-3 text-xs text-muted-foreground">
+                  <input
+                    id="coaching-cgv"
+                    type="checkbox"
+                    checked={acceptTerms}
+                    onChange={(e) => {
+                      setAcceptTerms(e.target.checked);
+                      setError(null);
+                    }}
+                    className="mt-0.5 size-4 shrink-0 accent-[var(--color-primary)]"
+                  />
+                  <span>
+                    J'ai lu et j'accepte les{" "}
+                    <Link
+                      to="/cgv"
+                      target="_blank"
+                      className="text-primary underline underline-offset-4"
+                    >
+                      conditions générales de vente
+                    </Link>
+                    .
+                  </span>
+                </label>
+
                 {error ? <p className="text-xs text-primary">{error}</p> : null}
 
                 <button
                   type="submit"
-                  disabled={submitting || !active}
+                  disabled={submitting || !active || !acceptTerms}
                   className="w-full rounded-md bg-primary px-6 py-3 text-sm font-semibold uppercase text-primary-foreground shadow-glow transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {submitting
@@ -368,7 +398,7 @@ export function CoachingBooking() {
                   {type === "trial"
                     ? "Choisis la date qui t'arrange parmi les prochaines séances."
                     : `Ta place est réservée pour la saison, dès le ${
-                        sessions[0] ? formatDate(sessions[0].at) : "prochain créneau"
+                        session ? formatDate(session.at) : "prochain créneau"
                       }.`}{" "}
                   Tes coordonnées servent uniquement à Florian pour organiser la séance.
                 </p>

@@ -7,3 +7,5 @@
 - [x] Harmoniser abonnement, données personnelles et médiation dans les informations légales.
 - [x] Vérifier les pages juridiques et l’affichage après modification.
 - [x] Unifier les inscriptions séance d’essai et abonnement sur les créneaux réguliers, avec 6 places partagées.
+- [x] Rendre obligatoire l’acceptation des CGV avant de valider une inscription.
+- [x] Permettre de choisir la date de première séance aussi pour l’abonnement.
