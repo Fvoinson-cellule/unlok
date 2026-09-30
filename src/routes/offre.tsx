@@ -111,13 +111,33 @@ function Offre() {
               Un coaching individuel en petit groupe (6 joueurs max), en complément du club, pour
               progresser sur ce qui fait vraiment la différence en match.
             </p>
-            <div className="mt-8 rise" style={{ animationDelay: "0.2s" }}>
+            <div
+              className="mt-8 flex flex-wrap items-center gap-4 rise"
+              style={{ animationDelay: "0.2s" }}
+            >
               <a
                 href="#formules"
                 className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
               >
                 Choisir ma formule
                 <span>→</span>
+              </a>
+              <a
+                href="#coaching-prive"
+                className="flex aspect-square w-40 flex-col justify-between rounded-2xl bg-glass p-4 ring-1 ring-white/10 backdrop-blur-md transition-all hover:-translate-y-1 hover:ring-primary/60"
+              >
+                <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-primary">
+                  Coaching privé
+                </span>
+                <span>
+                  <span className="block font-display text-xl leading-tight tracking-tight">
+                    Sur demande
+                  </span>
+                  <span className="mt-1 block text-xs text-muted-foreground">
+                    dès 30€ par personne
+                  </span>
+                </span>
+                <span aria-hidden="true" className="text-primary">→</span>
               </a>
             </div>
           </div>
@@ -193,7 +213,10 @@ function Offre() {
       </section>
 
       {/* PRIVATE COACHING */}
-      <section className="border-b border-border bg-court text-court-foreground">
+      <section
+        id="coaching-prive"
+        className="scroll-mt-20 border-b border-border bg-court text-court-foreground"
+      >
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-end">
             <div>
