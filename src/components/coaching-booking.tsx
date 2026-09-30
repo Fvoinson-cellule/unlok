@@ -16,7 +16,7 @@ const MAILTO = "mailto:unlok.basketball@gmail.com?subject=Inscription%20UNLOK";
 
 const REASONS: Record<CoachingReason, string> = {
   full: "Cette séance est complète. Choisis une autre date ou écris-nous pour la liste d'attente.",
-  duplicate: "Cette adresse email est déjà inscrite sur cette séance.",
+  duplicate: "Cette adresse email est déjà inscrite sur ce créneau. Une seule séance d'essai par personne.",
   past: "Cette séance a déjà eu lieu.",
   not_found: "Ce créneau n'est plus disponible.",
   missing_fields: "Complète ton prénom, ton nom et ton email.",
