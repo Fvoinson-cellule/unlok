@@ -71,6 +71,13 @@
       "when": 1790699860742,
       "tag": "0009_coaching_views_count_bookings",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1790757001214,
+      "tag": "0010_one_trial_per_email_per_slot",
+      "breakpoints": true
     }
   ]
 }
