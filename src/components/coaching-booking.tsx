@@ -355,11 +355,35 @@ export function CoachingBooking() {
                   className="absolute left-[-9999px] h-0 w-0 opacity-0"
                 />
 
+                <label htmlFor="coaching-cgv" className="flex items-start gap-3 text-xs text-muted-foreground">
+                  <input
+                    id="coaching-cgv"
+                    type="checkbox"
+                    checked={acceptTerms}
+                    onChange={(e) => {
+                      setAcceptTerms(e.target.checked);
+                      setError(null);
+                    }}
+                    className="mt-0.5 size-4 shrink-0 accent-[var(--color-primary)]"
+                  />
+                  <span>
+                    J'ai lu et j'accepte les{" "}
+                    <Link
+                      to="/cgv"
+                      target="_blank"
+                      className="text-primary underline underline-offset-4"
+                    >
+                      conditions générales de vente
+                    </Link>
+                    .
+                  </span>
+                </label>
+
                 {error ? <p className="text-xs text-primary">{error}</p> : null}
 
                 <button
                   type="submit"
-                  disabled={submitting || !active}
+                  disabled={submitting || !active || !acceptTerms}
                   className="w-full rounded-md bg-primary px-6 py-3 text-sm font-semibold uppercase text-primary-foreground shadow-glow transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {submitting
