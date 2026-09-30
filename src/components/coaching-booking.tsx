@@ -77,6 +77,7 @@ export function CoachingBooking() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [website, setWebsite] = useState("");
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState<{ slot: CoachingSlot; type: BookingType; date: string | null } | null>(
@@ -104,9 +105,10 @@ export function CoachingBooking() {
     setError(null);
     if (fullName.trim().length < 2) return setError("Indique ton prénom et ton nom.");
     if (!EMAIL_PATTERN.test(email.trim())) return setError("Entre une adresse email valide.");
+    if (!acceptTerms) return setError("Merci d'accepter les conditions générales de vente pour continuer.");
     if (!active) return;
 
-    const date = type === "trial" ? (session?.date ?? null) : null;
+    const date = session?.date ?? null;
 
     setSubmitting(true);
     try {
