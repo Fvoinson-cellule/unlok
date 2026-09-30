@@ -122,6 +122,9 @@ function Index() {
                 >
                   Découvrir la méthode
                 </a>
+              </div>
+
+              <div className="mt-6 rise" style={{ animationDelay: "0.25s" }}>
                 <Link
                   to="/offre"
                   hash="coaching-prive"
