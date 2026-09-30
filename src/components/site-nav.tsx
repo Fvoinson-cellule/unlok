@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import logoUrl from "@/assets/unlok-logo.png";
 
 const navBtn =
-  "inline-flex items-center rounded-lg border border-primary bg-background px-4 py-2 text-foreground transition-all hover:-translate-y-0.5 hover:shadow-glow";
+  "inline-flex items-center whitespace-nowrap rounded-lg border border-primary bg-background px-4 py-2 text-foreground transition-all hover:-translate-y-0.5 hover:shadow-glow";
 
 function InstagramIcon({ className = "" }: { className?: string }) {
   return (
@@ -49,14 +49,14 @@ export function SiteNav() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram Unlok"
-            className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:text-primary hover:border-primary border border-transparent transition-colors"
+            className="hidden lg:inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:text-primary hover:border-primary border border-transparent transition-colors"
           >
             <InstagramIcon className="h-5 w-5" />
           </a>
           <a
             href="mailto:unlok.basketball@gmail.com"
             aria-label="Écrire à Unlok"
-            className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:text-primary hover:border-primary border border-transparent transition-colors"
+            className="hidden lg:inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:text-primary hover:border-primary border border-transparent transition-colors"
           >
             <MailIcon className="h-5 w-5" />
           </a>
