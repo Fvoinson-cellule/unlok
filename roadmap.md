@@ -11,3 +11,4 @@
 - [x] Permettre de choisir la date de première séance aussi pour l’abonnement.
 - [x] Ajouter l’offre de coaching privé sur demande, avec tarifs dégressifs et prise de contact.
 - [x] Ajouter un carré d’accès au coaching privé en haut de l’accueil et de la page Tarifs.
+- [x] Ajouter un bouton « Coaching privé » dans la barre du haut, à côté de Tarifs.
