@@ -10,13 +10,13 @@ export const Route = createFileRoute("/offre")({
       {
         name: "description",
         content:
-          "Les formules Unlok : séance découverte 15 € (lundi 28/09 à Kaysersberg, mercredi 30/09 à Strasbourg), abonnement mensuel 100 €, carte 5 séances 250 €, carte 10 séances 400 €. Saison 2026-2027, Alsace.",
+          "Les formules Unlok : séance découverte, abonnement mensuel, cartes de séances et coaching privé sur demande, seul ou entre amis. Saison 2026-2027, Alsace.",
       },
       { property: "og:title", content: "Tarifs & formules · Unlok" },
       {
         property: "og:description",
         content:
-          "Quatre formules pour commencer : séance découverte, abonnement mensuel, cartes de séances. Paiement sécurisé via Stripe.",
+          "Séance découverte, abonnement mensuel, cartes de séances et coaching privé sur demande en Alsace.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -189,6 +189,72 @@ function Offre() {
             <Link to="/cgv" className="underline hover:text-foreground">conditions générales de vente</Link>.
             {" "}Paiement sécurisé par Stripe. Prix nets, TVA non applicable, art. 293 B du CGI.
           </p>
+        </div>
+      </section>
+
+      {/* PRIVATE COACHING */}
+      <section className="border-b border-border bg-court text-court-foreground">
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-end">
+            <div>
+              <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">
+                Coaching privé · U13 à seniors
+              </div>
+              <h2 className="mt-4 font-display text-5xl tracking-tight text-balance md:text-6xl">
+                Une séance construite autour de tes besoins.
+              </h2>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-court-foreground/70 text-pretty">
+                Réserve une séance individuelle ou viens avec tes amis, jusqu'à 6 personnes. Nous
+                définissons ensemble l'objectif, la date et le lieu en Alsace.
+              </p>
+            </div>
+
+            <div className="border-y border-court-foreground/20">
+              {[
+                ["1 à 2 personnes", "50 €", "par personne"],
+                ["3 à 4 personnes", "40 €", "par personne"],
+                ["5 à 6 personnes", "30 €", "par personne"],
+              ].map(([group, price, unit], index) => (
+                <div
+                  key={group}
+                  className="grid grid-cols-[2rem_minmax(0,1fr)_auto] items-center gap-4 border-b border-court-foreground/20 py-5 last:border-b-0 sm:grid-cols-[3rem_minmax(0,1fr)_auto]"
+                >
+                  <span className="font-mono text-xs text-primary">0{index + 1}</span>
+                  <span className="font-display text-xl tracking-tight sm:text-2xl">{group}</span>
+                  <span className="text-right">
+                    <strong className="block font-display text-3xl text-primary sm:text-4xl">{price}</strong>
+                    <span className="text-xs text-court-foreground/60">{unit}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-12 flex flex-col gap-5 border-t border-court-foreground/20 pt-8 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-display text-2xl tracking-tight">Lieu à définir · Alsace</p>
+              <p className="mt-1 text-sm text-court-foreground/60">
+                Écris-moi pour échanger sur tes besoins et organiser la séance.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="https://www.instagram.com/unlok.basketball/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
+              >
+                Envoyer un DM
+                <span>→</span>
+              </a>
+              <a
+                href="mailto:unlok.basketball@gmail.com?subject=Demande%20de%20coaching%20priv%C3%A9"
+                className="inline-flex items-center rounded-lg border border-court-foreground/30 px-5 py-3 text-sm font-semibold transition-colors hover:bg-court-foreground/10"
+              >
+                Écrire par email
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 

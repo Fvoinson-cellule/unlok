@@ -9,3 +9,4 @@
 - [x] Unifier les inscriptions séance d’essai et abonnement sur les créneaux réguliers, avec 6 places partagées.
 - [x] Rendre obligatoire l’acceptation des CGV avant de valider une inscription.
 - [x] Permettre de choisir la date de première séance aussi pour l’abonnement.
+- [x] Ajouter l’offre de coaching privé sur demande, avec tarifs dégressifs et prise de contact.
