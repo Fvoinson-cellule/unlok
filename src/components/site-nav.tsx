@@ -41,6 +41,7 @@ export function SiteNav() {
           <Link to="/" hash="methode" className={navBtn}>Méthode</Link>
           <Link to="/" hash="preuves" className={navBtn}>Cadre</Link>
           <Link to="/offre" className={navBtn}>Tarifs</Link>
+          <Link to="/offre" hash="coaching-prive" className={navBtn}>Coaching privé</Link>
         </nav>
         <div className="flex items-center gap-3">
           <a
