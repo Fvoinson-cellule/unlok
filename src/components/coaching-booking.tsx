@@ -283,10 +283,10 @@ export function CoachingBooking() {
                   ))}
                 </div>
 
-                {type === "trial" && sessions.length > 0 ? (
+                {sessions.length > 0 ? (
                   <div role="radiogroup" aria-label="Date de la séance">
                     <span className="text-xs font-medium uppercase text-muted-foreground">
-                      Date de la séance
+                      {type === "trial" ? "Date de la séance" : "Première séance"}
                     </span>
                     <div className="mt-2 grid gap-2 sm:grid-cols-2">
                       {sessions.map((s) => {
