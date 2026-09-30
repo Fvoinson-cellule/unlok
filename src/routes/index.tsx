@@ -123,6 +123,27 @@ function Index() {
                   Découvrir la méthode
                 </a>
               </div>
+
+              <div className="mt-6 rise" style={{ animationDelay: "0.25s" }}>
+                <Link
+                  to="/offre"
+                  hash="coaching-prive"
+                  className="flex aspect-square w-40 flex-col justify-between rounded-2xl bg-glass p-4 ring-1 ring-white/10 backdrop-blur-md transition-all hover:-translate-y-1 hover:ring-primary/60"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-primary">
+                    Coaching privé
+                  </span>
+                  <span>
+                    <span className="block font-display text-xl leading-tight tracking-tight">
+                      Sur demande
+                    </span>
+                    <span className="mt-1 block text-xs text-muted-foreground">
+                      dès 30€ par personne
+                    </span>
+                  </span>
+                  <span aria-hidden="true" className="text-primary">→</span>
+                </Link>
+              </div>
             </div>
 
             {/* Colonne portrait */}
