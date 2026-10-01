@@ -4,7 +4,9 @@ import { useState } from "react";
 
 import {
   bookCoachingSlot,
+  getCardBalance,
   listCoachingSlots,
+  CARD_OFFERS,
   type BookingType,
   type CoachingReason,
   type CoachingSession,
@@ -16,14 +18,15 @@ const MAILTO = "mailto:unlok.basketball@gmail.com?subject=Inscription%20UNLOK";
 
 const REASONS: Record<CoachingReason, string> = {
   full: "Cette séance est complète. Choisis une autre date ou écris-nous pour la liste d'attente.",
-  duplicate: "Cette adresse email est déjà inscrite sur ce créneau. Une seule séance d'essai par personne.",
+  duplicate: "Cette adresse email est déjà inscrite sur ce créneau.",
   past: "Cette séance a déjà eu lieu.",
   not_found: "Ce créneau n'est plus disponible.",
   missing_fields: "Complète ton prénom, ton nom et ton email.",
   invalid_email: "Cette adresse email n'est pas valide.",
-  invalid_type: "Choisis séance d'essai ou abonnement.",
+  invalid_type: "Choisis une formule.",
   schedule_pending: "L'horaire de ce créneau n'est pas encore fixé.",
   season_ended: "La saison est terminée pour ce créneau.",
+  no_card: "Aucune carte active avec cet email. Choisis une carte 5 ou 10 séances pour continuer.",
   rejected: "Ton inscription n'a pas pu être enregistrée. Écris-nous directement.",
 };
 
@@ -69,6 +72,14 @@ function Places({ remaining, capacity }: { remaining: number; capacity: number }
 const inputClass =
   "mt-2 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus-visible:border-primary";
 
+type Done = {
+  slot: CoachingSlot;
+  type: BookingType;
+  date: string | null;
+  cardRemaining: number | null;
+  cardExpiresOn: string | null;
+};
+
 export function CoachingBooking() {
   const queryClient = useQueryClient();
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -81,14 +92,20 @@ export function CoachingBooking() {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState<{ slot: CoachingSlot; type: BookingType; date: string | null } | null>(
-    null,
-  );
+  const [lookupEmail, setLookupEmail] = useState<string | null>(null);
+  const [done, setDone] = useState<Done | null>(null);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["coaching-slots"],
     queryFn: listCoachingSlots,
     staleTime: 20_000,
+  });
+
+  const balanceQuery = useQuery({
+    queryKey: ["card-balance", lookupEmail],
+    queryFn: () => getCardBalance(lookupEmail as string),
+    enabled: type === "card_session" && Boolean(lookupEmail),
+    staleTime: 10_000,
   });
 
   const slots = data ?? [];
@@ -99,7 +116,31 @@ export function CoachingBooking() {
   const sessions: CoachingSession[] = active ? slotSessions(active) : [];
   const session =
     sessions.find((s) => s.date === selectedDate) ?? sessions.find((s) => s.remaining > 0) ?? sessions[0] ?? null;
-  const price = active ? (type === "trial" ? active.trialPrice : active.subscriptionPrice) : 0;
+
+  const price =
+    type === "trial"
+      ? (active?.trialPrice ?? 15)
+      : type === "subscription"
+        ? (active?.subscriptionPrice ?? 100)
+        : type === "card_session"
+          ? 0
+          : CARD_OFFERS[type].price;
+
+  const balance = balanceQuery.data;
+
+  function paymentUrl(d: Done) {
+    if (d.type === "trial") return d.slot.trialUrl;
+    if (d.type === "subscription") return d.slot.subscriptionUrl;
+    if (d.type === "card5" || d.type === "card10") return CARD_OFFERS[d.type].stripeUrl;
+    return null;
+  }
+
+  function formulaLabel(t: BookingType) {
+    if (t === "trial") return "Séance d'essai";
+    if (t === "subscription") return "Abonnement";
+    if (t === "card_session") return "Séance sur carte";
+    return CARD_OFFERS[t].label;
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -123,9 +164,16 @@ export function CoachingBooking() {
         website,
       });
       if (!result.ok) return setError(REASONS[result.reason] ?? REASONS.rejected);
-      setDone({ slot: active, type, date: date ?? sessions[0]?.date ?? null });
+      setDone({
+        slot: active,
+        type,
+        date: date ?? sessions[0]?.date ?? null,
+        cardRemaining: result.cardRemaining,
+        cardExpiresOn: result.cardExpiresOn,
+      });
       setPhone("");
       queryClient.invalidateQueries({ queryKey: ["coaching-slots"] });
+      queryClient.invalidateQueries({ queryKey: ["card-balance"] });
     } catch {
       setError("Le serveur n'a pas répondu. Réessaie dans un instant ou écris-nous.");
     } finally {
@@ -143,8 +191,8 @@ export function CoachingBooking() {
             Réserve ta place.
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Choisis ton créneau et ta date, puis une séance d'essai (15 €) ou l'abonnement (100 € / mois).
-            Les essais se font pendant les séances des abonnés, dans la limite de 6 joueurs.
+            Choisis ton créneau et ta date, puis ta formule : séance d'essai, abonnement, carte de 5 ou 10
+            séances. Si tu as déjà une carte, réserve directement avec ton solde, dans la limite de 6 joueurs.
           </p>
         </div>
 
@@ -225,26 +273,69 @@ export function CoachingBooking() {
               <div className="rounded-lg border border-primary/50 bg-card p-6">
                 <p className="text-xs font-medium uppercase text-primary">Place réservée</p>
                 <h3 className="mt-3 font-display text-2xl font-bold uppercase text-foreground">
-                  {done.type === "trial" ? "Séance d'essai" : "Abonnement"} · {done.slot.dayLabel}
+                  {formulaLabel(done.type)} · {done.slot.dayLabel}
                 </h3>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {done.date ? `${formatDate(done.date)} · ` : ""}
                   {done.slot.timeLabel} · {done.slot.location}
                 </p>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  Ta place est bloquée. Termine en réglant le paiement pour la confirmer.
-                </p>
-                <a
-                  href={done.type === "trial" ? done.slot.trialUrl : done.slot.subscriptionUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-5 inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-semibold uppercase text-primary-foreground shadow-glow transition hover:brightness-110"
-                >
-                  Payer{" "}
-                  {done.type === "trial"
-                    ? `${done.slot.trialPrice} €`
-                    : `${done.slot.subscriptionPrice} € / mois`}
-                </a>
+
+                {done.type === "card_session" ? (
+                  <>
+                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                      Séance décomptée de ta carte. Il te reste{" "}
+                      <span className="text-foreground">
+                        {done.cardRemaining ?? 0} séance{(done.cardRemaining ?? 0) > 1 ? "s" : ""}
+                      </span>
+                      {done.cardExpiresOn ? `, valables jusqu'au ${formatDate(done.cardExpiresOn)}` : ""}.
+                    </p>
+                    {(done.cardRemaining ?? 0) === 0 ? (
+                      <div className="mt-5 space-y-2">
+                        <p className="text-sm text-foreground">Ta carte est terminée. Tu peux la renouveler :</p>
+                        <div className="flex flex-wrap gap-2">
+                          {(["card5", "card10"] as const).map((key) => (
+                            <a
+                              key={key}
+                              href={CARD_OFFERS[key].stripeUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-3 text-sm font-semibold uppercase text-primary-foreground shadow-glow transition hover:brightness-110"
+                            >
+                              {CARD_OFFERS[key].label} · {CARD_OFFERS[key].price} €
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+                  </>
+                ) : (
+                  <>
+                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                      Ta place est bloquée. Termine en réglant le paiement pour la confirmer.
+                    </p>
+                    <a
+                      href={paymentUrl(done) ?? MAILTO}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-5 inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-semibold uppercase text-primary-foreground shadow-glow transition hover:brightness-110"
+                    >
+                      Payer{" "}
+                      {done.type === "trial"
+                        ? `${done.slot.trialPrice} €`
+                        : done.type === "subscription"
+                          ? `${done.slot.subscriptionPrice} € / mois`
+                          : `${CARD_OFFERS[done.type as "card5" | "card10"].price} €`}
+                    </a>
+                    {done.type === "card5" || done.type === "card10" ? (
+                      <p className="mt-3 text-xs text-muted-foreground">
+                        Cette première séance est déjà décomptée. Il te restera{" "}
+                        {done.cardRemaining ?? 0} séance{(done.cardRemaining ?? 0) > 1 ? "s" : ""} à poser quand
+                        tu veux.
+                      </p>
+                    ) : null}
+                  </>
+                )}
+
                 <button
                   type="button"
                   onClick={() => {
@@ -266,7 +357,18 @@ export function CoachingBooking() {
                   {(
                     [
                       ["trial", "Séance d'essai", active ? `${active.trialPrice} €` : "15 €"],
-                      ["subscription", "Abonnement", active ? `${active.subscriptionPrice} € / mois` : "100 € / mois"],
+                      [
+                        "subscription",
+                        "Abonnement",
+                        active ? `${active.subscriptionPrice} € / mois` : "100 € / mois",
+                      ],
+                      ["card5", CARD_OFFERS.card5.label, `${CARD_OFFERS.card5.price} € · ${CARD_OFFERS.card5.unit}`],
+                      [
+                        "card10",
+                        CARD_OFFERS.card10.label,
+                        `${CARD_OFFERS.card10.price} € · ${CARD_OFFERS.card10.unit}`,
+                      ],
+                      ["card_session", "J'ai déjà une carte", "Utiliser mon solde"],
                     ] as const
                   ).map(([value, label, sub]) => (
                     <button
@@ -274,8 +376,13 @@ export function CoachingBooking() {
                       type="button"
                       role="radio"
                       aria-checked={type === value}
-                      onClick={() => setType(value)}
+                      onClick={() => {
+                        setType(value);
+                        setError(null);
+                      }}
                       className={`rounded-md border px-3 py-3 text-left transition-colors ${
+                        value === "card_session" ? "col-span-2" : ""
+                      } ${
                         type === value
                           ? "border-primary bg-primary/10"
                           : "border-border/60 hover:border-primary/40"
@@ -290,7 +397,7 @@ export function CoachingBooking() {
                 {sessions.length > 0 ? (
                   <div role="radiogroup" aria-label="Date de la séance">
                     <span className="text-xs font-medium uppercase text-muted-foreground">
-                      {type === "trial" ? "Date de la séance" : "Première séance"}
+                      {type === "subscription" ? "Première séance" : "Date de la séance"}
                     </span>
                     <div className="mt-2 grid gap-2 sm:grid-cols-2">
                       {sessions.map((s) => {
@@ -340,8 +447,56 @@ export function CoachingBooking() {
                   <label htmlFor="coaching-email" className="text-xs font-medium uppercase text-muted-foreground">
                     Email
                   </label>
-                  <input id="coaching-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={160} autoComplete="email" className={inputClass} />
+                  <input
+                    id="coaching-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onBlur={() => {
+                      const v = email.trim();
+                      setLookupEmail(EMAIL_PATTERN.test(v) ? v : null);
+                    }}
+                    maxLength={160}
+                    autoComplete="email"
+                    className={inputClass}
+                  />
                 </div>
+
+                {type === "card_session" ? (
+                  <div className="rounded-md border border-border/60 bg-background/60 p-4 text-xs">
+                    {!lookupEmail ? (
+                      <p className="text-muted-foreground">
+                        Entre l'email utilisé lors de l'achat de ta carte pour voir ton solde.
+                      </p>
+                    ) : balanceQuery.isPending ? (
+                      <p className="text-muted-foreground">Recherche de ta carte…</p>
+                    ) : balance?.found ? (
+                      <p className="text-foreground">
+                        Il te reste {balance.remaining} séance{balance.remaining > 1 ? "s" : ""}, valable
+                        {balance.remaining > 1 ? "s" : ""} jusqu'au {formatDate(balance.expiresOn)}.
+                      </p>
+                    ) : (
+                      <div className="space-y-2">
+                        <p className="text-muted-foreground">
+                          Aucune carte active avec cet email. Tu peux en prendre une :
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {(["card5", "card10"] as const).map((key) => (
+                            <button
+                              key={key}
+                              type="button"
+                              onClick={() => setType(key)}
+                              className="rounded-md border border-primary/60 px-3 py-2 text-xs font-semibold uppercase text-foreground hover:bg-primary/10"
+                            >
+                              {CARD_OFFERS[key].label} · {CARD_OFFERS[key].price} €
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : null}
+
                 <div>
                   <label htmlFor="coaching-phone" className="text-xs font-medium uppercase text-muted-foreground">
                     Téléphone (facultatif)
@@ -392,14 +547,20 @@ export function CoachingBooking() {
                 >
                   {submitting
                     ? "Envoi en cours"
-                    : `Valider · ${price} €${type === "subscription" ? " / mois" : ""}`}
+                    : type === "card_session"
+                      ? "Réserver avec ma carte"
+                      : `Valider · ${price} €${type === "subscription" ? " / mois" : ""}`}
                 </button>
                 <p className="text-xs text-muted-foreground">
-                  {type === "trial"
-                    ? "Choisis la date qui t'arrange parmi les prochaines séances."
-                    : `Ta place est réservée pour la saison, dès le ${
+                  {type === "subscription"
+                    ? `Ta place est réservée pour la saison, dès le ${
                         session ? formatDate(session.at) : "prochain créneau"
-                      }.`}{" "}
+                      }.`
+                    : type === "card_session"
+                      ? "Aucun paiement : la séance est décomptée de ta carte."
+                      : type === "trial"
+                        ? "Choisis la date qui t'arrange parmi les prochaines séances."
+                        : "Ta carte est valable 5 mois. La séance choisie est la première décomptée."}{" "}
                   Tes coordonnées servent uniquement à Florian pour organiser la séance.
                 </p>
               </form>
