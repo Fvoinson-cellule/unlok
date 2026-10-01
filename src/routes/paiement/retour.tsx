@@ -6,9 +6,10 @@ import { getBookingByCheckoutSession } from "@/lib/payments.functions";
 type RetourSearch = { session_id?: string };
 
 export const Route = createFileRoute("/paiement/retour")({
-  validateSearch: (search: Record<string, unknown>): RetourSearch => ({
-    session_id: typeof search.session_id === "string" ? search.session_id : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): RetourSearch => {
+    const value = search['session_id'];
+    return typeof value === "string" ? { session_id: value } : {};
+  },
   head: () => ({
     meta: [
       { title: "Paiement confirmé · UNLOK" },

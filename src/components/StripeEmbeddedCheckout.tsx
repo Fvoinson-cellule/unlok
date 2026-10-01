@@ -1,5 +1,5 @@
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from "@stripe/react-stripe-js";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, getStripeEnvironment } from "@/lib/stripe";
 import { createCheckoutSession } from "@/lib/payments.functions";
 
 interface StripeEmbeddedCheckoutProps {
@@ -39,19 +39,12 @@ export function StripeEmbeddedCheckout({
     return result.clientSecret;
   };
 
+  // Après paiement, Stripe redirige lui-même vers return_url
+  // (/paiement/retour?session_id=…). Aucun onComplete : une navigation
+  // concurrente casserait la redirection du formulaire.
   return (
     <div className={className}>
-      <EmbeddedCheckoutProvider
-        stripe={getStripe()}
-        options={{
-          fetchClientSecret,
-          onComplete: () => {
-            window.location.assign(
-              `/paiement/retour?booking_id=${bookingId}`,
-            );
-          },
-        }}
-      >
+      <EmbeddedCheckoutProvider stripe={getStripe()} options={{ fetchClientSecret }}>
         <EmbeddedCheckout />
       </EmbeddedCheckoutProvider>
     </div>

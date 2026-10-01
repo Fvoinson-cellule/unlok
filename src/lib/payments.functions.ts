@@ -82,8 +82,6 @@ export const getBookingByCheckoutSession = createServerFn({ method: "GET" })
   })
   .handler(async ({ data }) => {
     const { createClient } = await import("@supabase/supabase-js");
-    const { default: supabaseTypes } = {} as never;
-    void supabaseTypes;
     const supabase = createClient(
       process.env['SUPABASE_URL']!,
       process.env['SUPABASE_SERVICE_ROLE_KEY']!,
