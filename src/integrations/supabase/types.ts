@@ -18,35 +18,47 @@ export type Database = {
         Row: {
           booking_type: string
           card_id: string | null
+          checkout_session_id: string | null
           created_at: string
           email: string
           full_name: string
           id: string
+          paid_at: string | null
+          pending_card_type: string | null
           phone: string | null
           session_date: string | null
           slot_id: string
+          stripe_subscription_id: string | null
         }
         Insert: {
           booking_type: string
           card_id?: string | null
+          checkout_session_id?: string | null
           created_at?: string
           email: string
           full_name: string
           id?: string
+          paid_at?: string | null
+          pending_card_type?: string | null
           phone?: string | null
           session_date?: string | null
           slot_id: string
+          stripe_subscription_id?: string | null
         }
         Update: {
           booking_type?: string
           card_id?: string | null
+          checkout_session_id?: string | null
           created_at?: string
           email?: string
           full_name?: string
           id?: string
+          paid_at?: string | null
+          pending_card_type?: string | null
           phone?: string | null
           session_date?: string | null
           slot_id?: string
+          stripe_subscription_id?: string | null
         }
         Relationships: [
           {
@@ -338,7 +350,19 @@ export type Database = {
         }
         Returns: Json
       }
+      confirm_paid_booking: {
+        Args: {
+          p_amount_cents: number
+          p_booking_id: string
+          p_checkout_session_id: string
+        }
+        Returns: Json
+      }
       get_card_balance: { Args: { p_email: string }; Returns: Json }
+      release_subscription_booking: {
+        Args: { p_booking_id: string }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
