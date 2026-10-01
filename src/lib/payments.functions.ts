@@ -58,9 +58,9 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         return_url: data.returnUrl,
         customer_email: data.customerEmail,
         metadata,
-        // Compliance handling : Stripe gère TVA, litiges, remboursements et
-        // support transactionnel pour les acheteurs des pays couverts.
-        managed_payments: { enabled: true },
+        // Séances en personne : le traitement fiscal automatique de Stripe
+        // n'est pas éligible. TVA non applicable (art. 293 B du CGI), aucun
+        // paramètre fiscal sur la session.
         ...(isRecurring && {
           subscription_data: {
             metadata: { bookingId: data.bookingId, slotId: data.slotId },
