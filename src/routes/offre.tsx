@@ -53,7 +53,7 @@ const PLANS = [
     unit: "50€ / séance",
     desc: "Séances utilisées au rythme du joueur. Aucun créneau fixe imposé. Carte valable 5 mois.",
     cta: "Réserver · 250€",
-    href: "https://buy.stripe.com/fZu14n5vJ78t9Hsd4G6sw01",
+    href: "#seance-decouverte",
     featured: false,
   },
   {
@@ -63,7 +63,7 @@ const PLANS = [
     unit: "40€ / séance",
     desc: "−20% par séance vs la carte 5. Toujours sans créneau fixe imposé. Carte valable 5 mois.",
     cta: "Réserver · 400€",
-    href: "https://buy.stripe.com/cNidR9gancsN1aWaWy6sw02",
+    href: "#seance-decouverte",
     featured: false,
   },
 ] as const;
