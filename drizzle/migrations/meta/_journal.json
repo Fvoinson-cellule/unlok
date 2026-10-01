@@ -99,6 +99,13 @@
       "when": 1790848235724,
       "tag": "0013_allow_card_session_date",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1790858717230,
+      "tag": "0014_paiement_avant_confirmation",
+      "breakpoints": true
     }
   ]
 }

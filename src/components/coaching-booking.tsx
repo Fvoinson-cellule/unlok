@@ -7,11 +7,14 @@ import {
   getCardBalance,
   listCoachingSlots,
   CARD_OFFERS,
+  PROMO_CODE,
   type BookingType,
   type CoachingReason,
   type CoachingSession,
   type CoachingSlot,
 } from "@/lib/coaching";
+import { PRICE_IDS } from "@/lib/payments.functions";
+import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
 
 const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const MAILTO = "mailto:unlok.basketball@gmail.com?subject=Inscription%20UNLOK";
@@ -80,6 +83,21 @@ type Done = {
   cardExpiresOn: string | null;
 };
 
+type Checkout = {
+  slot: CoachingSlot;
+  type: "trial" | "subscription" | "card5" | "card10";
+  date: string | null;
+  bookingId: string;
+  priceId: string;
+};
+
+function formulaLabel(t: BookingType) {
+  if (t === "trial") return "Séance d'essai";
+  if (t === "subscription") return "Abonnement";
+  if (t === "card_session") return "Séance sur carte";
+  return CARD_OFFERS[t].label;
+}
+
 export function CoachingBooking() {
   const queryClient = useQueryClient();
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -89,11 +107,13 @@ export function CoachingBooking() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [website, setWebsite] = useState("");
+  const [promoCode, setPromoCode] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [lookupEmail, setLookupEmail] = useState<string | null>(null);
   const [done, setDone] = useState<Done | null>(null);
+  const [checkout, setCheckout] = useState<Checkout | null>(null);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["coaching-slots"],
@@ -117,6 +137,9 @@ export function CoachingBooking() {
   const session =
     sessions.find((s) => s.date === selectedDate) ?? sessions.find((s) => s.remaining > 0) ?? sessions[0] ?? null;
 
+  const promo = promoCode.trim().toUpperCase();
+  const promoApplied = (type === "card5" || type === "card10") && promo === PROMO_CODE;
+
   const price =
     type === "trial"
       ? (active?.trialPrice ?? 15)
@@ -124,22 +147,16 @@ export function CoachingBooking() {
         ? (active?.subscriptionPrice ?? 100)
         : type === "card_session"
           ? 0
-          : CARD_OFFERS[type].price;
+          : promoApplied
+            ? CARD_OFFERS[type].vipPrice
+            : CARD_OFFERS[type].price;
 
   const balance = balanceQuery.data;
 
-  function paymentUrl(d: Done) {
-    if (d.type === "trial") return d.slot.trialUrl;
-    if (d.type === "subscription") return d.slot.subscriptionUrl;
-    if (d.type === "card5" || d.type === "card10") return CARD_OFFERS[d.type].stripeUrl;
-    return null;
-  }
-
-  function formulaLabel(t: BookingType) {
-    if (t === "trial") return "Séance d'essai";
-    if (t === "subscription") return "Abonnement";
-    if (t === "card_session") return "Séance sur carte";
-    return CARD_OFFERS[t].label;
+  function resetForm() {
+    setCheckout(null);
+    setDone(null);
+    setAcceptTerms(false);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -164,13 +181,32 @@ export function CoachingBooking() {
         website,
       });
       if (!result.ok) return setError(REASONS[result.reason] ?? REASONS.rejected);
-      setDone({
-        slot: active,
-        type,
-        date: date ?? sessions[0]?.date ?? null,
-        cardRemaining: result.cardRemaining,
-        cardExpiresOn: result.cardExpiresOn,
-      });
+
+      if (type === "card_session") {
+        setDone({
+          slot: active,
+          type,
+          date: date ?? sessions[0]?.date ?? null,
+          cardRemaining: result.cardRemaining,
+          cardExpiresOn: result.cardExpiresOn,
+        });
+      } else {
+        const priceId =
+          type === "trial"
+            ? PRICE_IDS.trial
+            : type === "subscription"
+              ? PRICE_IDS.subscription
+              : promoApplied
+                ? PRICE_IDS[type === "card5" ? "card5_vip" : "card10_vip"]
+                : PRICE_IDS[type];
+        setCheckout({
+          slot: active,
+          type,
+          date: date ?? sessions[0]?.date ?? null,
+          bookingId: result.bookingId,
+          priceId,
+        });
+      }
       setPhone("");
       queryClient.invalidateQueries({ queryKey: ["coaching-slots"] });
       queryClient.invalidateQueries({ queryKey: ["card-balance"] });
@@ -238,6 +274,7 @@ export function CoachingBooking() {
                         setSelectedId(slot.id);
                         setSelectedDate(null);
                         setDone(null);
+                        setCheckout(null);
                         setError(null);
                       }}
                       className="sr-only"
@@ -269,7 +306,34 @@ export function CoachingBooking() {
               })}
             </fieldset>
 
-            {done ? (
+            {checkout ? (
+              <div className="rounded-lg border border-primary/50 bg-card p-6">
+                <p className="text-xs font-medium uppercase text-primary">Paiement sécurisé</p>
+                <h3 className="mt-3 font-display text-2xl font-bold uppercase text-foreground">
+                  {formulaLabel(checkout.type)} · {checkout.slot.dayLabel}
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {checkout.date ? `${formatDate(checkout.date)} · ` : ""}
+                  {checkout.slot.timeLabel} · {checkout.slot.location}
+                </p>
+                <StripeEmbeddedCheckout
+                  priceId={checkout.priceId}
+                  customerEmail={email.trim()}
+                  bookingId={checkout.bookingId}
+                  slotId={checkout.slot.id}
+                  sessionDate={checkout.date}
+                  bookingType={checkout.type}
+                  className="mt-4"
+                />
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="mt-3 block text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                >
+                  Changer de formule
+                </button>
+              </div>
+            ) : done ? (
               <div className="rounded-lg border border-primary/50 bg-card p-6">
                 <p className="text-xs font-medium uppercase text-primary">Place réservée</p>
                 <h3 className="mt-3 font-display text-2xl font-bold uppercase text-foreground">
@@ -294,54 +358,28 @@ export function CoachingBooking() {
                         <p className="text-sm text-foreground">Ta carte est terminée. Tu peux la renouveler :</p>
                         <div className="flex flex-wrap gap-2">
                           {(["card5", "card10"] as const).map((key) => (
-                            <a
+                            <button
                               key={key}
-                              href={CARD_OFFERS[key].stripeUrl}
-                              target="_blank"
-                              rel="noreferrer"
+                              type="button"
+                              onClick={() => {
+                                setDone(null);
+                                setType(key);
+                                setAcceptTerms(false);
+                              }}
                               className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-3 text-sm font-semibold uppercase text-primary-foreground shadow-glow transition hover:brightness-110"
                             >
                               {CARD_OFFERS[key].label} · {CARD_OFFERS[key].price} €
-                            </a>
+                            </button>
                           ))}
                         </div>
                       </div>
                     ) : null}
                   </>
-                ) : (
-                  <>
-                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                      Ta place est bloquée. Termine en réglant le paiement pour la confirmer.
-                    </p>
-                    <a
-                      href={paymentUrl(done) ?? MAILTO}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-5 inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-semibold uppercase text-primary-foreground shadow-glow transition hover:brightness-110"
-                    >
-                      Payer{" "}
-                      {done.type === "trial"
-                        ? `${done.slot.trialPrice} €`
-                        : done.type === "subscription"
-                          ? `${done.slot.subscriptionPrice} € / mois`
-                          : `${CARD_OFFERS[done.type as "card5" | "card10"].price} €`}
-                    </a>
-                    {done.type === "card5" || done.type === "card10" ? (
-                      <p className="mt-3 text-xs text-muted-foreground">
-                        Cette première séance est déjà décomptée. Il te restera{" "}
-                        {done.cardRemaining ?? 0} séance{(done.cardRemaining ?? 0) > 1 ? "s" : ""} à poser quand
-                        tu veux.
-                      </p>
-                    ) : null}
-                  </>
-                )}
+                ) : null}
 
                 <button
                   type="button"
-                  onClick={() => {
-                    setDone(null);
-                    setAcceptTerms(false);
-                  }}
+                  onClick={resetForm}
                   className="mt-3 block text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
                 >
                   Inscrire quelqu'un d'autre
@@ -494,6 +532,28 @@ export function CoachingBooking() {
                         </div>
                       </div>
                     )}
+                  </div>
+                ) : null}
+
+                {type === "card5" || type === "card10" ? (
+                  <div>
+                    <label htmlFor="coaching-promo" className="text-xs font-medium uppercase text-muted-foreground">
+                      Code promo (facultatif)
+                    </label>
+                    <input
+                      id="coaching-promo"
+                      value={promoCode}
+                      onChange={(e) => setPromoCode(e.target.value)}
+                      maxLength={24}
+                      className={inputClass}
+                    />
+                    {promo && promo !== PROMO_CODE ? (
+                      <p className="mt-1 text-xs text-primary">Ce code n'est pas reconnu.</p>
+                    ) : promoApplied ? (
+                      <p className="mt-1 text-xs text-foreground">
+                        Code {PROMO_CODE} appliqué · 25 € par séance.
+                      </p>
+                    ) : null}
                   </div>
                 ) : null}
 

@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CgvRouteImport } from './routes/cgv'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as OffreRouteImport } from './routes/offre'
+import { Route as PaiementRetourRouteImport } from './routes/paiement/retour'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +36,33 @@ const OffreRoute = OffreRouteImport.update({
   path: '/offre',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PaiementRetourRoute = PaiementRetourRouteImport.update({
+  id: '/paiement/retour',
+  path: '/paiement/retour',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cgv': typeof CgvRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/offre': typeof OffreRoute
+  '/paiement/retour': typeof PaiementRetourRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cgv': typeof CgvRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/offre': typeof OffreRoute
+  '/paiement/retour': typeof PaiementRetourRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +70,34 @@ export interface FileRoutesById {
   '/cgv': typeof CgvRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/offre': typeof OffreRoute
+  '/paiement/retour': typeof PaiementRetourRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cgv' | '/mentions-legales' | '/offre'
+  fullPaths:
+    | '/'
+    | '/cgv'
+    | '/mentions-legales'
+    | '/offre'
+    | '/paiement/retour'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cgv' | '/mentions-legales' | '/offre'
-  id: '__root__' | '/' | '/cgv' | '/mentions-legales' | '/offre'
+  to:
+    | '/'
+    | '/cgv'
+    | '/mentions-legales'
+    | '/offre'
+    | '/paiement/retour'
+    | '/api/public/payments/webhook'
+  id:
+    | '__root__'
+    | '/'
+    | '/cgv'
+    | '/mentions-legales'
+    | '/offre'
+    | '/paiement/retour'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +105,8 @@ export interface RootRouteChildren {
   CgvRoute: typeof CgvRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   OffreRoute: typeof OffreRoute
+  PaiementRetourRoute: typeof PaiementRetourRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +139,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OffreRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/paiement/retour': {
+      id: '/paiement/retour'
+      path: '/paiement/retour'
+      fullPath: '/paiement/retour'
+      preLoaderRoute: typeof PaiementRetourRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +161,8 @@ const rootRouteChildren: RootRouteChildren = {
   CgvRoute: CgvRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   OffreRoute: OffreRoute,
+  PaiementRetourRoute: PaiementRetourRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
