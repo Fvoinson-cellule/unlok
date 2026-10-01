@@ -92,6 +92,13 @@
       "when": 1790848176134,
       "tag": "0012_allow_card_booking_type",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1790848235724,
+      "tag": "0013_allow_card_session_date",
+      "breakpoints": true
     }
   ]
 }
