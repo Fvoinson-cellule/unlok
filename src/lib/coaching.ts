@@ -7,7 +7,46 @@ import { supabase } from "@/integrations/supabase/client";
 
 const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-export type BookingType = "trial" | "subscription";
+export type BookingType = "trial" | "subscription" | "card5" | "card10" | "card_session";
+
+export const CARD_OFFERS = {
+  card5: {
+    label: "Carte 5 séances",
+    price: 250,
+    sessions: 5,
+    unit: "50 € / séance",
+    stripeUrl: "https://buy.stripe.com/fZu14n5vJ78t9Hsd4G6sw01",
+  },
+  card10: {
+    label: "Carte 10 séances",
+    price: 400,
+    sessions: 10,
+    unit: "40 € / séance",
+    stripeUrl: "https://buy.stripe.com/cNidR9gancsN1aWaWy6sw02",
+  },
+} as const;
+
+export type CardBalance =
+  | { found: false }
+  | { found: true; remaining: number; expiresOn: string; fullName: string };
+
+export async function getCardBalance(email: string): Promise<CardBalance> {
+  const { data, error } = await supabase.rpc("get_card_balance", { p_email: email.trim() });
+  if (error) throw error;
+  const row = (data ?? {}) as {
+    found?: boolean;
+    remaining?: number;
+    expires_on?: string;
+    full_name?: string;
+  };
+  if (!row.found) return { found: false };
+  return {
+    found: true,
+    remaining: row.remaining ?? 0,
+    expiresOn: row.expires_on ?? "",
+    fullName: row.full_name ?? "",
+  };
+}
 
 export type CoachingSession = {
   date: string;
