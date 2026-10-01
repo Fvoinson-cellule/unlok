@@ -14,3 +14,7 @@
 - [x] Ajouter un bouton « Coaching privé » dans la barre du haut, à côté de Tarifs.
 - [x] Vendre les cartes 5 et 10 séances sur le site, avec choix de la première séance.
 - [x] Décompte automatique du solde de carte et proposition de renouvellement.
+- [ ] Activer les paiements intégrés Stripe sur le projet.
+- [ ] Créer le catalogue Stripe : séance découverte 15 €, abonnement 100 €/mois, carte 5 séances 250 €, carte 10 séances 400 €, tarifs préférentiels VIP25 (125 € / 250 €).
+- [ ] Confirmer avec Florian le fonctionnement : paiement, démarrage et annulation d'abonnement.
+- [ ] Brancher le paiement sur le site (selon l'hébergement : paiement intégré ou liens Stripe gérés par l'intégration).
