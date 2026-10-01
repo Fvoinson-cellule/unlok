@@ -36,8 +36,6 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  void 0;
-  return null;
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -74,6 +72,9 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     </div>
   );
 }
+
+const LazyErrorComponent = lazy(() => Promise.resolve({ default: ErrorComponent }));
+
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
