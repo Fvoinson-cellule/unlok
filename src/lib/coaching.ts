@@ -162,7 +162,18 @@ export async function bookCoachingSlot(input: {
   });
   if (error) throw error;
 
-  const outcome = (data ?? {}) as { ok?: boolean; reason?: string };
-  if (outcome.ok) return { ok: true };
+  const outcome = (data ?? {}) as {
+    ok?: boolean;
+    reason?: string;
+    card_remaining?: number;
+    card_expires_on?: string;
+  };
+  if (outcome.ok) {
+    return {
+      ok: true,
+      cardRemaining: outcome.card_remaining ?? null,
+      cardExpiresOn: outcome.card_expires_on ?? null,
+    };
+  }
   return { ok: false, reason: (outcome.reason as CoachingReason) ?? "rejected" };
 }
