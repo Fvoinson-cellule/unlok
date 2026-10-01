@@ -12,3 +12,5 @@
 - [x] Ajouter l’offre de coaching privé sur demande, avec tarifs dégressifs et prise de contact.
 - [x] Ajouter un carré d’accès au coaching privé en haut de l’accueil et de la page Tarifs.
 - [x] Ajouter un bouton « Coaching privé » dans la barre du haut, à côté de Tarifs.
+- [x] Vendre les cartes 5 et 10 séances sur le site, avec choix de la première séance.
+- [x] Décompte automatique du solde de carte et proposition de renouvellement.
