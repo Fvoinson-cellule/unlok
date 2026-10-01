@@ -39,7 +39,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
 
       const prices = await stripe.prices.list({ lookup_keys: [data.priceId] });
       if (!prices.data.length) throw new Error("Price not found");
-      const stripePrice = prices.data[0];
+      const stripePrice = prices.data[0]!;
       const isRecurring = stripePrice.type === "recurring";
 
       const metadata = {
@@ -52,7 +52,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       // Achat anonyme (pas de compte utilisateur) : customer_email suffit.
       // Le compte Stripe est créé par Stripe à partir de l'email.
       const session = await stripe.checkout.sessions.create({
-        line_items: [{ price: stripePrice.id, quantity: 1 }],
+        line_items: [{ price: stripePrice!.id, quantity: 1 }],
         mode: isRecurring ? "subscription" : "payment",
         ui_mode: "embedded_page",
         return_url: data.returnUrl,
@@ -82,9 +82,11 @@ export const getBookingByCheckoutSession = createServerFn({ method: "GET" })
   })
   .handler(async ({ data }) => {
     const { createClient } = await import("@supabase/supabase-js");
+    const { default: supabaseTypes } = {} as never;
+    void supabaseTypes;
     const supabase = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      process.env['SUPABASE_URL']!,
+      process.env['SUPABASE_SERVICE_ROLE_KEY']!,
     );
     const { data: row, error } = await supabase
       .from("coaching_bookings")
