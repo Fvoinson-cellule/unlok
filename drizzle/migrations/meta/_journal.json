@@ -78,6 +78,13 @@
       "when": 1790757001214,
       "tag": "0010_one_trial_per_email_per_slot",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1790847953368,
+      "tag": "0011_coaching_cards",
+      "breakpoints": true
     }
   ]
 }

@@ -17,6 +17,7 @@ export type Database = {
       coaching_bookings: {
         Row: {
           booking_type: string
+          card_id: string | null
           created_at: string
           email: string
           full_name: string
@@ -27,6 +28,7 @@ export type Database = {
         }
         Insert: {
           booking_type: string
+          card_id?: string | null
           created_at?: string
           email: string
           full_name: string
@@ -37,6 +39,7 @@ export type Database = {
         }
         Update: {
           booking_type?: string
+          card_id?: string | null
           created_at?: string
           email?: string
           full_name?: string
@@ -46,6 +49,13 @@ export type Database = {
           slot_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "coaching_bookings_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "coaching_cards"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "coaching_bookings_slot_id_fkey"
             columns: ["slot_id"]
@@ -68,6 +78,45 @@ export type Database = {
             referencedColumns: ["slot_id"]
           },
         ]
+      }
+      coaching_cards: {
+        Row: {
+          card_type: string
+          created_at: string
+          email: string
+          expires_on: string
+          full_name: string
+          id: string
+          phone: string | null
+          price_eur: number
+          total_sessions: number
+          used_sessions: number
+        }
+        Insert: {
+          card_type: string
+          created_at?: string
+          email: string
+          expires_on: string
+          full_name: string
+          id?: string
+          phone?: string | null
+          price_eur: number
+          total_sessions: number
+          used_sessions?: number
+        }
+        Update: {
+          card_type?: string
+          created_at?: string
+          email?: string
+          expires_on?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          price_eur?: number
+          total_sessions?: number
+          used_sessions?: number
+        }
+        Relationships: []
       }
       coaching_slots: {
         Row: {
@@ -289,6 +338,7 @@ export type Database = {
         }
         Returns: Json
       }
+      get_card_balance: { Args: { p_email: string }; Returns: Json }
     }
     Enums: {
       [_ in never]: never
