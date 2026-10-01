@@ -83,9 +83,12 @@ export type CoachingReason =
   | "invalid_type"
   | "schedule_pending"
   | "season_ended"
+  | "no_card"
   | "rejected";
 
-export type CoachingResult = { ok: true } | { ok: false; reason: CoachingReason };
+export type CoachingResult =
+  | { ok: true; cardRemaining: number | null; cardExpiresOn: string | null }
+  | { ok: false; reason: CoachingReason };
 
 export async function listCoachingSlots(): Promise<CoachingSlot[]> {
   const [slotsRes, sessionsRes] = await Promise.all([
