@@ -2,10 +2,13 @@ import { supabase } from "@/integrations/supabase/client";
 
 /**
  * Créneaux réguliers : essai et abonnement partagent les 6 places.
- * Appels directs depuis le navigateur (le site est hébergé en statique).
+ * Appels directs depuis le navigateur ; le paiement passe par le
+ * formulaire intégré (paiement confirmé après règlement).
  */
 
 const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+export const PROMO_CODE = "VIP25";
 
 export type BookingType = "trial" | "subscription" | "card5" | "card10" | "card_session";
 
@@ -13,16 +16,16 @@ export const CARD_OFFERS = {
   card5: {
     label: "Carte 5 séances",
     price: 250,
+    vipPrice: 125,
     sessions: 5,
     unit: "50 € / séance",
-    stripeUrl: "https://buy.stripe.com/fZu14n5vJ78t9Hsd4G6sw01",
   },
   card10: {
     label: "Carte 10 séances",
     price: 400,
+    vipPrice: 250,
     sessions: 10,
     unit: "40 € / séance",
-    stripeUrl: "https://buy.stripe.com/cNidR9gancsN1aWaWy6sw02",
   },
 } as const;
 
@@ -87,7 +90,7 @@ export type CoachingReason =
   | "rejected";
 
 export type CoachingResult =
-  | { ok: true; cardRemaining: number | null; cardExpiresOn: string | null }
+  | { ok: true; bookingId: string; cardRemaining: number | null; cardExpiresOn: string | null }
   | { ok: false; reason: CoachingReason };
 
 export async function listCoachingSlots(): Promise<CoachingSlot[]> {
@@ -165,12 +168,14 @@ export async function bookCoachingSlot(input: {
   const outcome = (data ?? {}) as {
     ok?: boolean;
     reason?: string;
+    booking_id?: string;
     card_remaining?: number;
     card_expires_on?: string;
   };
   if (outcome.ok) {
     return {
       ok: true,
+      bookingId: outcome.booking_id ?? "",
       cardRemaining: outcome.card_remaining ?? null,
       cardExpiresOn: outcome.card_expires_on ?? null,
     };
