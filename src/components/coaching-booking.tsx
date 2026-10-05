@@ -8,6 +8,8 @@ import {
   listCoachingSlots,
   CARD_OFFERS,
   PROMO_CODE,
+  OCTOBER_PROMO,
+  detectPromo,
   type BookingType,
   type CoachingReason,
   type CoachingSession,
