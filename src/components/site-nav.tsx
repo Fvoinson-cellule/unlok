@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import logoUrl from "@/assets/unlok-logo.png";
+import { OCTOBER_PROMO } from "@/lib/coaching";
 
 const navBtn =
   "inline-flex items-center whitespace-nowrap rounded-lg border border-primary bg-background px-4 py-2 text-foreground transition-all hover:-translate-y-0.5 hover:shadow-glow";
@@ -24,8 +26,19 @@ function MailIcon({ className = "" }: { className?: string }) {
 }
 
 export function SiteNav() {
+  const [promoActive, setPromoActive] = useState(false);
+  useEffect(() => setPromoActive(new Date() < OCTOBER_PROMO.endsAt), []);
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
+      {promoActive ? (
+        <Link
+          to="/offre"
+          hash="reserver"
+          className="block bg-primary px-4 py-2 text-center text-xs font-semibold text-primary-foreground sm:text-sm"
+        >
+          Offre de lancement · Code Octobre 26 : abonnement 80 €/mois, cartes 5 et 10 séances remisées jusqu'au 31 octobre →
+        </Link>
+      ) : null}
       <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 leading-none text-foreground">
           <img

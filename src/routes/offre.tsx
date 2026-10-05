@@ -150,73 +150,7 @@ function Offre() {
         </div>
       </section>
 
-      {/* PRICING CARDS */}
-      <section id="formules" className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <div className="max-w-2xl">
-            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Tarifs</div>
-            <h2 className="mt-4 font-display text-4xl tracking-tight text-balance">
-              Choisis la formule qui te correspond.
-            </h2>
-            <p className="mt-4 text-muted-foreground text-pretty">
-              Une séance découverte pour tester, deux cartes ponctuelles pour suivre à ton rythme,
-              un abonnement pour un vrai rendez-vous hebdomadaire sur la saison.
-            </p>
-          </div>
-
-          {promoActive ? (
-            <div className="mt-8 rounded-2xl border border-primary bg-primary/10 p-5">
-              <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Offre de lancement · jusqu'au 31 octobre</div>
-              <p className="mt-2 text-sm text-foreground">
-                Avec le code <strong className="text-primary">Octobre 26</strong> : abonnement à 80 € / mois,
-                carte 5 séances à 150 €, carte 10 séances à 250 €. Même validité de 5 mois.
-              </p>
-            </div>
-          ) : null}
-
-
-          {/* 3 FORMULES — verticales, côte à côte */}
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-            {PLANS.slice(1).map((plan) => (
-              <div
-                key={plan.name}
-                className={
-                  "flex flex-col rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1 " +
-                  (plan.featured
-                    ? "bg-secondary text-foreground ring-1 ring-primary"
-                    : "bg-glass backdrop-blur-md ring-1 ring-white/10")
-                }
-              >
-                <div className="font-mono text-xs uppercase tracking-[0.14em] text-primary">{plan.label}</div>
-                <h3 className="mt-2 font-display text-xl tracking-tight">{plan.name}</h3>
-                <div className="mt-3 font-display text-4xl font-extrabold text-primary">
-                  {plan.price}
-                  <span className="text-base font-medium text-muted-foreground">{plan.unit}</span>
-                </div>
-                {promoActive ? (
-                  <p className="mt-2 text-sm text-foreground">
-                    <span className="font-semibold text-primary">{plan.promo}</span> avec le code Octobre 26
-                  </p>
-                ) : null}
-                <p className="mt-3 text-sm text-muted-foreground">{plan.desc}</p>
-                <a
-                  href={plan.href}
-                  className="mt-6 inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
-                >
-                  {plan.cta}
-                </a>
-              </div>
-            ))}
-          </div>
-
-          <p className="mt-8 text-xs text-muted-foreground">
-            En réservant, tu acceptes nos{" "}
-            <Link to="/cgv" className="underline hover:text-foreground">conditions générales de vente</Link>.
-            {" "}Paiement sécurisé par Stripe. Prix nets, TVA non applicable, art. 293 B du CGI.
-          </p>
-        </div>
-      </section>
-
+      <div id="formules" className="scroll-mt-28" />
       <CoachingBooking />
 
       {/* PRIVATE COACHING */}
@@ -331,40 +265,11 @@ function Offre() {
             </p>
           </div>
 
-          <div className="mt-8 overflow-x-auto rounded-2xl ring-1 ring-border">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                  <th className="px-4 py-3 text-left font-medium">Mois</th>
-                  <th className="px-4 py-3 text-left font-medium">Lundi</th>
-                  <th className="px-4 py-3 text-left font-medium">Mardi</th>
-                  <th className="px-4 py-3 text-left font-medium">Mercredi</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {CALENDAR.map(([month, mon, tue, wed]) => (
-                  <tr key={month}>
-                    <td className="px-4 py-3 font-medium text-foreground">{month}</td>
-                    <td className="px-4 py-3 text-muted-foreground font-mono">{mon}</td>
-                    <td className="px-4 py-3 text-muted-foreground font-mono">{tue}</td>
-                    <td className="px-4 py-3 text-muted-foreground font-mono">{wed}</td>
-                  </tr>
-                ))}
-                <tr className="bg-secondary/40 font-medium">
-                  <td className="px-4 py-3 text-foreground">Total saison</td>
-                  <td className="px-4 py-3 font-mono text-foreground">35</td>
-                  <td className="px-4 py-3 font-mono text-foreground">37</td>
-                  <td className="px-4 py-3 font-mono text-foreground">36</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="mt-4 text-sm text-muted-foreground text-pretty">
-            Aucune séance n'est annulée pendant les vacances scolaires, seuls les jours fériés sont
-            retirés du calendrier (11 novembre, lundi de Pâques, Ascension, lundi de Pentecôte). Un
-            2ᵉ créneau le mercredi et un créneau le jeudi ouvriront dès que les 3 créneaux ci-dessus
-            seront complets.
-          </p>
+          <ul className="mt-8 space-y-3 text-sm text-muted-foreground">
+            <li>· Saison d'octobre à fin juin, environ 36 séances par créneau.</li>
+            <li>· Séances maintenues pendant les vacances scolaires, hors jours fériés.</li>
+            <li>· Rattrapage possible sur présentation d'un certificat médical.</li>
+          </ul>
         </div>
       </section>
 
