@@ -44,7 +44,7 @@ const PLANS = [
     name: "Abonnement mensuel",
     price: "100€",
     unit: "/ mois",
-    promo: "80€ / mois",
+    promo: "100€ / mois",
     desc: "Tarif fixe par mois, quel que soit le nombre de séances. Créneau hebdomadaire fixe réservé, maintenu toute l' année y compris pendant les vacances scolaires.",
     cta: "Choisir un créneau",
     href: "#seance-decouverte",

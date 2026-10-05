@@ -142,10 +142,8 @@ export function CoachingBooking() {
   const promo = promoCode.trim();
   const promoKind = detectPromo(promoCode);
   const isCard = type === "card5" || type === "card10";
-  // VIP25 : cartes uniquement. Octobre 26 : abonnement et cartes.
-  const promoApplied =
-    (promoKind === "vip" && isCard) ||
-    (promoKind === "october" && (isCard || type === "subscription"));
+  // VIP25 et Octobre 26 : cartes uniquement (abonnement toujours au tarif normal).
+  const promoApplied = (promoKind === "vip" || promoKind === "october") && isCard;
 
   const price =
     type === "trial"
@@ -550,7 +548,7 @@ export function CoachingBooking() {
                   </div>
                 ) : null}
 
-                {type === "card5" || type === "card10" || type === "subscription" ? (
+                {type === "card5" || type === "card10" ? (
                   <div>
                     <label htmlFor="coaching-promo" className="text-xs font-medium uppercase text-muted-foreground">
                       Code promo (facultatif)
@@ -569,7 +567,7 @@ export function CoachingBooking() {
                     ) : promoApplied ? (
                       <p className="mt-1 text-xs text-foreground">
                         {promoKind === "october"
-                          ? `Code ${OCTOBER_PROMO.label} appliqué · ${price} €${type === "subscription" ? " / mois" : ` au lieu de ${CARD_OFFERS[type as "card5" | "card10"].price} €`}.`
+                          ? `Code ${OCTOBER_PROMO.label} appliqué · ${price} € au lieu de ${CARD_OFFERS[type].price} €.`
                           : `Code ${PROMO_CODE} appliqué · 25 € par séance.`}
                       </p>
                     ) : new Date() < OCTOBER_PROMO.endsAt ? (
