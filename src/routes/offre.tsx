@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { CoachingBooking } from "@/components/coaching-booking";
+import { OCTOBER_PROMO } from "@/lib/coaching";
 
 export const Route = createFileRoute("/offre")({
   head: () => ({
@@ -31,6 +33,7 @@ const PLANS = [
     name: "Séance découverte",
     price: "15€",
     unit: "/ séance unique",
+    promo: "15€",
     desc: "Tarif permanent, un tarif préférentiel pour se faire une idée avant de choisir une formule.",
     cta: "Choisir un créneau",
     href: "#seance-decouverte",
@@ -41,6 +44,7 @@ const PLANS = [
     name: "Abonnement mensuel",
     price: "100€",
     unit: "/ mois",
+    promo: "80€ / mois",
     desc: "Tarif fixe par mois, quel que soit le nombre de séances. Créneau hebdomadaire fixe réservé, maintenu toute l' année y compris pendant les vacances scolaires.",
     cta: "Choisir un créneau",
     href: "#seance-decouverte",
@@ -51,6 +55,7 @@ const PLANS = [
     name: "5 séances",
     price: "250€",
     unit: "50€ / séance",
+    promo: "150€",
     desc: "Séances utilisées au rythme du joueur. Aucun créneau fixe imposé. Carte valable 5 mois.",
     cta: "Réserver · 250€",
     href: "#seance-decouverte",
@@ -61,6 +66,7 @@ const PLANS = [
     name: "10 séances",
     price: "400€",
     unit: "40€ / séance",
+    promo: "250€",
     desc: "−20% par séance vs la carte 5. Toujours sans créneau fixe imposé. Carte valable 5 mois.",
     cta: "Réserver · 400€",
     href: "#seance-decouverte",
@@ -83,6 +89,8 @@ const CALENDAR = [
 ] as const;
 
 function Offre() {
+  const [promoActive, setPromoActive] = useState(false);
+  useEffect(() => setPromoActive(new Date() < OCTOBER_PROMO.endsAt), []);
   return (
     <div className="min-h-screen bg-background text-foreground font-body antialiased selection:bg-primary/20">
       <SiteNav />
@@ -122,23 +130,6 @@ function Offre() {
                 Choisir ma formule
                 <span>→</span>
               </a>
-              <a
-                href="#coaching-prive"
-                className="flex aspect-square w-40 flex-col justify-between rounded-2xl bg-glass p-4 ring-1 ring-white/10 backdrop-blur-md transition-all hover:-translate-y-1 hover:ring-primary/60"
-              >
-                <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-primary">
-                  Coaching privé
-                </span>
-                <span>
-                  <span className="block font-display text-xl leading-tight tracking-tight">
-                    Sur demande
-                  </span>
-                  <span className="mt-1 block text-xs text-muted-foreground">
-                    dès 30€ par personne
-                  </span>
-                </span>
-                <span aria-hidden="true" className="text-primary">→</span>
-              </a>
             </div>
           </div>
         </div>
@@ -159,8 +150,6 @@ function Offre() {
         </div>
       </section>
 
-      <CoachingBooking />
-
       {/* PRICING CARDS */}
       <section id="formules" className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-24">
@@ -174,6 +163,17 @@ function Offre() {
               un abonnement pour un vrai rendez-vous hebdomadaire sur la saison.
             </p>
           </div>
+
+          {promoActive ? (
+            <div className="mt-8 rounded-2xl border border-primary bg-primary/10 p-5">
+              <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Offre de lancement · jusqu'au 31 octobre</div>
+              <p className="mt-2 text-sm text-foreground">
+                Avec le code <strong className="text-primary">Octobre 26</strong> : abonnement à 80 € / mois,
+                carte 5 séances à 150 €, carte 10 séances à 250 €. Même validité de 5 mois.
+              </p>
+            </div>
+          ) : null}
+
 
           {/* 3 FORMULES — verticales, côte à côte */}
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -193,6 +193,11 @@ function Offre() {
                   {plan.price}
                   <span className="text-base font-medium text-muted-foreground">{plan.unit}</span>
                 </div>
+                {promoActive ? (
+                  <p className="mt-2 text-sm text-foreground">
+                    <span className="font-semibold text-primary">{plan.promo}</span> avec le code Octobre 26
+                  </p>
+                ) : null}
                 <p className="mt-3 text-sm text-muted-foreground">{plan.desc}</p>
                 <a
                   href={plan.href}
@@ -211,6 +216,8 @@ function Offre() {
           </p>
         </div>
       </section>
+
+      <CoachingBooking />
 
       {/* PRIVATE COACHING */}
       <section

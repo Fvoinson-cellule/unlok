@@ -572,6 +572,10 @@ export function CoachingBooking() {
                           ? `Code ${OCTOBER_PROMO.label} appliqué · ${price} €${type === "subscription" ? " / mois" : ` au lieu de ${CARD_OFFERS[type as "card5" | "card10"].price} €`}.`
                           : `Code ${PROMO_CODE} appliqué · 25 € par séance.`}
                       </p>
+                    ) : new Date() < OCTOBER_PROMO.endsAt ? (
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Offre de lancement : tape <span className="font-semibold text-primary">Octobre 26</span> jusqu'au 31 octobre.
+                      </p>
                     ) : null}
                   </div>
                 ) : null}
