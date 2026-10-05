@@ -36,7 +36,7 @@ export function SiteNav() {
           hash="seance-decouverte"
           className="block bg-primary px-4 py-2 text-center text-xs font-semibold text-primary-foreground sm:text-sm"
         >
-          Offre de lancement · Code Octobre 26 : abonnement 80 €/mois, cartes 5 et 10 séances remisées jusqu'au 31 octobre →
+          Offre de lancement · Code Octobre 26 : carte 5 séances à 150 €, carte 10 séances à 250 €, jusqu'au 31 octobre →
         </Link>
       ) : null}
       <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">

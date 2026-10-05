@@ -142,10 +142,8 @@ export function CoachingBooking() {
   const promo = promoCode.trim();
   const promoKind = detectPromo(promoCode);
   const isCard = type === "card5" || type === "card10";
-  // VIP25 : cartes uniquement. Octobre 26 : abonnement et cartes.
-  const promoApplied =
-    (promoKind === "vip" && isCard) ||
-    (promoKind === "october" && (isCard || type === "subscription"));
+  // VIP25 et Octobre 26 : cartes uniquement (abonnement toujours au tarif normal).
+  const promoApplied = (promoKind === "vip" || promoKind === "october") && isCard;
 
   const price =
     type === "trial"
@@ -550,7 +548,7 @@ export function CoachingBooking() {
                   </div>
                 ) : null}
 
-                {type === "card5" || type === "card10" || type === "subscription" ? (
+                {type === "card5" || type === "card10" ? (
                   <div>
                     <label htmlFor="coaching-promo" className="text-xs font-medium uppercase text-muted-foreground">
                       Code promo (facultatif)
