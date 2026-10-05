@@ -33,7 +33,7 @@ export function SiteNav() {
       {promoActive ? (
         <Link
           to="/offre"
-          hash="reserver"
+          hash="seance-decouverte"
           className="block bg-primary px-4 py-2 text-center text-xs font-semibold text-primary-foreground sm:text-sm"
         >
           Offre de lancement · Code Octobre 26 : abonnement 80 €/mois, cartes 5 et 10 séances remisées jusqu'au 31 octobre →
