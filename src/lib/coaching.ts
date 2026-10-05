@@ -10,6 +10,27 @@ const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 export const PROMO_CODE = "VIP25";
 
+/** Promotion de lancement : code « Octobre 26 », valable jusqu'au 31/10/2026 inclus (Paris). */
+export const OCTOBER_PROMO = {
+  code: "OCTOBRE26",
+  label: "Octobre 26",
+  endsAt: new Date("2026-11-01T00:00:00+01:00"),
+  subscription: 80,
+  card5: 150,
+  card10: 250,
+} as const;
+
+export type PromoKind = "vip" | "october" | null;
+
+/** Normalise la saisie (casse, espaces) et retourne le type de promo reconnu. */
+export function detectPromo(input: string, now: Date = new Date()): PromoKind {
+  const code = input.replace(/\s+/g, "").toUpperCase();
+  if (!code) return null;
+  if (code === PROMO_CODE) return "vip";
+  if (code === OCTOBER_PROMO.code && now < OCTOBER_PROMO.endsAt) return "october";
+  return null;
+}
+
 export type BookingType = "trial" | "subscription" | "card5" | "card10" | "card_session";
 
 export const CARD_OFFERS = {

@@ -137,18 +137,27 @@ export function CoachingBooking() {
   const session =
     sessions.find((s) => s.date === selectedDate) ?? sessions.find((s) => s.remaining > 0) ?? sessions[0] ?? null;
 
-  const promo = promoCode.trim().toUpperCase();
-  const promoApplied = (type === "card5" || type === "card10") && promo === PROMO_CODE;
+  const promo = promoCode.trim();
+  const promoKind = detectPromo(promoCode);
+  const isCard = type === "card5" || type === "card10";
+  // VIP25 : cartes uniquement. Octobre 26 : abonnement et cartes.
+  const promoApplied =
+    (promoKind === "vip" && isCard) ||
+    (promoKind === "october" && (isCard || type === "subscription"));
 
   const price =
     type === "trial"
       ? (active?.trialPrice ?? 15)
       : type === "subscription"
-        ? (active?.subscriptionPrice ?? 100)
+        ? promoApplied
+          ? OCTOBER_PROMO.subscription
+          : (active?.subscriptionPrice ?? 100)
         : type === "card_session"
           ? 0
           : promoApplied
-            ? CARD_OFFERS[type].vipPrice
+            ? promoKind === "october"
+              ? OCTOBER_PROMO[type]
+              : CARD_OFFERS[type].vipPrice
             : CARD_OFFERS[type].price;
 
   const balance = balanceQuery.data;
@@ -195,9 +204,13 @@ export function CoachingBooking() {
           type === "trial"
             ? PRICE_IDS.trial
             : type === "subscription"
-              ? PRICE_IDS.subscription
+              ? promoApplied
+                ? PRICE_IDS.subscription_oct
+                : PRICE_IDS.subscription
               : promoApplied
-                ? PRICE_IDS[type === "card5" ? "card5_vip" : "card10_vip"]
+                ? promoKind === "october"
+                  ? PRICE_IDS[type === "card5" ? "card5_oct" : "card10_oct"]
+                  : PRICE_IDS[type === "card5" ? "card5_vip" : "card10_vip"]
                 : PRICE_IDS[type];
         setCheckout({
           slot: active,
@@ -535,7 +548,7 @@ export function CoachingBooking() {
                   </div>
                 ) : null}
 
-                {type === "card5" || type === "card10" ? (
+                {type === "card5" || type === "card10" || type === "subscription" ? (
                   <div>
                     <label htmlFor="coaching-promo" className="text-xs font-medium uppercase text-muted-foreground">
                       Code promo (facultatif)
@@ -547,11 +560,15 @@ export function CoachingBooking() {
                       maxLength={24}
                       className={inputClass}
                     />
-                    {promo && promo !== PROMO_CODE ? (
+                    {promo && !promoKind ? (
                       <p className="mt-1 text-xs text-primary">Ce code n'est pas reconnu.</p>
+                    ) : promo && !promoApplied ? (
+                      <p className="mt-1 text-xs text-primary">Ce code ne s'applique pas à cette formule.</p>
                     ) : promoApplied ? (
                       <p className="mt-1 text-xs text-foreground">
-                        Code {PROMO_CODE} appliqué · 25 € par séance.
+                        {promoKind === "october"
+                          ? `Code ${OCTOBER_PROMO.label} appliqué · ${price} €${type === "subscription" ? " / mois" : ` au lieu de ${CARD_OFFERS[type as "card5" | "card10"].price} €`}.`
+                          : `Code ${PROMO_CODE} appliqué · 25 € par séance.`}
                       </p>
                     ) : null}
                   </div>

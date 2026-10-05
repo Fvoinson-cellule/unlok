@@ -13,9 +13,12 @@ export const PRICE_IDS = {
   card10: "unlok_card10_once",
   card5_vip: "unlok_card5_vip_once",
   card10_vip: "unlok_card10_vip_once",
+  subscription_oct: "unlok_subscription_oct26_monthly",
+  card5_oct: "unlok_card5_oct26_once",
+  card10_oct: "unlok_card10_oct26_once",
 } as const;
 
-export const PROMO_CODES = ["VIP25"] as const;
+export const PROMO_CODES = ["VIP25", "OCTOBRE26"] as const;
 
 export const createCheckoutSession = createServerFn({ method: "POST" })
   .inputValidator((data: {
