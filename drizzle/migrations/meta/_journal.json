@@ -106,13 +106,6 @@
       "when": 1790858717230,
       "tag": "0014_paiement_avant_confirmation",
       "breakpoints": true
-    },
-    {
-      "idx": 15,
-      "version": "7",
-      "when": 1791192000000,
-      "tag": "0015_carte_8_seances",
-      "breakpoints": true
     }
   ]
 }
