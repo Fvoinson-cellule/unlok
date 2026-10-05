@@ -25,14 +25,14 @@ async function handleCheckoutCompleted(session: any, env: StripeEnv) {
   const linkCard = session.metadata?.linkCard;
   if (linkCard) {
     const email = session.customer_details?.email ?? session.customer_email;
-    const { error } = await getSupabase().rpc("credit_link_card" as never, {
+    const { error } = await getSupabase().rpc("credit_link_card", {
       p_email: email,
       p_full_name: session.customer_details?.name ?? "",
       p_card_type: linkCard,
       p_sessions: Number(session.metadata?.sessions ?? 0),
       p_amount_cents: session.amount_total ?? 0,
       p_checkout_session_id: session.id,
-    } as never);
+    });
     if (error) console.error("credit_link_card a échoué", error, env);
     return;
   }
