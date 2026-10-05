@@ -21,6 +21,22 @@ async function handleCheckoutCompleted(session: any, env: StripeEnv) {
   // n'est pas en attente. no_payment_required = total zéro, à confirmer.
   if (session.payment_status === "unpaid") return;
 
+  // Carte vendue par lien de paiement privé (ex. carte 8 séances).
+  const linkCard = session.metadata?.linkCard;
+  if (linkCard) {
+    const email = session.customer_details?.email ?? session.customer_email;
+    const { error } = await getSupabase().rpc("credit_link_card", {
+      p_email: email,
+      p_full_name: session.customer_details?.name ?? "",
+      p_card_type: linkCard,
+      p_sessions: Number(session.metadata?.sessions ?? 0),
+      p_amount_cents: session.amount_total ?? 0,
+      p_checkout_session_id: session.id,
+    });
+    if (error) console.error("credit_link_card a échoué", error, env);
+    return;
+  }
+
   const bookingId = session.metadata?.bookingId;
   if (!bookingId) {
     console.error("checkout.session.completed sans bookingId");
