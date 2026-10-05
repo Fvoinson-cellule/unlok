@@ -233,7 +233,7 @@ export function CoachingBooking() {
   }
 
   return (
-    <section id="seance-decouverte" className="scroll-mt-20 border-t border-border/60 py-20 md:py-28">
+    <section id="seance-decouverte" className="scroll-mt-32 border-t border-border/60 py-20 md:py-28">
       <span id="creneaux" className="block scroll-mt-20" />
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-2xl">
