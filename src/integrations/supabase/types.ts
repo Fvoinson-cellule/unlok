@@ -94,6 +94,7 @@ export type Database = {
       coaching_cards: {
         Row: {
           card_type: string
+          checkout_session_id: string | null
           created_at: string
           email: string
           expires_on: string
@@ -106,6 +107,7 @@ export type Database = {
         }
         Insert: {
           card_type: string
+          checkout_session_id?: string | null
           created_at?: string
           email: string
           expires_on: string
@@ -118,6 +120,7 @@ export type Database = {
         }
         Update: {
           card_type?: string
+          checkout_session_id?: string | null
           created_at?: string
           email?: string
           expires_on?: string
@@ -355,6 +358,17 @@ export type Database = {
           p_amount_cents: number
           p_booking_id: string
           p_checkout_session_id: string
+        }
+        Returns: Json
+      }
+      credit_link_card: {
+        Args: {
+          p_amount_cents: number
+          p_card_type: string
+          p_checkout_session_id: string
+          p_email: string
+          p_full_name: string
+          p_sessions: number
         }
         Returns: Json
       }
