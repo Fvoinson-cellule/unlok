@@ -237,13 +237,9 @@ function Offre() {
           </div>
 
           <p className="mt-6 text-sm text-court-foreground/60">
-            6 places par créneau, partagées entre abonnés et séances d'essai. Inscription dans la
-            section « Réserve ta place » ci-dessus.
-          </p>
-          <p className="mt-3 text-sm text-court-foreground/60">
-            Premier mois payé à la réservation, puis 100€ prélevés chaque mois à la même date.
-            Paiement par carte ou prélèvement SEPA. Le dernier mois, en juin, est ajusté au prorata
-            des séances restantes.
+            6 places par créneau. Inscription dans la section « Réserve ta place » ci-dessus. Tu as
+            déjà une carte ? Réserve ta séance depuis l'onglet{" "}
+            <Link to="/reservation" className="underline hover:text-court-foreground">Réservation</Link>.
           </p>
 
         </div>
