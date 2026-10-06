@@ -100,11 +100,11 @@ function formulaLabel(t: BookingType) {
   return CARD_OFFERS[t].label;
 }
 
-export function CoachingBooking() {
+export function CoachingBooking({ initialType = "trial" }: { initialType?: BookingType } = {}) {
   const queryClient = useQueryClient();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [type, setType] = useState<BookingType>("trial");
+  const [type, setType] = useState<BookingType>(initialType);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -240,7 +240,7 @@ export function CoachingBooking() {
             Réserve ta place.
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Choisis ton créneau et ta date, puis ta formule : séance d'essai, abonnement, carte de 5 ou 10
+            Choisis ton créneau et ta date, puis ta formule : séance découverte, carte de 5 ou 10
             séances. Si tu as déjà une carte, réserve directement avec ton solde, dans la limite de 6 joueurs.
           </p>
         </div>
@@ -404,15 +404,10 @@ export function CoachingBooking() {
                 noValidate
                 className="space-y-4 rounded-lg border border-border/60 bg-card p-6"
               >
-                <div role="radiogroup" aria-label="Formule" className="grid grid-cols-2 gap-2">
+                <div role="radiogroup" aria-label="Formule" className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                   {(
                     [
-                      ["trial", "Séance d'essai", active ? `${active.trialPrice} €` : "15 €"],
-                      [
-                        "subscription",
-                        "Abonnement",
-                        active ? `${active.subscriptionPrice} € / mois` : "100 € / mois",
-                      ],
+                      ["trial", "Séance découverte", active ? `${active.trialPrice} €` : "15 €"],
                       ["card5", CARD_OFFERS.card5.label, `${CARD_OFFERS.card5.price} € · ${CARD_OFFERS.card5.unit}`],
                       [
                         "card10",
@@ -432,7 +427,7 @@ export function CoachingBooking() {
                         setError(null);
                       }}
                       className={`rounded-md border px-3 py-3 text-left transition-colors ${
-                        value === "card_session" ? "col-span-2" : ""
+                        value === "card_session" ? "sm:col-span-3" : ""
                       } ${
                         type === value
                           ? "border-primary bg-primary/10"

@@ -12,13 +12,13 @@ export const Route = createFileRoute("/offre")({
       {
         name: "description",
         content:
-          "Les formules Unlok : séance découverte, abonnement mensuel, cartes de séances et coaching privé sur demande, seul ou entre amis. Saison 2026-2027, Alsace.",
+          "Les formules Unlok : séance découverte, cartes de séances et coaching privé sur demande, seul ou entre amis. Saison 2026-2027, Alsace.",
       },
       { property: "og:title", content: "Tarifs & formules · Unlok" },
       {
         property: "og:description",
         content:
-          "Séance découverte, abonnement mensuel, cartes de séances et coaching privé sur demande en Alsace.",
+          "Séance découverte, cartes de séances et coaching privé sur demande en Alsace.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
