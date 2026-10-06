@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CgvRouteImport } from './routes/cgv'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as OffreRouteImport } from './routes/offre'
+import { Route as ReservationRouteImport } from './routes/reservation'
 import { Route as PaiementRetourRouteImport } from './routes/paiement/retour'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -36,6 +37,11 @@ const OffreRoute = OffreRouteImport.update({
   path: '/offre',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReservationRoute = ReservationRouteImport.update({
+  id: '/reservation',
+  path: '/reservation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PaiementRetourRoute = PaiementRetourRouteImport.update({
   id: '/paiement/retour',
   path: '/paiement/retour',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/cgv': typeof CgvRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/offre': typeof OffreRoute
+  '/reservation': typeof ReservationRoute
   '/paiement/retour': typeof PaiementRetourRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/cgv': typeof CgvRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/offre': typeof OffreRoute
+  '/reservation': typeof ReservationRoute
   '/paiement/retour': typeof PaiementRetourRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/cgv': typeof CgvRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/offre': typeof OffreRoute
+  '/reservation': typeof ReservationRoute
   '/paiement/retour': typeof PaiementRetourRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/cgv'
     | '/mentions-legales'
     | '/offre'
+    | '/reservation'
     | '/paiement/retour'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/cgv'
     | '/mentions-legales'
     | '/offre'
+    | '/reservation'
     | '/paiement/retour'
     | '/api/public/payments/webhook'
   id:
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/cgv'
     | '/mentions-legales'
     | '/offre'
+    | '/reservation'
     | '/paiement/retour'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   CgvRoute: typeof CgvRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   OffreRoute: typeof OffreRoute
+  ReservationRoute: typeof ReservationRoute
   PaiementRetourRoute: typeof PaiementRetourRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
@@ -139,6 +152,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OffreRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reservation': {
+      id: '/reservation'
+      path: '/reservation'
+      fullPath: '/reservation'
+      preLoaderRoute: typeof ReservationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/paiement/retour': {
       id: '/paiement/retour'
       path: '/paiement/retour'
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   CgvRoute: CgvRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   OffreRoute: OffreRoute,
+  ReservationRoute: ReservationRoute,
   PaiementRetourRoute: PaiementRetourRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }

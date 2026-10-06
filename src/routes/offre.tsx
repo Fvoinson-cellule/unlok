@@ -12,13 +12,13 @@ export const Route = createFileRoute("/offre")({
       {
         name: "description",
         content:
-          "Les formules Unlok : séance découverte, abonnement mensuel, cartes de séances et coaching privé sur demande, seul ou entre amis. Saison 2026-2027, Alsace.",
+          "Les formules Unlok : séance découverte, cartes de séances et coaching privé sur demande, seul ou entre amis. Saison 2026-2027, Alsace.",
       },
       { property: "og:title", content: "Tarifs & formules · Unlok" },
       {
         property: "og:description",
         content:
-          "Séance découverte, abonnement mensuel, cartes de séances et coaching privé sur demande en Alsace.",
+          "Séance découverte, cartes de séances et coaching privé sur demande en Alsace.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -237,13 +237,9 @@ function Offre() {
           </div>
 
           <p className="mt-6 text-sm text-court-foreground/60">
-            6 places par créneau, partagées entre abonnés et séances d'essai. Inscription dans la
-            section « Réserve ta place » ci-dessus.
-          </p>
-          <p className="mt-3 text-sm text-court-foreground/60">
-            Premier mois payé à la réservation, puis 100€ prélevés chaque mois à la même date.
-            Paiement par carte ou prélèvement SEPA. Le dernier mois, en juin, est ajusté au prorata
-            des séances restantes.
+            6 places par créneau. Inscription dans la section « Réserve ta place » ci-dessus. Tu as
+            déjà une carte ? Réserve ta séance depuis l'onglet{" "}
+            <Link to="/reservation" className="underline hover:text-court-foreground">Réservation</Link>.
           </p>
 
         </div>

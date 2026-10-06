@@ -55,8 +55,12 @@ export function SiteNav() {
           <Link to="/" hash="preuves" className={navBtn}>Cadre</Link>
           <Link to="/offre" className={navBtn}>Tarifs</Link>
           <Link to="/offre" hash="coaching-prive" className={navBtn}>Coaching privé</Link>
+          <Link to="/reservation" className={navBtn}>Réservation</Link>
         </nav>
         <div className="flex items-center gap-3">
+          <Link to="/reservation" className="md:hidden text-sm font-medium text-foreground underline-offset-4 hover:underline">
+            Ma carte
+          </Link>
           <a
             href="https://www.instagram.com/unlok.basketball/"
             target="_blank"
