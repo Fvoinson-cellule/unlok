@@ -18,5 +18,5 @@
 - [ ] Créer le catalogue Stripe : séance découverte 15 €, abonnement 100 €/mois, carte 5 séances 250 €, carte 10 séances 400 €, tarifs préférentiels VIP25 (125 € / 250 €).
 - [ ] Confirmer avec Florian le fonctionnement : paiement, démarrage et annulation d'abonnement.
 - [ ] Brancher le paiement sur le site (selon l'hébergement : paiement intégré ou liens Stripe gérés par l'intégration).
-- [ ] Masquer l'abonnement (séance découverte + cartes uniquement).
-- [ ] Onglet « Réservation » pour réserver avec sa carte.
+- [x] Masquer l'abonnement (séance découverte + cartes uniquement).
+- [x] Onglet « Réservation » pour réserver avec sa carte.
