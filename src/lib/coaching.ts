@@ -14,7 +14,8 @@ export const PROMO_CODE = "VIP25";
 export const OCTOBER_PROMO = {
   code: "OCTOBRE26",
   label: "Octobre 26",
-  endsAt: new Date("2026-11-01T00:00:00+01:00"),
+  // Offre retirée du site le 22/10/2026 (fin anticipée).
+  endsAt: new Date("2026-10-22T00:00:00+02:00"),
   subscription: 80,
   card5: 150,
   card10: 250,
