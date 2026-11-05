@@ -38,6 +38,8 @@ async function handleCheckoutCompleted(session: any, env: StripeEnv) {
   }
 
   const bookingId = session.metadata?.bookingId;
+  // Paiement express d'une séance déjà convenue : rien à confirmer en base.
+  if (!bookingId && session.metadata?.express) return;
   if (!bookingId) {
     console.error("checkout.session.completed sans bookingId");
     return;
