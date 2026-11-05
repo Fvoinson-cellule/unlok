@@ -1,7 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import logoUrl from "@/assets/unlok-logo.png";
-import { OCTOBER_PROMO } from "@/lib/coaching";
 
 const navBtn =
   "inline-flex items-center whitespace-nowrap rounded-lg border border-primary bg-background px-4 py-2 text-foreground transition-all hover:-translate-y-0.5 hover:shadow-glow";
@@ -26,19 +24,8 @@ function MailIcon({ className = "" }: { className?: string }) {
 }
 
 export function SiteNav() {
-  const [promoActive, setPromoActive] = useState(false);
-  useEffect(() => setPromoActive(new Date() < OCTOBER_PROMO.endsAt), []);
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-      {promoActive ? (
-        <Link
-          to="/offre"
-          hash="seance-decouverte"
-          className="block bg-primary px-4 py-2 text-center text-xs font-semibold text-primary-foreground sm:text-sm"
-        >
-          Offre de lancement · Code Octobre 26 : carte 5 séances à 150 €, carte 10 séances à 250 €, jusqu'au 31 octobre →
-        </Link>
-      ) : null}
       <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 leading-none text-foreground">
           <img
@@ -51,16 +38,12 @@ export function SiteNav() {
           </span>
         </Link>
         <nav className="hidden md:flex items-center gap-3 text-sm font-medium">
-          <Link to="/" hash="methode" className={navBtn}>Méthode</Link>
-          <Link to="/" hash="preuves" className={navBtn}>Cadre</Link>
-          <Link to="/offre" className={navBtn}>Tarifs</Link>
-          <Link to="/offre" hash="coaching-prive" className={navBtn}>Coaching privé</Link>
-          <Link to="/reservation" className={navBtn}>Réservation</Link>
+          <Link to="/methode" className={navBtn}>Méthode</Link>
+          <Link to="/tarifs" className={navBtn}>Tarifs</Link>
+          <Link to="/ramp" className={navBtn}>Book RAMP</Link>
+          <Link to="/clubs" className={navBtn}>Clubs</Link>
         </nav>
         <div className="flex items-center gap-3">
-          <Link to="/reservation" className="md:hidden text-sm font-medium text-foreground underline-offset-4 hover:underline">
-            Ma carte
-          </Link>
           <a
             href="https://www.instagram.com/unlok.basketball/"
             target="_blank"
@@ -78,14 +61,22 @@ export function SiteNav() {
             <MailIcon className="h-5 w-5" />
           </a>
           <Link
-            to="/offre"
+            to="/tarifs"
+            hash="inscription"
             className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
           >
-            Réserver
+            S'inscrire
             <span className="text-xs">→</span>
           </Link>
         </div>
       </div>
+      <nav className="flex gap-2 overflow-x-auto border-t border-border px-4 py-2 text-xs font-medium md:hidden">
+        {([["/methode", "Méthode"], ["/tarifs", "Tarifs"], ["/ramp", "Book RAMP"], ["/clubs", "Clubs"]] as const).map(([to, label]) => (
+          <Link key={to} to={to} className="whitespace-nowrap rounded-lg border border-border px-3 py-1.5 text-foreground" activeProps={{ className: "border-primary text-primary" }}>
+            {label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }

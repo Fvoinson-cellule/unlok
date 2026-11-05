@@ -113,6 +113,13 @@
       "when": 1791193493385,
       "tag": "0015_carte_8_seances",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1793895237969,
+      "tag": "0016_club_guide_leads",
+      "breakpoints": true
     }
   ]
 }

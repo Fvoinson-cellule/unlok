@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { type StripeEnv, createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
-import { EXPRESS_PRODUCTS, isExpressProduct, type ExpressProduct } from "@/lib/express-payment";
+import { FORMULES, MAX_PEOPLE, isFormule, pricePerPerson, type Formule } from "@/lib/pricing";
 
 type CheckoutSessionResult =
   | { clientSecret: string }
@@ -146,50 +146,78 @@ export const getBookingByCheckoutSession = createServerFn({ method: "GET" })
     };
   });
 
-// Paiement express (/paiement) : séance déjà convenue avec Florian, aucune réservation de place.
-export const createExpressCheckout = createServerFn({ method: "POST" })
+// Commande coaching (page Tarifs et page /paiement) : prix recalculé côté serveur.
+export type Participant = {
+  firstName: string;
+  lastName: string;
+  age: string;
+  club: string;
+  email: string;
+  phone: string;
+};
+
+export const createCoachingOrder = createServerFn({ method: "POST" })
   .inputValidator((data: {
-    product: string;
-    quantity: number;
+    formule: string;
+    people: number;
+    participants: Participant[];
     customerEmail: string;
-    fullName: string;
     note: string;
     returnUrl: string;
     environment: StripeEnv;
   }) => {
-    if (!isExpressProduct(data.product)) throw new Error("Invalid product");
-    const quantity = Math.floor(Number(data.quantity));
-    if (!(quantity >= 1 && quantity <= 6)) throw new Error("Invalid quantity");
+    if (!isFormule(data.formule)) throw new Error("Invalid formule");
+    const people = Math.floor(Number(data.people));
+    if (!(people >= 1 && people <= MAX_PEOPLE)) throw new Error("Invalid people");
+    if (!Array.isArray(data.participants) || data.participants.length > people) throw new Error("Invalid participants");
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.customerEmail)) throw new Error("Invalid email");
     if (!/^https?:\/\//.test(data.returnUrl)) throw new Error("Invalid returnUrl");
     if (data.environment !== "sandbox" && data.environment !== "live") throw new Error("Invalid env");
+    const clip = (v: unknown, n: number) => String(v ?? "").trim().slice(0, n);
     return {
       ...data,
-      quantity,
-      fullName: String(data.fullName).trim().slice(0, 80),
-      note: String(data.note ?? "").trim().slice(0, 300),
+      people,
+      note: clip(data.note, 300),
+      participants: data.participants.map((p) => ({
+        firstName: clip(p.firstName, 40),
+        lastName: clip(p.lastName, 40),
+        age: clip(p.age, 3),
+        club: clip(p.club, 60),
+        email: clip(p.email, 100),
+        phone: clip(p.phone, 20),
+      })),
     };
   })
   .handler(async ({ data }): Promise<CheckoutSessionResult> => {
     try {
-      const item = EXPRESS_PRODUCTS[data.product as ExpressProduct];
+      const formule = data.formule as Formule;
+      const unit = pricePerPerson(formule, data.people);
+      const groupLabel = data.people === 1 ? "individuel" : data.people === 2 ? "duo" : "petit groupe";
+      const name =
+        formule === "essai"
+          ? "Séance d'essai UNLOK (60 min)"
+          : `${FORMULES[formule].label} UNLOK · ${groupLabel} (60 min)`;
       const stripe = createStripeClient(data.environment);
-      const prices = await stripe.prices.list({ lookup_keys: [item.lookupKey] });
-      const price = prices.data[0];
-      if (!price) throw new Error("Price not found");
-      // Une carte = un seul titulaire (crédit sur l'email) : quantité 1.
-      const quantity = item.card ? 1 : data.quantity;
+      const participantsMeta: Record<string, string> = {};
+      data.participants.forEach((p, i) => {
+        participantsMeta[`joueur${i + 1}`] =
+          `${p.firstName} ${p.lastName} · ${p.age} ans · ${p.club} · ${p.email} · ${p.phone}`.slice(0, 480);
+      });
       const session = await stripe.checkout.sessions.create({
-        line_items: [{ price: price.id, quantity }],
+        line_items: [{
+          price_data: { currency: "eur", product_data: { name }, unit_amount: unit * 100 },
+          quantity: data.people,
+        }],
         mode: "payment",
         ui_mode: "embedded_page",
         return_url: data.returnUrl,
         customer_email: data.customerEmail,
+        payment_intent_data: { description: name },
         metadata: {
-          express: data.product,
-          fullName: data.fullName,
+          express: formule,
+          personnes: String(data.people),
           note: data.note,
-          ...(item.card ? { linkCard: item.card, sessions: String(item.sessions) } : {}),
+          ...participantsMeta,
         },
       } as Parameters<typeof stripe.checkout.sessions.create>[0]);
       return { clientSecret: session.client_secret ?? "" };
