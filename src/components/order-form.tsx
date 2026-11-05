@@ -64,7 +64,7 @@ export function OrderForm({
         formule,
         people,
         participants: list,
-        customerEmail: list[0].email.trim(),
+        customerEmail: (list[0]?.email ?? "").trim(),
         note,
         returnUrl: `${window.location.origin}/paiement/merci`,
         environment: getStripeEnvironment(),
