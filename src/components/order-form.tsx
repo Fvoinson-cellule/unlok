@@ -1,0 +1,204 @@
+import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
+import { useState } from "react";
+
+import { createCoachingOrder, type Participant } from "@/lib/payments.functions";
+import { FORMULES, MAX_PEOPLE, formatEuro, orderTotal, pricePerPerson, type Formule } from "@/lib/pricing";
+import { getStripe, getStripeEnvironment } from "@/lib/stripe";
+
+const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const field =
+  "w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none";
+const empty = (): Participant => ({ firstName: "", lastName: "", age: "", club: "", email: "", phone: "" });
+
+export function OrderForm({
+  initialFormule = "essai",
+  initialPeople = 1,
+  showNote = false,
+}: {
+  initialFormule?: Formule;
+  initialPeople?: number;
+  showNote?: boolean;
+}) {
+  const [formule, setFormule] = useState<Formule>(initialFormule);
+  const [people, setPeople] = useState(Math.min(MAX_PEOPLE, Math.max(1, initialPeople)));
+  const [participants, setParticipants] = useState<Participant[]>(() =>
+    Array.from({ length: MAX_PEOPLE }, empty),
+  );
+  const [note, setNote] = useState("");
+  const [terms, setTerms] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [ready, setReady] = useState(false);
+
+  const list = participants.slice(0, people);
+  const unit = pricePerPerson(formule, people);
+  const total = orderTotal(formule, people);
+
+  function update(i: number, key: keyof Participant, value: string) {
+    setParticipants((prev) => prev.map((p, j) => (j === i ? { ...p, [key]: value } : p)));
+  }
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    for (const [i, p] of list.entries()) {
+      const who = people > 1 ? ` (joueur ${i + 1})` : "";
+      if (!p.firstName.trim() || !p.lastName.trim()) return setError(`Indique le prénom et le nom${who}.`);
+      const age = Number(p.age);
+      if (!(age >= 5 && age <= 99)) return setError(`Indique un âge valide${who}.`);
+      if (!p.club.trim()) return setError(`Indique le club (ou « aucun »)${who}.`);
+      if (!EMAIL.test(p.email.trim())) return setError(`Entre une adresse email valide${who}.`);
+      if (p.phone.replace(/\D/g, "").length < 10) return setError(`Entre un numéro de téléphone valide${who}.`);
+    }
+    if (!terms) return setError("Merci d'accepter les conditions générales de vente.");
+    try {
+      getStripeEnvironment();
+    } catch {
+      return setError("Le paiement en ligne n'est pas disponible ici. Écris à unlok.basketball@gmail.com.");
+    }
+    setReady(true);
+  }
+
+  async function fetchClientSecret() {
+    const r = await createCoachingOrder({
+      data: {
+        formule,
+        people,
+        participants: list,
+        customerEmail: list[0].email.trim(),
+        note,
+        returnUrl: `${window.location.origin}/paiement/merci`,
+        environment: getStripeEnvironment(),
+      },
+    });
+    if ("error" in r) {
+      setError(r.error);
+      setReady(false);
+      throw new Error(r.error);
+    }
+    return r.clientSecret;
+  }
+
+  if (ready) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between gap-4 rounded-lg border border-border bg-card p-4 text-sm">
+          <span>
+            {FORMULES[formule].label} · {people} {people > 1 ? "joueurs" : "joueur"} · {formatEuro(total)}
+          </span>
+          <button type="button" className="underline" onClick={() => setReady(false)}>
+            Modifier
+          </button>
+        </div>
+        {error && <p className="text-sm text-destructive">{error}</p>}
+        <EmbeddedCheckoutProvider stripe={getStripe()} options={{ fetchClientSecret }}>
+          <EmbeddedCheckout />
+        </EmbeddedCheckoutProvider>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={submit} className="space-y-8">
+      <fieldset>
+        <legend className="mb-3 font-mono text-xs uppercase tracking-[0.15em] text-primary">1 · La formule</legend>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {(Object.keys(FORMULES) as Formule[]).map((k) => {
+            const on = k === formule;
+            return (
+              <button
+                key={k}
+                type="button"
+                onClick={() => setFormule(k)}
+                aria-pressed={on}
+                className={`rounded-lg border p-4 text-left transition-colors ${
+                  on ? "border-primary bg-primary/10" : "border-border bg-card hover:border-primary/60"
+                }`}
+              >
+                <span className="block font-display text-xl">{FORMULES[k].label}</span>
+                <span className="text-sm text-muted-foreground">
+                  {formatEuro(pricePerPerson(k, people))} / pers. · 60 min{k.startsWith("carte") ? " par séance" : ""}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </fieldset>
+
+      <div>
+        <span className="mb-3 block font-mono text-xs uppercase tracking-[0.15em] text-primary">2 · Nombre de joueurs</span>
+        <div className="inline-flex items-center gap-4 rounded-lg border border-border bg-card px-2 py-1">
+          <button type="button" aria-label="Moins" className="px-3 py-1 text-xl" onClick={() => setPeople((q) => Math.max(1, q - 1))}>
+            −
+          </button>
+          <span className="w-6 text-center font-medium">{people}</span>
+          <button type="button" aria-label="Plus" className="px-3 py-1 text-xl" onClick={() => setPeople((q) => Math.min(MAX_PEOPLE, q + 1))}>
+            +
+          </button>
+        </div>
+        <p className="mt-2 text-xs text-muted-foreground">
+          {formule === "essai"
+            ? "Séance d'essai à 15 € par personne."
+            : "Le tarif par personne baisse en duo et en petit groupe (jusqu'à 4 joueurs)."}
+        </p>
+      </div>
+
+      <div className="space-y-6">
+        <span className="block font-mono text-xs uppercase tracking-[0.15em] text-primary">3 · Les joueurs</span>
+        {list.map((p, i) => (
+          <fieldset key={i} className="rounded-lg border border-border p-4">
+            <legend className="px-2 font-display text-lg">Joueur {i + 1}</legend>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <input className={field} placeholder="Prénom" value={p.firstName} onChange={(e) => update(i, "firstName", e.target.value)} />
+              <input className={field} placeholder="Nom" value={p.lastName} onChange={(e) => update(i, "lastName", e.target.value)} />
+              <input className={field} inputMode="numeric" placeholder="Âge" value={p.age} onChange={(e) => update(i, "age", e.target.value.replace(/\D/g, ""))} />
+              <input className={field} placeholder="Club" value={p.club} onChange={(e) => update(i, "club", e.target.value)} />
+              <input className={field} type="email" placeholder="Email" value={p.email} onChange={(e) => update(i, "email", e.target.value)} />
+              <input className={field} type="tel" placeholder="Téléphone" value={p.phone} onChange={(e) => update(i, "phone", e.target.value)} />
+            </div>
+          </fieldset>
+        ))}
+      </div>
+
+      {showNote && (
+        <input
+          className={field}
+          placeholder="Date de la séance ou précision (facultatif)"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+        />
+      )}
+
+      <label className="flex items-start gap-3 text-sm text-muted-foreground">
+        <input type="checkbox" className="mt-1 accent-primary" checked={terms} onChange={(e) => setTerms(e.target.checked)} />
+        <span>
+          J'accepte les{" "}
+          <a href="/cgv" target="_blank" className="underline">
+            conditions générales de vente
+          </a>
+          .
+        </span>
+      </label>
+
+      {error && <p className="text-sm text-destructive">{error}</p>}
+
+      <div className="rounded-lg border border-border bg-card p-4 text-sm">
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">
+            {formatEuro(unit)} × {people}
+          </span>
+          <strong className="font-display text-2xl text-primary">{formatEuro(total)}</strong>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full rounded-lg bg-primary px-6 py-4 font-display text-xl text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
+      >
+        Payer {formatEuro(total)}
+      </button>
+      <p className="text-center text-xs text-muted-foreground">
+        Après le paiement, Florian te contacte pour fixer la date et le lieu de la séance.
+      </p>
+    </form>
+  );
+}
