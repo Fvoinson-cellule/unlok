@@ -61,7 +61,7 @@ function RetourPaiement() {
               réservation ou écris-nous pour vérifier.
             </p>
             <Link
-              to="/offre"
+              to="/tarifs"
               className="mt-6 inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-semibold uppercase text-primary-foreground shadow-glow transition hover:brightness-110"
             >
               Retour au site
@@ -79,7 +79,7 @@ function RetourPaiement() {
               Écris-nous à unlok.basketball@gmail.com, on vérifie tout de suite.
             </p>
             <Link
-              to="/offre"
+              to="/tarifs"
               className="mt-6 inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-3 text-sm font-semibold uppercase text-foreground transition-colors hover:bg-accent"
             >
               Retour au site
