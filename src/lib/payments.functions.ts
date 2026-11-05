@@ -159,6 +159,7 @@ export type Participant = {
 export const createCoachingOrder = createServerFn({ method: "POST" })
   .inputValidator((data: {
     formule: string;
+    groupSize: number;
     people: number;
     participants: Participant[];
     customerEmail: string;
@@ -168,7 +169,10 @@ export const createCoachingOrder = createServerFn({ method: "POST" })
   }) => {
     if (!isFormule(data.formule)) throw new Error("Invalid formule");
     const people = Math.floor(Number(data.people));
+    const groupSize = Math.floor(Number(data.groupSize));
+    if (!(groupSize >= 1 && groupSize <= MAX_PEOPLE)) throw new Error("Invalid groupSize");
     if (!(people >= 1 && people <= MAX_PEOPLE)) throw new Error("Invalid people");
+    if (data.formule !== "essai" && people > groupSize) throw new Error("Invalid people");
     if (!Array.isArray(data.participants) || data.participants.length > people) throw new Error("Invalid participants");
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.customerEmail)) throw new Error("Invalid email");
     if (!/^https?:\/\//.test(data.returnUrl)) throw new Error("Invalid returnUrl");
@@ -177,13 +181,14 @@ export const createCoachingOrder = createServerFn({ method: "POST" })
     return {
       ...data,
       people,
+      groupSize,
       note: clip(data.note, 300),
       participants: data.participants.map((p) => ({
         firstName: clip(p.firstName, 40),
         lastName: clip(p.lastName, 40),
         age: clip(p.age, 3),
         club: clip(p.club, 60),
-        email: clip(p.email, 100),
+        email: clip(p.email, 100).toLowerCase(),
         phone: clip(p.phone, 20),
       })),
     };
@@ -191,8 +196,21 @@ export const createCoachingOrder = createServerFn({ method: "POST" })
   .handler(async ({ data }): Promise<CheckoutSessionResult> => {
     try {
       const formule = data.formule as Formule;
-      const unit = pricePerPerson(formule, data.people);
-      const groupLabel = data.people === 1 ? "individuel" : data.people === 2 ? "duo" : "petit groupe";
+      const unit = pricePerPerson(formule, data.groupSize);
+      const groupLabel = data.groupSize === 1 ? "individuel" : data.groupSize === 2 ? "duo" : "petit groupe";
+      let trialEmails = "";
+      if (formule === "essai") {
+        const emails = data.participants.map((p) => p.email);
+        if (new Set(emails).size !== emails.length) {
+          return { error: "Une seule séance d'essai par adresse email : chaque joueur doit avoir son propre email." };
+        }
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { data: used } = await supabaseAdmin.from("trial_emails").select("email").in("email", emails);
+        if (used && used.length) {
+          return { error: `La séance d'essai a déjà été prise avec ${used.map((u) => u.email).join(", ")}. Une seule séance d'essai par adresse email.` };
+        }
+        trialEmails = emails.join(",").slice(0, 480);
+      }
       const name =
         formule === "essai"
           ? "Séance d'essai UNLOK (60 min)"
@@ -216,6 +234,8 @@ export const createCoachingOrder = createServerFn({ method: "POST" })
         metadata: {
           express: formule,
           personnes: String(data.people),
+          format: String(data.groupSize),
+          ...(trialEmails ? { trialEmails } : {}),
           note: data.note,
           ...participantsMeta,
         },
