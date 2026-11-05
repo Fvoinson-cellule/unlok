@@ -14,6 +14,7 @@ import { Route as CgvRouteImport } from './routes/cgv'
 import { Route as ClubsRouteImport } from './routes/clubs'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as MethodeRouteImport } from './routes/methode'
+import { Route as OffreRouteImport } from './routes/offre'
 import { Route as RampRouteImport } from './routes/ramp'
 import { Route as TarifsRouteImport } from './routes/tarifs'
 import { Route as PaiementIndexRouteImport } from './routes/paiement/index'
@@ -44,6 +45,11 @@ const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
 const MethodeRoute = MethodeRouteImport.update({
   id: '/methode',
   path: '/methode',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OffreRoute = OffreRouteImport.update({
+  id: '/offre',
+  path: '/offre',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RampRoute = RampRouteImport.update({
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/clubs': typeof ClubsRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/methode': typeof MethodeRoute
+  '/offre': typeof OffreRoute
   '/ramp': typeof RampRoute
   '/tarifs': typeof TarifsRoute
   '/paiement/merci': typeof PaiementMerciRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/clubs': typeof ClubsRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/methode': typeof MethodeRoute
+  '/offre': typeof OffreRoute
   '/ramp': typeof RampRoute
   '/tarifs': typeof TarifsRoute
   '/paiement/merci': typeof PaiementMerciRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/clubs': typeof ClubsRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/methode': typeof MethodeRoute
+  '/offre': typeof OffreRoute
   '/ramp': typeof RampRoute
   '/tarifs': typeof TarifsRoute
   '/paiement/merci': typeof PaiementMerciRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/clubs'
     | '/mentions-legales'
     | '/methode'
+    | '/offre'
     | '/ramp'
     | '/tarifs'
     | '/paiement/merci'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/clubs'
     | '/mentions-legales'
     | '/methode'
+    | '/offre'
     | '/ramp'
     | '/tarifs'
     | '/paiement/merci'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/clubs'
     | '/mentions-legales'
     | '/methode'
+    | '/offre'
     | '/ramp'
     | '/tarifs'
     | '/paiement/merci'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   ClubsRoute: typeof ClubsRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   MethodeRoute: typeof MethodeRoute
+  OffreRoute: typeof OffreRoute
   RampRoute: typeof RampRoute
   TarifsRoute: typeof TarifsRoute
   PaiementMerciRoute: typeof PaiementMerciRoute
@@ -209,6 +222,13 @@ declare module '@tanstack/react-router' {
       path: '/methode'
       fullPath: '/methode'
       preLoaderRoute: typeof MethodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/offre': {
+      id: '/offre'
+      path: '/offre'
+      fullPath: '/offre'
+      preLoaderRoute: typeof OffreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ramp': {
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClubsRoute: ClubsRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   MethodeRoute: MethodeRoute,
+  OffreRoute: OffreRoute,
   RampRoute: RampRoute,
   TarifsRoute: TarifsRoute,
   PaiementMerciRoute: PaiementMerciRoute,

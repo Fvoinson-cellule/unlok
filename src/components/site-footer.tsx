@@ -4,7 +4,7 @@ export function SiteFooter() {
   return (
     <footer className="bg-background border-t border-border">
       <div className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-10">
           <div>
             <Link to="/" className="font-display text-3xl tracking-tight text-foreground">
               UNLOK<span className="text-primary">.</span>
@@ -28,7 +28,14 @@ export function SiteFooter() {
             </div>
           </div>
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Mentions</div>
+            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Pages</div>
+            <div className="mt-4 space-y-1 text-sm text-muted-foreground">
+              <Link to="/methode" className="block hover:text-foreground transition-colors">La méthode</Link>
+              <Link to="/tarifs" className="block hover:text-foreground transition-colors">Tarifs & inscription</Link>
+              <Link to="/ramp" className="block hover:text-foreground transition-colors">Book RAMP</Link>
+              <Link to="/clubs" className="block hover:text-foreground transition-colors">Espace clubs</Link>
+            </div>
+            <div className="mt-8 font-mono text-xs uppercase tracking-[0.15em] text-primary">Mentions</div>
             <div className="mt-4 space-y-1 text-sm text-muted-foreground">
               <Link to="/mentions-legales" className="block hover:text-foreground transition-colors">Mentions légales</Link>
               <Link to="/cgv" className="block hover:text-foreground transition-colors">CGV</Link>
