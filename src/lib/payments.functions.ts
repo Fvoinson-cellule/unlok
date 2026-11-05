@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { type StripeEnv, createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
+import { EXPRESS_PRODUCTS, isExpressProduct, type ExpressProduct } from "@/lib/express-payment";
 
 type CheckoutSessionResult =
   | { clientSecret: string }
@@ -143,4 +144,56 @@ export const getBookingByCheckoutSession = createServerFn({ method: "GET" })
         location,
       },
     };
+  });
+
+// Paiement express (/paiement) : séance déjà convenue avec Florian, aucune réservation de place.
+export const createExpressCheckout = createServerFn({ method: "POST" })
+  .inputValidator((data: {
+    product: string;
+    quantity: number;
+    customerEmail: string;
+    fullName: string;
+    note: string;
+    returnUrl: string;
+    environment: StripeEnv;
+  }) => {
+    if (!isExpressProduct(data.product)) throw new Error("Invalid product");
+    const quantity = Math.floor(Number(data.quantity));
+    if (!(quantity >= 1 && quantity <= 6)) throw new Error("Invalid quantity");
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.customerEmail)) throw new Error("Invalid email");
+    if (!/^https?:\/\//.test(data.returnUrl)) throw new Error("Invalid returnUrl");
+    if (data.environment !== "sandbox" && data.environment !== "live") throw new Error("Invalid env");
+    return {
+      ...data,
+      quantity,
+      fullName: String(data.fullName).trim().slice(0, 80),
+      note: String(data.note ?? "").trim().slice(0, 300),
+    };
+  })
+  .handler(async ({ data }): Promise<CheckoutSessionResult> => {
+    try {
+      const item = EXPRESS_PRODUCTS[data.product as ExpressProduct];
+      const stripe = createStripeClient(data.environment);
+      const prices = await stripe.prices.list({ lookup_keys: [item.lookupKey] });
+      const price = prices.data[0];
+      if (!price) throw new Error("Price not found");
+      // Une carte = un seul titulaire (crédit sur l'email) : quantité 1.
+      const quantity = item.card ? 1 : data.quantity;
+      const session = await stripe.checkout.sessions.create({
+        line_items: [{ price: price.id, quantity }],
+        mode: "payment",
+        ui_mode: "embedded_page",
+        return_url: data.returnUrl,
+        customer_email: data.customerEmail,
+        metadata: {
+          express: data.product,
+          fullName: data.fullName,
+          note: data.note,
+          ...(item.card ? { linkCard: item.card, sessions: String(item.sessions) } : {}),
+        },
+      } as Parameters<typeof stripe.checkout.sessions.create>[0]);
+      return { clientSecret: session.client_secret ?? "" };
+    } catch (error) {
+      return { error: getStripeErrorMessage(error) };
+    }
   });

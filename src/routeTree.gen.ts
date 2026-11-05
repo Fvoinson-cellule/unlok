@@ -14,6 +14,8 @@ import { Route as CgvRouteImport } from './routes/cgv'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as OffreRouteImport } from './routes/offre'
 import { Route as ReservationRouteImport } from './routes/reservation'
+import { Route as PaiementIndexRouteImport } from './routes/paiement/index'
+import { Route as PaiementMerciRouteImport } from './routes/paiement/merci'
 import { Route as PaiementRetourRouteImport } from './routes/paiement/retour'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -42,6 +44,16 @@ const ReservationRoute = ReservationRouteImport.update({
   path: '/reservation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PaiementIndexRoute = PaiementIndexRouteImport.update({
+  id: '/paiement/',
+  path: '/paiement/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaiementMerciRoute = PaiementMerciRouteImport.update({
+  id: '/paiement/merci',
+  path: '/paiement/merci',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PaiementRetourRoute = PaiementRetourRouteImport.update({
   id: '/paiement/retour',
   path: '/paiement/retour',
@@ -60,7 +72,9 @@ export interface FileRoutesByFullPath {
   '/mentions-legales': typeof MentionsLegalesRoute
   '/offre': typeof OffreRoute
   '/reservation': typeof ReservationRoute
+  '/paiement/merci': typeof PaiementMerciRoute
   '/paiement/retour': typeof PaiementRetourRoute
+  '/paiement/': typeof PaiementIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -69,7 +83,9 @@ export interface FileRoutesByTo {
   '/mentions-legales': typeof MentionsLegalesRoute
   '/offre': typeof OffreRoute
   '/reservation': typeof ReservationRoute
+  '/paiement/merci': typeof PaiementMerciRoute
   '/paiement/retour': typeof PaiementRetourRoute
+  '/paiement': typeof PaiementIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -79,7 +95,9 @@ export interface FileRoutesById {
   '/mentions-legales': typeof MentionsLegalesRoute
   '/offre': typeof OffreRoute
   '/reservation': typeof ReservationRoute
+  '/paiement/merci': typeof PaiementMerciRoute
   '/paiement/retour': typeof PaiementRetourRoute
+  '/paiement/': typeof PaiementIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -90,7 +108,9 @@ export interface FileRouteTypes {
     | '/mentions-legales'
     | '/offre'
     | '/reservation'
+    | '/paiement/merci'
     | '/paiement/retour'
+    | '/paiement/'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,7 +119,9 @@ export interface FileRouteTypes {
     | '/mentions-legales'
     | '/offre'
     | '/reservation'
+    | '/paiement/merci'
     | '/paiement/retour'
+    | '/paiement'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -108,7 +130,9 @@ export interface FileRouteTypes {
     | '/mentions-legales'
     | '/offre'
     | '/reservation'
+    | '/paiement/merci'
     | '/paiement/retour'
+    | '/paiement/'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -118,7 +142,9 @@ export interface RootRouteChildren {
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   OffreRoute: typeof OffreRoute
   ReservationRoute: typeof ReservationRoute
+  PaiementMerciRoute: typeof PaiementMerciRoute
   PaiementRetourRoute: typeof PaiementRetourRoute
+  PaiementIndexRoute: typeof PaiementIndexRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -159,6 +185,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReservationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/paiement/': {
+      id: '/paiement/'
+      path: '/paiement'
+      fullPath: '/paiement/'
+      preLoaderRoute: typeof PaiementIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paiement/merci': {
+      id: '/paiement/merci'
+      path: '/paiement/merci'
+      fullPath: '/paiement/merci'
+      preLoaderRoute: typeof PaiementMerciRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/paiement/retour': {
       id: '/paiement/retour'
       path: '/paiement/retour'
@@ -182,7 +222,9 @@ const rootRouteChildren: RootRouteChildren = {
   MentionsLegalesRoute: MentionsLegalesRoute,
   OffreRoute: OffreRoute,
   ReservationRoute: ReservationRoute,
+  PaiementMerciRoute: PaiementMerciRoute,
   PaiementRetourRoute: PaiementRetourRoute,
+  PaiementIndexRoute: PaiementIndexRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
