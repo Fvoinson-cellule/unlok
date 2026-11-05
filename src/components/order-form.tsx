@@ -237,7 +237,7 @@ export function OrderForm({
       {openPlaces > 0 && (
         <p className="rounded-lg border border-primary/40 bg-primary/10 p-3 text-sm">
           Tu paies {people === 1 ? "ta place" : `${people} places`}. Après le paiement, tu auras un lien à envoyer{" "}
-          {openPlaces === 1 ? "à ton coéquipier" : `à tes ${openPlaces} coéquipiers`} pour qu'ils paient leur part au même tarif.
+          {openPlaces === 1 ? "à ton coéquipier pour qu'il paie sa part" : `à tes ${openPlaces} coéquipiers pour qu'ils paient leur part`} au même tarif.
         </p>
       )}
 
