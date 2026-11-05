@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      club_guide_leads: {
+        Row: {
+          club: string | null
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          club?: string | null
+          created_at?: string
+          email: string
+          id?: string
+        }
+        Update: {
+          club?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
       coaching_bookings: {
         Row: {
           booking_type: string
