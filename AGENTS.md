@@ -8,3 +8,4 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+- Coaching prices are computed only in src/lib/pricing.ts (shared by browser and checkout server function) so displayed and charged amounts never diverge.
