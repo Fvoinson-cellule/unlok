@@ -70,6 +70,13 @@ export function SiteNav() {
           </Link>
         </div>
       </div>
+      <nav className="flex gap-2 overflow-x-auto border-t border-border px-4 py-2 text-xs font-medium md:hidden">
+        {([["/methode", "Méthode"], ["/tarifs", "Tarifs"], ["/ramp", "Book RAMP"], ["/clubs", "Clubs"]] as const).map(([to, label]) => (
+          <Link key={to} to={to} className="whitespace-nowrap rounded-lg border border-border px-3 py-1.5 text-foreground" activeProps={{ className: "border-primary text-primary" }}>
+            {label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }
