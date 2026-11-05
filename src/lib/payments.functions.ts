@@ -200,14 +200,18 @@ export const createCoachingOrder = createServerFn({ method: "POST" })
       const groupLabel = data.groupSize === 1 ? "individuel" : data.groupSize === 2 ? "duo" : "petit groupe";
       let trialEmails = "";
       if (formule === "essai") {
-        const emails = data.participants.map((p) => p.email);
+        // Joueur 1 = email du payeur ; les joueurs suivants sont identifiés par email du payeur + prénom.
+        const payer = data.customerEmail.trim().toLowerCase();
+        const emails = data.participants.map((p, i) =>
+          i === 0 ? payer : `${payer}#${p.firstName.trim().toLowerCase()}`,
+        );
         if (new Set(emails).size !== emails.length) {
-          return { error: "Une seule séance d'essai par adresse email : chaque joueur doit avoir son propre email." };
+          return { error: "Une seule séance d'essai par joueur : deux joueurs ont le même prénom." };
         }
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const { data: used } = await supabaseAdmin.from("trial_emails").select("email").in("email", emails);
         if (used && used.length) {
-          return { error: `La séance d'essai a déjà été prise avec ${used.map((u) => u.email).join(", ")}. Une seule séance d'essai par adresse email.` };
+          return { error: `La séance d'essai a déjà été prise pour ${used.map((u) => u.email.replace("#", " · ")).join(", ")}. Une seule séance d'essai par joueur.` };
         }
         trialEmails = emails.join(",").slice(0, 480);
       }
@@ -219,7 +223,10 @@ export const createCoachingOrder = createServerFn({ method: "POST" })
       const participantsMeta: Record<string, string> = {};
       data.participants.forEach((p, i) => {
         participantsMeta[`joueur${i + 1}`] =
-          `${p.firstName} ${p.lastName} · ${p.age} ans · ${p.club} · ${p.email} · ${p.phone}`.slice(0, 480);
+          (i === 0
+            ? `${p.firstName} ${p.lastName} · ${p.age} ans · ${p.club} · ${p.email} · ${p.phone}`
+            : `${p.firstName} ${p.lastName} · ${p.age} ans`
+          ).slice(0, 480);
       });
       const session = await stripe.checkout.sessions.create({
         line_items: [{

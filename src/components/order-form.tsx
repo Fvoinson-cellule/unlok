@@ -37,6 +37,7 @@ export function OrderForm({
   const list = participants.slice(0, people);
   const unit = pricePerPerson(formule, groupSize);
   const total = unit * people;
+  const openPlaces = isTrial ? 0 : groupSize - people;
 
   function update(i: number, key: keyof Participant, value: string) {
     setParticipants((prev) => prev.map((p, j) => (j === i ? { ...p, [key]: value } : p)));
@@ -46,18 +47,19 @@ export function OrderForm({
     e.preventDefault();
     setError(null);
     if (isTrial) {
-      const emails = list.map((p) => p.email.trim().toLowerCase());
-      if (new Set(emails).size !== emails.length)
-        return setError("Une seule séance d'essai par adresse email : chaque joueur doit avoir son propre email.");
+      const names = list.map((p) => p.firstName.trim().toLowerCase());
+      if (new Set(names).size !== names.length)
+        return setError("Une seule séance d'essai par joueur : deux joueurs ont le même prénom.");
     }
     for (const [i, p] of list.entries()) {
       const who = people > 1 ? ` (joueur ${i + 1})` : "";
       if (!p.firstName.trim() || !p.lastName.trim()) return setError(`Indique le prénom et le nom${who}.`);
       const age = Number(p.age);
       if (!(age >= 5 && age <= 99)) return setError(`Indique un âge valide${who}.`);
-      if (!p.club.trim()) return setError(`Indique le club (ou « aucun »)${who}.`);
-      if (!EMAIL.test(p.email.trim())) return setError(`Entre une adresse email valide${who}.`);
-      if (p.phone.replace(/\D/g, "").length < 10) return setError(`Entre un numéro de téléphone valide${who}.`);
+      if (i > 0) continue;
+      if (!p.club.trim()) return setError("Indique le club (ou « aucun »).");
+      if (!EMAIL.test(p.email.trim())) return setError("Entre une adresse email valide.");
+      if (p.phone.replace(/\D/g, "").length < 10) return setError("Entre un numéro de téléphone valide.");
     }
     if (!terms) return setError("Merci d'accepter les conditions générales de vente.");
     try {
@@ -74,10 +76,12 @@ export function OrderForm({
         formule,
         groupSize,
         people,
-        participants: list,
+        participants: list.map((p, i) => (i === 0 ? p : { ...p, club: "", email: "", phone: "" })),
         customerEmail: (list[0]?.email ?? "").trim(),
         note,
-        returnUrl: `${window.location.origin}/paiement/merci`,
+        returnUrl: `${window.location.origin}/paiement/merci${
+          openPlaces > 0 ? `?formule=${formule}&nb=${groupSize}&reste=${openPlaces}` : ""
+        }`,
         environment: getStripeEnvironment(),
       },
     });
@@ -176,7 +180,7 @@ export function OrderForm({
           </div>
           <p className="mt-2 text-xs text-muted-foreground">
             {isTrial
-              ? "15 € par personne. Une seule séance d'essai par adresse email."
+              ? "15 € par personne. Une seule séance d'essai par joueur."
               : "Paie seulement ta place ou celles de plusieurs joueurs du groupe. Remplis une fiche par personne payée."}
           </p>
         </div>
@@ -188,14 +192,23 @@ export function OrderForm({
         </span>
         {list.map((p, i) => (
           <fieldset key={i} className="rounded-lg border border-border p-4">
-            <legend className="px-2 font-display text-lg">Joueur {i + 1}</legend>
+            <legend className="px-2 font-display text-lg">
+              {i === 0 ? (people > 1 ? "Joueur 1 · contact" : "Joueur") : `Joueur ${i + 1}`}
+            </legend>
+            {i === 0 && people > 1 && (
+              <p className="mb-3 text-xs text-muted-foreground">Florian utilisera cet email et ce téléphone pour tout le groupe.</p>
+            )}
             <div className="grid gap-3 sm:grid-cols-2">
               <input className={field} placeholder="Prénom" value={p.firstName} onChange={(e) => update(i, "firstName", e.target.value)} />
               <input className={field} placeholder="Nom" value={p.lastName} onChange={(e) => update(i, "lastName", e.target.value)} />
               <input className={field} inputMode="numeric" placeholder="Âge" value={p.age} onChange={(e) => update(i, "age", e.target.value.replace(/\D/g, ""))} />
-              <input className={field} placeholder="Club" value={p.club} onChange={(e) => update(i, "club", e.target.value)} />
-              <input className={field} type="email" placeholder="Email" value={p.email} onChange={(e) => update(i, "email", e.target.value)} />
-              <input className={field} type="tel" placeholder="Téléphone" value={p.phone} onChange={(e) => update(i, "phone", e.target.value)} />
+              {i === 0 && (
+                <>
+                  <input className={field} placeholder="Club" value={p.club} onChange={(e) => update(i, "club", e.target.value)} />
+                  <input className={field} type="email" placeholder="Email" value={p.email} onChange={(e) => update(i, "email", e.target.value)} />
+                  <input className={field} type="tel" placeholder="Téléphone" value={p.phone} onChange={(e) => update(i, "phone", e.target.value)} />
+                </>
+              )}
             </div>
           </fieldset>
         ))}
@@ -220,6 +233,13 @@ export function OrderForm({
           .
         </span>
       </label>
+
+      {openPlaces > 0 && (
+        <p className="rounded-lg border border-primary/40 bg-primary/10 p-3 text-sm">
+          Tu paies {people === 1 ? "ta place" : `${people} places`}. Après le paiement, tu auras un lien à envoyer{" "}
+          {openPlaces === 1 ? "à ton coéquipier pour qu'il paie sa part" : `à tes ${openPlaces} coéquipiers pour qu'ils paient leur part`} au même tarif.
+        </p>
+      )}
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 
