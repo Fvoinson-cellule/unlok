@@ -12,11 +12,12 @@ type Search = { formule?: ExpressProduct; nb?: number };
 
 export const Route = createFileRoute("/paiement/")({
   validateSearch: (s: Record<string, unknown>): Search => {
-    const nb = Number(s.nb);
-    return {
-      formule: isExpressProduct(s.formule) ? s.formule : undefined,
-      nb: nb >= 1 && nb <= 6 ? Math.floor(nb) : undefined,
-    };
+    const nb = Number(s["nb"]);
+    const f = s["formule"];
+    const out: Search = {};
+    if (isExpressProduct(f)) out.formule = f;
+    if (nb >= 1 && nb <= 6) out.nb = Math.floor(nb);
+    return out;
   },
   head: () => ({
     meta: [
