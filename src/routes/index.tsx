@@ -87,8 +87,8 @@ function Index() {
                   Séance d'essai · 60 min · 15 €
                   <span>→</span>
                 </Link>
-                <a
-                  href="#methode"
+                <Link
+                  to="/methode"
                   className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
                 >
                   Découvrir la méthode
