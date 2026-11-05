@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CgvRouteImport } from './routes/cgv'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
+import { Route as MethodeRouteImport } from './routes/methode'
 import { Route as PaiementIndexRouteImport } from './routes/paiement/index'
 import { Route as PaiementMerciRouteImport } from './routes/paiement/merci'
 import { Route as PaiementRetourRouteImport } from './routes/paiement/retour'
@@ -30,6 +31,11 @@ const CgvRoute = CgvRouteImport.update({
 const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
   id: '/mentions-legales',
   path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MethodeRoute = MethodeRouteImport.update({
+  id: '/methode',
+  path: '/methode',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PaiementIndexRoute = PaiementIndexRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cgv': typeof CgvRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/methode': typeof MethodeRoute
   '/paiement/merci': typeof PaiementMerciRoute
   '/paiement/retour': typeof PaiementRetourRoute
   '/paiement/': typeof PaiementIndexRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cgv': typeof CgvRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/methode': typeof MethodeRoute
   '/paiement/merci': typeof PaiementMerciRoute
   '/paiement/retour': typeof PaiementRetourRoute
   '/paiement': typeof PaiementIndexRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/cgv': typeof CgvRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/methode': typeof MethodeRoute
   '/paiement/merci': typeof PaiementMerciRoute
   '/paiement/retour': typeof PaiementRetourRoute
   '/paiement/': typeof PaiementIndexRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cgv'
     | '/mentions-legales'
+    | '/methode'
     | '/paiement/merci'
     | '/paiement/retour'
     | '/paiement/'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cgv'
     | '/mentions-legales'
+    | '/methode'
     | '/paiement/merci'
     | '/paiement/retour'
     | '/paiement'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cgv'
     | '/mentions-legales'
+    | '/methode'
     | '/paiement/merci'
     | '/paiement/retour'
     | '/paiement/'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CgvRoute: typeof CgvRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
+  MethodeRoute: typeof MethodeRoute
   PaiementMerciRoute: typeof PaiementMerciRoute
   PaiementRetourRoute: typeof PaiementRetourRoute
   PaiementIndexRoute: typeof PaiementIndexRoute
@@ -143,6 +156,13 @@ declare module '@tanstack/react-router' {
       path: '/mentions-legales'
       fullPath: '/mentions-legales'
       preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/methode': {
+      id: '/methode'
+      path: '/methode'
+      fullPath: '/methode'
+      preLoaderRoute: typeof MethodeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/paiement/': {
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CgvRoute: CgvRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
+  MethodeRoute: MethodeRoute,
   PaiementMerciRoute: PaiementMerciRoute,
   PaiementRetourRoute: PaiementRetourRoute,
   PaiementIndexRoute: PaiementIndexRoute,
