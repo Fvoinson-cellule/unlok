@@ -39,7 +39,16 @@ async function handleCheckoutCompleted(session: any, env: StripeEnv) {
 
   const bookingId = session.metadata?.bookingId;
   // Paiement express d'une séance déjà convenue : rien à confirmer en base.
-  if (!bookingId && session.metadata?.express) return;
+  if (!bookingId && session.metadata?.express) {
+    const trialEmails = String(session.metadata?.trialEmails ?? "").split(",").filter(Boolean);
+    if (trialEmails.length) {
+      const { error } = await getSupabase()
+        .from("trial_emails")
+        .upsert(trialEmails.map((email) => ({ email, checkout_session_id: session.id })), { onConflict: "email", ignoreDuplicates: true });
+      if (error) console.error("trial_emails insert a échoué", error, env);
+    }
+    return;
+  }
   if (!bookingId) {
     console.error("checkout.session.completed sans bookingId");
     return;

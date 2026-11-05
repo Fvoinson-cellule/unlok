@@ -292,6 +292,24 @@ export type Database = {
         }
         Relationships: []
       }
+      trial_emails: {
+        Row: {
+          checkout_session_id: string | null
+          created_at: string
+          email: string
+        }
+        Insert: {
+          checkout_session_id?: string | null
+          created_at?: string
+          email: string
+        }
+        Update: {
+          checkout_session_id?: string | null
+          created_at?: string
+          email?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       coaching_availability: {

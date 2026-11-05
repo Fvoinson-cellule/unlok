@@ -2,7 +2,7 @@ import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe
 import { useState } from "react";
 
 import { createCoachingOrder, type Participant } from "@/lib/payments.functions";
-import { FORMULES, MAX_PEOPLE, formatEuro, orderTotal, pricePerPerson, type Formule } from "@/lib/pricing";
+import { FORMULES, MAX_PEOPLE, formatEuro, pricePerPerson, type Formule } from "@/lib/pricing";
 import { getStripe, getStripeEnvironment } from "@/lib/stripe";
 
 const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -20,7 +20,12 @@ export function OrderForm({
   showNote?: boolean;
 }) {
   const [formule, setFormule] = useState<Formule>(initialFormule);
-  const [people, setPeople] = useState(Math.min(MAX_PEOPLE, Math.max(1, initialPeople)));
+  const [groupSize, setGroupSize] = useState(Math.min(MAX_PEOPLE, Math.max(1, initialPeople)));
+  const [paidFor, setPaidFor] = useState(1);
+  const isTrial = formule === "essai";
+  const maxPaid = isTrial ? MAX_PEOPLE : groupSize;
+  const people = Math.min(paidFor, maxPaid);
+  const setPeople = (f: (q: number) => number) => setPaidFor(Math.min(maxPaid, Math.max(1, f(people))));
   const [participants, setParticipants] = useState<Participant[]>(() =>
     Array.from({ length: MAX_PEOPLE }, empty),
   );
@@ -30,8 +35,8 @@ export function OrderForm({
   const [ready, setReady] = useState(false);
 
   const list = participants.slice(0, people);
-  const unit = pricePerPerson(formule, people);
-  const total = orderTotal(formule, people);
+  const unit = pricePerPerson(formule, groupSize);
+  const total = unit * people;
 
   function update(i: number, key: keyof Participant, value: string) {
     setParticipants((prev) => prev.map((p, j) => (j === i ? { ...p, [key]: value } : p)));
@@ -40,6 +45,11 @@ export function OrderForm({
   function submit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    if (isTrial) {
+      const emails = list.map((p) => p.email.trim().toLowerCase());
+      if (new Set(emails).size !== emails.length)
+        return setError("Une seule séance d'essai par adresse email : chaque joueur doit avoir son propre email.");
+    }
     for (const [i, p] of list.entries()) {
       const who = people > 1 ? ` (joueur ${i + 1})` : "";
       if (!p.firstName.trim() || !p.lastName.trim()) return setError(`Indique le prénom et le nom${who}.`);
@@ -62,6 +72,7 @@ export function OrderForm({
     const r = await createCoachingOrder({
       data: {
         formule,
+        groupSize,
         people,
         participants: list,
         customerEmail: (list[0]?.email ?? "").trim(),
@@ -83,7 +94,7 @@ export function OrderForm({
       <div className="space-y-4">
         <div className="flex items-center justify-between gap-4 rounded-lg border border-border bg-card p-4 text-sm">
           <span>
-            {FORMULES[formule].label} · {people} {people > 1 ? "joueurs" : "joueur"} · {formatEuro(total)}
+            {FORMULES[formule].label}{!isTrial ? ` · séance à ${groupSize}` : ""} · {people} pers. · {formatEuro(total)}
           </span>
           <button type="button" className="underline" onClick={() => setReady(false)}>
             Modifier
@@ -116,7 +127,7 @@ export function OrderForm({
               >
                 <span className="block font-display text-xl">{FORMULES[k].label}</span>
                 <span className="text-sm text-muted-foreground">
-                  {formatEuro(pricePerPerson(k, people))} / pers. · 60 min{k.startsWith("carte") ? " par séance" : ""}
+                  {formatEuro(pricePerPerson(k, groupSize))} / pers. · 60 min{k.startsWith("carte") ? " par séance" : ""}
                 </span>
               </button>
             );
@@ -124,26 +135,57 @@ export function OrderForm({
         </div>
       </fieldset>
 
-      <div>
-        <span className="mb-3 block font-mono text-xs uppercase tracking-[0.15em] text-primary">2 · Nombre de joueurs</span>
-        <div className="inline-flex items-center gap-4 rounded-lg border border-border bg-card px-2 py-1">
-          <button type="button" aria-label="Moins" className="px-3 py-1 text-xl" onClick={() => setPeople((q) => Math.max(1, q - 1))}>
-            −
-          </button>
-          <span className="w-6 text-center font-medium">{people}</span>
-          <button type="button" aria-label="Plus" className="px-3 py-1 text-xl" onClick={() => setPeople((q) => Math.min(MAX_PEOPLE, q + 1))}>
-            +
-          </button>
+      {!isTrial && (
+        <fieldset>
+          <legend className="mb-3 font-mono text-xs uppercase tracking-[0.15em] text-primary">2 · Le format de la séance</legend>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {[1, 2, 3, 4].map((n) => {
+              const on = n === groupSize;
+              return (
+                <button
+                  key={n}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => setGroupSize(n)}
+                  className={`rounded-lg border p-3 text-left transition-colors ${
+                    on ? "border-primary bg-primary/10" : "border-border bg-card hover:border-primary/60"
+                  }`}
+                >
+                  <span className="block font-display text-lg">{n === 1 ? "Seul" : `À ${n}`}</span>
+                  <span className="text-xs text-muted-foreground">{formatEuro(pricePerPerson("seance", n))} / pers. la séance</span>
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
+      )}
+
+      {maxPaid > 1 && (
+        <div>
+          <span className="mb-3 block font-mono text-xs uppercase tracking-[0.15em] text-primary">
+            {isTrial ? "2" : "3"} · Je paie pour
+          </span>
+          <div className="inline-flex items-center gap-4 rounded-lg border border-border bg-card px-2 py-1">
+            <button type="button" aria-label="Moins" className="px-3 py-1 text-xl" onClick={() => setPeople((q) => q - 1)}>
+              −
+            </button>
+            <span className="w-16 text-center font-medium">{people} pers.</span>
+            <button type="button" aria-label="Plus" className="px-3 py-1 text-xl" onClick={() => setPeople((q) => q + 1)}>
+              +
+            </button>
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            {isTrial
+              ? "15 € par personne. Une seule séance d'essai par adresse email."
+              : "Paie seulement ta place ou celles de plusieurs joueurs du groupe. Remplis une fiche par personne payée."}
+          </p>
         </div>
-        <p className="mt-2 text-xs text-muted-foreground">
-          {formule === "essai"
-            ? "Séance d'essai à 15 € par personne."
-            : "Le tarif par personne baisse en duo et en petit groupe (jusqu'à 4 joueurs)."}
-        </p>
-      </div>
+      )}
 
       <div className="space-y-6">
-        <span className="block font-mono text-xs uppercase tracking-[0.15em] text-primary">3 · Les joueurs</span>
+        <span className="block font-mono text-xs uppercase tracking-[0.15em] text-primary">
+          {people > 1 ? "Les joueurs payés" : "Le joueur"}
+        </span>
         {list.map((p, i) => (
           <fieldset key={i} className="rounded-lg border border-border p-4">
             <legend className="px-2 font-display text-lg">Joueur {i + 1}</legend>
