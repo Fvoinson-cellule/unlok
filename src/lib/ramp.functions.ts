@@ -43,7 +43,7 @@ export const getRampDownload = createServerFn({ method: "POST" })
     try {
       const stripe = createStripeClient(data.environment);
       const s = await stripe.checkout.sessions.retrieve(data.sessionId);
-      if (s.metadata?.product !== "ramp") return { error: "not_ramp" };
+      if (s.metadata?.['product'] !== "ramp") return { error: "not_ramp" };
       if (s.payment_status === "unpaid") return { error: "unpaid" };
       const asset = (await import("@/assets/Pack-RAMP-Unlok.pdf.asset.json")).default;
       return { url: asset.url };
