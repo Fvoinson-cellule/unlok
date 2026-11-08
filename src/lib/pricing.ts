@@ -59,3 +59,7 @@ export const RAMP = {
 export function isRampLaunch(now: Date = new Date()): boolean {
   return now < RAMP.launchEndsAt;
 }
+/** Prix du Book RAMP en centimes à une date donnée. */
+export function rampPriceCents(now: Date = new Date()): number {
+  return isRampLaunch(now) ? 1490 : 2490;
+}
