@@ -37,6 +37,9 @@ async function handleCheckoutCompleted(session: any, env: StripeEnv) {
     return;
   }
 
+  // Book RAMP : livraison par lien de téléchargement après vérification du paiement.
+  if (session.metadata?.product === "ramp") return;
+
   const bookingId = session.metadata?.bookingId;
   // Paiement express d'une séance déjà convenue : rien à confirmer en base.
   if (!bookingId && session.metadata?.express) {
