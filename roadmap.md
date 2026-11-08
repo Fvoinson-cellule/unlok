@@ -20,5 +20,5 @@
 - [ ] Brancher le paiement sur le site (selon l'hébergement : paiement intégré ou liens Stripe gérés par l'intégration).
 - [x] Masquer l'abonnement (séance découverte + cartes uniquement).
 - [x] Onglet « Réservation » pour réserver avec sa carte.
-- [ ] Rendre les champs email visibles (contour clair) sur Book RAMP, Clubs et Tarifs.
-- [ ] Renommer « Clubs » en « Ebook Gratuit » dans le menu.
+- [x] Rendre les champs email visibles (contour clair) sur Book RAMP, Clubs et Tarifs.
+- [x] Renommer « Clubs » en « Ebook Gratuit » dans le menu.
