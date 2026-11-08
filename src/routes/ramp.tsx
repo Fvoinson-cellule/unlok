@@ -1,4 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
+import { getStripe, getStripeEnvironment } from "@/lib/stripe";
+import { createRampCheckout, getRampDownload } from "@/lib/ramp.functions";
 import { useEffect, useState } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
@@ -15,6 +18,8 @@ export const Route = createFileRoute("/ramp")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  validateSearch: (s: Record<string, unknown>): { session_id?: string } =>
+    typeof s["session_id"] === "string" ? { session_id: s["session_id"] } : {},
   component: Ramp,
 });
 
@@ -25,7 +30,99 @@ const STEPS = [
   ["P", "Potentiate", "Monter en intensité pour être prêt dès le premier ballon."],
 ] as const;
 
+function RampBuy() {
+  const [email, setEmail] = useState("");
+  const [cgv, setCgv] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [err, setErr] = useState("");
+  const valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) && cgv;
+  async function fetchClientSecret() {
+    const r = await createRampCheckout({
+      data: {
+        email,
+        returnUrl: `${window.location.origin}/ramp?session_id={CHECKOUT_SESSION_ID}`,
+        environment: getStripeEnvironment(),
+      },
+    });
+    if ("error" in r) throw new Error(r.error);
+    return r.clientSecret;
+  }
+  if (open) {
+    return (
+      <div className="rounded-lg bg-card p-2">
+        <EmbeddedCheckoutProvider stripe={getStripe()} options={{ fetchClientSecret }}>
+          <EmbeddedCheckout />
+        </EmbeddedCheckoutProvider>
+      </div>
+    );
+  }
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        try { getStripeEnvironment(); setOpen(true); }
+        catch { setErr("Le paiement n'est pas disponible ici. Écris à unlok.basketball@gmail.com."); }
+      }}
+      className="space-y-3"
+    >
+      <label className="block text-sm text-muted-foreground">
+        Ton email (pour le reçu)
+        <input
+          type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+          className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-foreground"
+        />
+      </label>
+      <label className="flex items-start gap-2 text-sm text-muted-foreground">
+        <input type="checkbox" checked={cgv} onChange={(e) => setCgv(e.target.checked)} className="mt-1" />
+        <span>
+          J'accepte les <Link to="/cgv" className="underline">CGV</Link> et je demande l'accès immédiat au
+          PDF, en renonçant à mon droit de rétractation.
+        </span>
+      </label>
+      {err && <p className="text-sm text-primary">{err}</p>}
+      <button
+        disabled={!valid}
+        className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 disabled:opacity-40"
+      >
+        Acheter le book <span>→</span>
+      </button>
+      <p className="text-xs text-muted-foreground">PDF de 40 pages, téléchargement immédiat après paiement.</p>
+    </form>
+  );
+}
+
+function RampDownload({ sessionId }: { sessionId: string }) {
+  const [url, setUrl] = useState<string | null>(null);
+  const [err, setErr] = useState(false);
+  useEffect(() => {
+    getRampDownload({ data: { sessionId, environment: getStripeEnvironment() } })
+      .then((r) => ("url" in r ? setUrl(r.url) : setErr(true)))
+      .catch(() => setErr(true));
+  }, [sessionId]);
+  if (err) {
+    return (
+      <p className="text-sm text-muted-foreground">
+        Paiement introuvable. Écris à <a className="underline" href="mailto:unlok.basketball@gmail.com">unlok.basketball@gmail.com</a>, je t'envoie le book.
+      </p>
+    );
+  }
+  return (
+    <div className="rounded-lg border border-primary/40 bg-primary/10 p-5">
+      <p className="font-display text-2xl uppercase">Merci, paiement reçu !</p>
+      <p className="mt-1 text-sm text-muted-foreground">Télécharge ton book maintenant et garde-le sur ton téléphone.</p>
+      {url ? (
+        <a href={url} download="Pack-RAMP-Unlok.pdf" className="mt-4 inline-flex rounded-lg bg-primary px-6 py-3 text-sm font-semibold uppercase text-primary-foreground">
+          Télécharger le PDF
+        </a>
+      ) : (
+        <p className="mt-4 text-sm">Vérification du paiement…</p>
+      )}
+    </div>
+  );
+}
+
 function Ramp() {
+  const { session_id } = Route.useSearch();
   const [launch, setLaunch] = useState(true);
   useEffect(() => setLaunch(isRampLaunch()), []);
   return (
@@ -57,12 +154,9 @@ function Ramp() {
               <span className="font-display text-6xl text-primary">{RAMP.regularPrice}</span>
             )}
           </div>
-          <a
-            href="mailto:unlok.basketball@gmail.com?subject=Book%20RAMP%20-%20Pr%C3%A9venez-moi"
-            className="mt-8 inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
-          >
-            Être prévenu de la sortie <span>→</span>
-          </a>
+          <div className="mt-8 max-w-xl">
+            {session_id ? <RampDownload sessionId={session_id} /> : <RampBuy />}
+          </div>
         </div>
       </section>
 
