@@ -20,7 +20,7 @@ export const Route = createFileRoute("/clubs")({
 
 const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const field =
-  "w-full rounded-lg border border-border bg-background px-3 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none";
+  "w-full rounded-lg border border-foreground/30 bg-background px-3 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none";
 
 function Clubs() {
   const [email, setEmail] = useState("");
