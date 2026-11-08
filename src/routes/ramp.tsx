@@ -163,7 +163,7 @@ function Ramp() {
       <section className="border-b border-border bg-court text-court-foreground">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Le modèle RAMP</div>
-          <h2 className="mt-4 font-display text-4xl tracking-tight">4 étapes, 10 minutes.</h2>
+          <h2 className="mt-4 font-display text-4xl tracking-tight">4 étapes, 20 minutes.</h2>
           <ol className="mt-10 border-t border-court-foreground/20">
             {STEPS.map(([l, n, t]) => (
               <li key={l} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-court-foreground/20 py-6 md:grid-cols-[5rem_1fr]">
