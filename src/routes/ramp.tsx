@@ -133,7 +133,7 @@ function Ramp() {
         <div className="mx-auto max-w-6xl px-6 pt-20 pb-16">
           <div className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-1 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
             <span className="size-1.5 rounded-full bg-primary" />
-            Book numérique · Bientôt disponible
+            Book numérique · Disponible
           </div>
           <h1 className="mt-6 font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.92] tracking-tight text-balance rise">
             40 échauffements<br />
