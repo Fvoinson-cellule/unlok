@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { GROUPS, RAMP, SESSION_MINUTES, TRIAL_PRICE, formatEuro, pricePerPerson } from "@/lib/pricing";
 
 export const Route = createFileRoute("/cgv")({
   head: () => ({
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/cgv")({
       { property: "og:title", content: "CGV · Unlok" },
       {
         property: "og:description",
-        content: "Conditions générales de vente des séances et abonnements de coaching basket Unlok.",
+        content: "Conditions générales de vente des séances, cartes de coaching basket et Book RAMP Unlok.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -32,7 +33,7 @@ function CGV() {
         </Link>
         <h1 className="mt-6 font-display text-4xl tracking-tight">Conditions générales de vente</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Version du 28 septembre 2026, saison 2026-2027.
+          Version du 9 novembre 2026, saison 2026-2027.
         </p>
 
         <div className="mt-10 space-y-8 text-sm text-muted-foreground">
@@ -57,8 +58,8 @@ function CGV() {
             <h2 className="font-display text-xl tracking-tight text-foreground">2. Objet</h2>
             <p className="mt-2">
               Les présentes conditions régissent la vente de séances de coaching de basketball
-              individualisé en petit groupe (6 joueurs maximum), destinées aux joueurs et joueuses,
-              jeunes et adultes, en complément de l'entraînement en club. Toute réservation
+              individualisé, en individuel, en duo ou en petit groupe de 3 à 4 joueurs, destinées aux joueurs et joueuses,
+              jeunes et adultes, en complément de l'entraînement en club, ainsi que du Book RAMP numérique. Toute commande
               implique l'acceptation sans réserve des présentes conditions.
             </p>
           </section>
@@ -85,28 +86,37 @@ function CGV() {
                 </thead>
                 <tbody className="divide-y divide-border">
                   <tr>
-                    <td className="px-4 py-3 text-foreground">Séance découverte</td>
-                    <td className="px-4 py-3">25 €</td>
-                    <td className="px-4 py-3">Séance unique, sans engagement.</td>
+                    <td className="px-4 py-3 text-foreground">Séance d'essai</td>
+                    <td className="px-4 py-3">{formatEuro(TRIAL_PRICE)} / personne</td>
+                    <td className="px-4 py-3">Une seule séance d'essai par joueur, sans engagement.</td>
                   </tr>
+                  {GROUPS.map((group) => (
+                    ["seance", "carte5", "carte10"] as const
+                  ).map((formule) => (
+                    <tr key={`${group.key}-${formule}`}>
+                      <td className="px-4 py-3 text-foreground">
+                        {formule === "seance" ? "Séance" : formule === "carte5" ? "Carte 5 séances" : "Carte 10 séances"} · {group.label} ({group.people})
+                      </td>
+                      <td className="px-4 py-3">{formatEuro(pricePerPerson(formule, group.key === "solo" ? 1 : group.key === "duo" ? 2 : 3))} / personne</td>
+                      <td className="px-4 py-3">
+                        {formule === "seance" ? "Sans engagement." : "Valable 5 mois à compter de l'achat, selon les places disponibles."}
+                      </td>
+                    </tr>
+                  )))}
                   <tr>
-                    <td className="px-4 py-3 text-foreground">Carte 5 séances</td>
-                    <td className="px-4 py-3">250 €</td>
-                    <td className="px-4 py-3">Valable 5 mois à compter de l'achat, sans créneau fixe, selon les places disponibles.</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3 text-foreground">Carte 10 séances</td>
-                    <td className="px-4 py-3">400 €</td>
-                    <td className="px-4 py-3">Valable 5 mois à compter de l'achat, sans créneau fixe, selon les places disponibles.</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3 text-foreground">Abonnement mensuel</td>
-                    <td className="px-4 py-3">100 €/mois, puis dernière échéance ajustée au prorata en juin 2027</td>
-                    <td className="px-4 py-3">Créneau hebdomadaire fixe réservé jusqu'à la fin de la saison, le 20 juin 2027.</td>
+                    <td className="px-4 py-3 text-foreground">Book RAMP numérique</td>
+                    <td className="px-4 py-3">{RAMP.launchPrice} jusqu'au 31/12/2026 inclus, puis {RAMP.regularPrice}</td>
+                    <td className="px-4 py-3">Achat unique, téléchargement après paiement.</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            <p className="mt-3">
+              Chaque séance de coaching dure {SESSION_MINUTES} minutes. La carte 5 bénéficie d'une remise de 2 € par séance,
+              la carte 10 d'une remise de 5 € par séance, par rapport au prix à la séance du format choisi.
+              Il n'y a pas d'abonnement ni de prélèvement récurrent. Le payeur peut régler sa place ou celles de plusieurs joueurs ;
+              le montant total correspond au tarif par personne multiplié par le nombre de personnes payées.
+            </p>
             <p className="mt-3">
               Les prix sont indiqués en euros, nets de taxe. TVA non applicable, article 293 B du
               Code général des impôts.
@@ -125,34 +135,25 @@ function CGV() {
             <h2 className="font-display text-xl tracking-tight text-foreground">5. Paiement</h2>
             <p className="mt-2">
               Le paiement se fait en ligne, par l'intermédiaire de la plateforme sécurisée Stripe
-              (carte bancaire, Apple Pay, Google Pay ou prélèvement SEPA selon la formule). Unlok
+              (selon les moyens de paiement proposés au moment de l'achat). Unlok
               n'a jamais accès à vos données bancaires.
             </p>
             <p className="mt-2">
-              Pour l'abonnement, le premier mois est payé à la réservation. Les mois suivants sont
-              prélevés automatiquement à la date anniversaire de la souscription. La dernière
-              échéance, en juin 2027, est ajustée au prorata des séances restant à effectuer avant
-              la fin de la saison, le 20 juin 2027. L'abonnement prend ensuite fin automatiquement.
+              Le montant total est affiché avant validation et payé en une seule fois à la commande.
               Une facture est émise pour chaque paiement.
             </p>
           </section>
 
           <section>
-            <h2 className="font-display text-xl tracking-tight text-foreground">6. Résiliation de l'abonnement</h2>
+            <h2 className="font-display text-xl tracking-tight text-foreground">6. Organisation des séances et accès au Book RAMP</h2>
             <p className="mt-2">
-              L'abonnement est souscrit pour la durée de la saison, jusqu'au 20 juin 2027. Il ne
-              peut être résilié de façon anticipée que pour un <strong className="text-foreground">motif
-              légitime dûment justifié</strong> : blessure ou inaptitude médicale justifiée par
-              certificat, déménagement rendant la poursuite des séances impossible, ou tout autre
-              motif légitime équivalent dûment justifié. La demande de résiliation anticipée est
-              adressée par email à{" "}
-              <a href="mailto:unlok.basketball@gmail.com" className="text-primary hover:underline">unlok.basketball@gmail.com</a>,
-              accompagnée du justificatif correspondant. En dehors de ces cas, les mensualités
-              restant dues jusqu'à la fin de la saison restent exigibles.
+              Après l'achat d'une séance ou d'une carte, Florian contacte le payeur pour convenir
+              des dates et du lieu, selon les disponibilités. Si la séance est déjà convenue,
+              le paiement confirme l'achat de la formule choisie. Les cartes sont nominatives et sans renouvellement automatique.
             </p>
             <p className="mt-2">
-              Les formules Carte 5 séances et Carte 10 séances n'impliquent aucun engagement dans
-              la durée et restent une alternative pour qui préfère ne pas s'engager sur la saison.
+              Le Book RAMP est fourni au format PDF. Le lien de téléchargement est disponible
+              après confirmation du paiement.
             </p>
           </section>
 
@@ -176,6 +177,12 @@ function CGV() {
               plus de votre accord pour un démarrage anticipé : dans ce cas, une fois la prestation
               pleinement exécutée avec votre accord exprès et votre renonciation expresse, elle
               n'ouvre plus droit à rétractation (article L221-28, 1°).
+            </p>
+            <p className="mt-2">
+              Pour le Book RAMP, l'accès immédiat au PDF nécessite votre accord exprès pour la fourniture
+              du contenu numérique avant la fin du délai de 14 jours et votre renonciation expresse au droit
+              de rétractation. Ces accords sont recueillis avant le paiement. Une fois la fourniture commencée
+              avec ces accords, le droit de rétractation ne s'applique plus (article L221-28, 13°).
             </p>
           </section>
 
