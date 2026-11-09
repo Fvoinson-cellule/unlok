@@ -39,7 +39,7 @@ export function SiteFooter() {
             <div className="mt-4 space-y-1 text-sm text-muted-foreground">
               <Link to="/mentions-legales" className="block hover:text-foreground transition-colors">Mentions légales</Link>
               <Link to="/cgv" className="block hover:text-foreground transition-colors">CGV</Link>
-              <a href="https://billing.stripe.com/p/login/bJe9AT7DRcsNaLw0hU6sw00" className="block hover:text-foreground transition-colors">Gérer mon abonnement</a>
+              <a href="https://billing.stripe.com/p/login/bJe9AT7DRcsNaLw0hU6sw00" className="block hover:text-foreground transition-colors">Mes paiements</a>
               <p>Micro-entreprise · RGPD</p>
               <p>Consentement parental</p>
             </div>

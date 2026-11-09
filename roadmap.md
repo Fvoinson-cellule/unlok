@@ -14,11 +14,12 @@
 - [x] Ajouter un bouton « Coaching privé » dans la barre du haut, à côté de Tarifs.
 - [x] Vendre les cartes 5 et 10 séances sur le site, avec choix de la première séance.
 - [x] Décompte automatique du solde de carte et proposition de renouvellement.
-- [ ] Activer les paiements intégrés Stripe sur le projet.
-- [ ] Créer le catalogue Stripe : séance découverte 15 €, abonnement 100 €/mois, carte 5 séances 250 €, carte 10 séances 400 €, tarifs préférentiels VIP25 (125 € / 250 €).
-- [ ] Confirmer avec Florian le fonctionnement : paiement, démarrage et annulation d'abonnement.
-- [ ] Brancher le paiement sur le site (selon l'hébergement : paiement intégré ou liens Stripe gérés par l'intégration).
+- [x] Activer les paiements intégrés Stripe sur le projet.
+- [x] Remplacer l’ancien catalogue et les abonnements par la grille actuelle calculée par personne lors du paiement.
+- [x] Brancher le paiement intégré sur Tarifs et Paiement.
 - [x] Masquer l'abonnement (séance découverte + cartes uniquement).
 - [x] Onglet « Réservation » pour réserver avec sa carte.
 - [x] Rendre les champs email visibles (contour clair) sur Book RAMP, Clubs et Tarifs.
 - [x] Renommer « Clubs » en « Ebook Gratuit » dans le menu.
+- [x] Aligner les conditions de vente sur tous les tarifs actuels, sans abonnement.
+- [x] Vérifier le montant de 25 € de la séance d’essai dans le paiement Stripe (formulaire test ouvert, sans débit).
