@@ -86,7 +86,7 @@ function CGV() {
                 <tbody className="divide-y divide-border">
                   <tr>
                     <td className="px-4 py-3 text-foreground">Séance découverte</td>
-                    <td className="px-4 py-3">15 €</td>
+                    <td className="px-4 py-3">25 €</td>
                     <td className="px-4 py-3">Séance unique, sans engagement.</td>
                   </tr>
                   <tr>

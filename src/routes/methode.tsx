@@ -222,7 +222,7 @@ function Methode() {
       <section className="border-t border-border bg-court text-court-foreground">
         <div className="mx-auto max-w-6xl px-6 py-24 text-center">
           <h2 className="font-display text-4xl md:text-5xl tracking-tight text-balance">Viens l'essayer sur le terrain.</h2>
-          <p className="mt-4 text-court-foreground/70 max-w-xl mx-auto">Séance d'essai de 60 minutes à 15 €.</p>
+          <p className="mt-4 text-court-foreground/70 max-w-xl mx-auto">Séance d'essai de 60 minutes à 25 €.</p>
           <Link to="/tarifs" className="mt-8 inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg">
             Voir les tarifs <span>→</span>
           </Link>
