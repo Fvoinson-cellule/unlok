@@ -17,8 +17,9 @@ describe("grille tarifaire", () => {
     expect(pricePerPerson("carte5", 4)).toBe(165);
     expect(pricePerPerson("carte10", 4)).toBe(300);
   });
-  it("séance d'essai à 15 € par personne", () => {
-    expect(orderTotal("essai", 3)).toBe(45);
+  it("séance d'essai à 25 € par personne", () => {
+    expect(pricePerPerson("essai", 1)).toBe(25);
+    expect(orderTotal("essai", 3)).toBe(75);
   });
   it("book RAMP : lancement jusqu'au 31 décembre", () => {
     expect(isRampLaunch(new Date("2026-12-31T22:00:00+01:00"))).toBe(true);

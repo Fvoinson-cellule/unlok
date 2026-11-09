@@ -84,7 +84,7 @@ function Index() {
                   to="/tarifs"
                   className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
                 >
-                  Séance d'essai · 60 min · 15 €
+                  Séance d'essai · 60 min · 25 €
                   <span>→</span>
                 </Link>
                 <Link
@@ -151,7 +151,7 @@ function Index() {
           </div>
           <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
             {[
-              { tag: "Terrain", title: "Coaching basket", text: "Séances de 60 minutes, seul, en duo ou en petit groupe. Séance d'essai à 15 €.", to: "/tarifs" as const, cta: "Voir les tarifs" },
+              { tag: "Terrain", title: "Coaching basket", text: "Séances de 60 minutes, seul, en duo ou en petit groupe. Séance d'essai à 25 €.", to: "/tarifs" as const, cta: "Voir les tarifs" },
               { tag: "Book", title: "40 échauffements RAMP", text: "Des échauffements prêts à l'emploi pour préparer le corps et la tête au jeu.", to: "/ramp" as const, cta: "Découvrir le book" },
               { tag: "Clubs", title: "Le guide des clubs", text: "10 choses à mettre en place dans son club. Gratuit, reçu par email.", to: "/clubs" as const, cta: "Recevoir le guide" },
             ].map((u) => (
@@ -219,7 +219,7 @@ function Index() {
                 to="/tarifs"
                 className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
               >
-                Séance d'essai · 15 €
+                Séance d'essai · 25 €
                 <span>→</span>
               </Link>
             </div>

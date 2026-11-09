@@ -1,11 +1,11 @@
 // Grille tarifaire UNLOK (séances de 60 min).
 // Règle : prix à la séance P selon le nombre de joueurs ;
-// carte 5 = 5 × (P − 2 €), carte 10 = 10 × (P − 5 €). Séance d'essai : 15 € / personne.
+// carte 5 = 5 × (P − 2 €), carte 10 = 10 × (P − 5 €). Séance d'essai : 25 € / personne.
 // Utilisé côté navigateur ET serveur : le serveur ne fait confiance qu'à ce calcul.
 
 export const SESSION_MINUTES = 60;
 export const MAX_PEOPLE = 4;
-export const TRIAL_PRICE = 15;
+export const TRIAL_PRICE = 25;
 
 export const FORMULES = {
   essai: { label: "Séance d'essai", sessions: 1 },

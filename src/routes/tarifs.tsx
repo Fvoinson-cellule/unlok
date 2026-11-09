@@ -8,9 +8,9 @@ export const Route = createFileRoute("/tarifs")({
   head: () => ({
     meta: [
       { title: "Tarifs & inscription · Unlok · Coaching basket Alsace" },
-      { name: "description", content: "Séances de 60 minutes en individuel, duo ou petit groupe. Séance d'essai 15 €, cartes 5 et 10 séances. Inscription et paiement en ligne." },
+      { name: "description", content: "Séances de 60 minutes en individuel, duo ou petit groupe. Séance d'essai 25 €, cartes 5 et 10 séances. Inscription et paiement en ligne." },
       { property: "og:title", content: "Tarifs & inscription · Unlok" },
-      { property: "og:description", content: "Séance d'essai 15 €, séances de 60 minutes, cartes 5 et 10 séances." },
+      { property: "og:description", content: "Séance d'essai 25 €, séances de 60 minutes, cartes 5 et 10 séances." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
