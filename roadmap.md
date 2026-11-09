@@ -21,5 +21,5 @@
 - [x] Onglet « Réservation » pour réserver avec sa carte.
 - [x] Rendre les champs email visibles (contour clair) sur Book RAMP, Clubs et Tarifs.
 - [x] Renommer « Clubs » en « Ebook Gratuit » dans le menu.
-- [ ] Aligner les conditions de vente sur tous les tarifs actuels, sans abonnement.
-- [ ] Vérifier le montant de 25 € de la séance d’essai dans le paiement Stripe.
+- [x] Aligner les conditions de vente sur tous les tarifs actuels, sans abonnement.
+- [x] Vérifier le montant de 25 € de la séance d’essai dans le paiement Stripe (formulaire test ouvert, sans débit).
