@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { ReviewsSection } from "@/components/reviews-section";
+import { CourtLines, SpotlightCard, spotlightMove } from "@/components/spotlight";
 import portrait from "@/assets/florian-portrait.png";
 
 
@@ -33,7 +34,8 @@ function Index() {
       <SiteNav />
 
       {/* HERO — présentation du coach */}
-      <section className="relative overflow-hidden border-b border-border">
+      <section className="court-zone relative overflow-hidden border-b border-border">
+        <CourtLines className="absolute inset-0 h-full w-full" />
         <div
           className="pointer-events-none absolute inset-0 -z-0"
           style={{
@@ -119,12 +121,12 @@ function Index() {
               { k: "Durée d'une séance", v: "60 min" },
               { k: "Format", v: "1 à 4 joueurs" },
             ].map((item) => (
-              <div key={item.k} className="bg-background px-5 py-6">
+              <SpotlightCard key={item.k} className="bg-background px-5 py-6">
                 <dt className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
                   {item.k}
                 </dt>
                 <dd className="mt-2 font-display text-2xl tracking-tight">{item.v}</dd>
-              </div>
+              </SpotlightCard>
             ))}
           </dl>
         </div>
@@ -143,30 +145,30 @@ function Index() {
         </div>
       </section>
 
-      {/* LES UNIVERS */}
-      <section className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-6 py-24">
+      {/* PROFILS */}
+      <section className="court-zone relative overflow-hidden border-t border-border">
+        <CourtLines className="absolute inset-0 h-full w-full" />
+        <div className="relative mx-auto max-w-6xl px-6 py-24">
           <div className="max-w-2xl">
-            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">L'univers Unlok</div>
-            <h2 className="mt-4 font-display text-4xl md:text-5xl tracking-tight text-balance">Trois façons de progresser.</h2>
+            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Par où commencer</div>
+            <h2 className="mt-4 font-display text-4xl md:text-5xl tracking-tight text-balance">Quel est votre profil ?</h2>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
             {[
-              { tag: "Terrain", title: "Coaching basket", text: "Séances de 60 minutes, seul, en duo ou en petit groupe. Séance d'essai à 25 €.", to: "/tarifs" as const, cta: "Voir les tarifs" },
-              { tag: "Book", title: "40 échauffements RAMP", text: "Des échauffements prêts à l'emploi pour préparer le corps et la tête au jeu.", to: "/ramp" as const, cta: "Découvrir le book" },
-              { tag: "Clubs", title: "Le guide des clubs", text: "10 choses à mettre en place dans son club. Gratuit, reçu par email.", to: "/clubs" as const, cta: "Recevoir le guide" },
+              { tag: "Joueur ou parent", title: "Coaching basket", text: "Séances de 60 minutes, seul, en duo ou en petit groupe, en complément du club. Pour mieux lire le jeu et décider sous pression.", to: "/tarifs" as const, cta: "Séance d'essai · 25 €", primary: true },
+              { tag: "Coach", title: "40 échauffements RAMP", text: "Des échauffements prêts à l'emploi, pensés selon l'approche par contraintes, pour préparer le corps et la tête au jeu.", to: "/ramp" as const, cta: "Découvrir le book", primary: false },
+              { tag: "Clubs & structures", title: "Le guide des clubs", text: "10 choses à mettre en place dans son club. Gratuit, reçu par email. Un service d'individualisation sans coût pour vous.", to: "/clubs" as const, cta: "Recevoir l'ebook gratuit", primary: false },
             ].map((u) => (
-              <Link key={u.tag} to={u.to} className="group flex flex-col rounded-2xl bg-glass p-6 ring-1 ring-white/10 backdrop-blur-md transition-all hover:-translate-y-1 hover:ring-primary">
-                <div className="font-mono text-xs text-primary">{u.tag}</div>
+              <Link key={u.tag} to={u.to} onMouseMove={spotlightMove} className="spotlight group flex flex-col rounded-2xl bg-glass p-6 ring-1 ring-white/10 backdrop-blur-md transition-all hover:-translate-y-1 hover:ring-primary">
+                <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">{u.tag}</div>
                 <h3 className="mt-3 font-display text-2xl tracking-tight">{u.title}</h3>
                 <p className="mt-2 flex-1 text-sm text-muted-foreground">{u.text}</p>
-                <span className="mt-6 text-sm font-semibold group-hover:text-primary">{u.cta} →</span>
+                <span className={u.primary ? "mt-6 inline-flex self-start items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow" : "mt-6 inline-flex self-start items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold transition-colors group-hover:border-primary group-hover:text-primary"}>{u.cta} →</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
-
 
       <ReviewsSection />
 
@@ -203,65 +205,6 @@ function Index() {
         </div>
       </section>
 
-      {/* AUDIENCE PATHS */}
-      <section className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-6 py-24">
-          <div className="max-w-2xl">
-            <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Par où commencer</div>
-            <h2 className="mt-4 font-display text-4xl tracking-tight text-balance">Selon votre profil.</h2>
-          </div>
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
-              <div className="font-mono text-xs text-primary">Joueur ou parent</div>
-              <h3 className="mt-3 font-display text-xl tracking-tight">Un accompagnement individualisé</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                En complément du club, pour mieux lire le jeu et décider sous pression. Jeunes
-                comme adultes, chaque joueur progresse sur ses situations à lui.
-              </p>
-              <Link
-                to="/tarifs"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg"
-              >
-                Séance d'essai · 25 €
-                <span>→</span>
-              </Link>
-            </div>
-            <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
-              <div className="font-mono text-xs text-primary">Coach</div>
-              <h3 className="mt-3 font-display text-xl tracking-tight">Un échange entre gens du métier</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Un praticien qui applique l'approche par contraintes sur le terrain, en français.
-              </p>
-              <a
-                href="https://instagram.com/unlok.basketball"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
-              >
-                Me suivre sur Instagram
-              </a>
-            </div>
-            <div className="rounded-2xl bg-glass backdrop-blur-md ring-1 ring-white/10 p-6">
-              <div className="font-mono text-xs text-primary">Clubs & structures</div>
-              <h3 className="mt-3 font-display text-xl tracking-tight">Un service d'individualisation encadré</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                En complément des clubs et de toutes les structures du basket, sans coût ni charge
-                pour vous.
-              </p>
-              <a
-                href="mailto:unlok.basketball@gmail.com"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
-              >
-                M'écrire
-              </a>
-            </div>
-          </div>
-          <p className="mt-10 text-sm text-muted-foreground text-pretty max-w-3xl">
-            Et parce que je tiens à rendre des comptes, chaque collaboration se mesure :{" "}
-            <span className="text-foreground font-medium">joueurs orientés</span> → séances découverte → suivis ·{" "}
-            <span className="text-foreground font-medium">taux de retour</span> d'une séance à l'autre ·{" "}
-            <span className="text-foreground font-medium">transfert</span> observé par les éducateurs.
-          </p>
-        </div>
-      </section>
 
       {/* CONTACT CTA */}
       <section className="border-t border-border bg-court text-court-foreground">

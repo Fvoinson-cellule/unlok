@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { spotlightMove } from "@/components/spotlight";
 import { supabase } from "@/integrations/supabase/client";
 
 type Review = { id: string; name: string; role: string | null; rating: number; message: string };
@@ -11,6 +12,8 @@ export function ReviewsSection() {
   const [form, setForm] = useState({ name: "", role: "", message: "", rating: 5 });
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
   const [error, setError] = useState<string | null>(null);
+  const track = useRef<HTMLDivElement>(null);
+  const scroll = (d: number) => track.current?.scrollBy({ left: d * track.current.clientWidth * 0.8, behavior: "smooth" });
 
   useEffect(() => {
     supabase.from("reviews").select("id,name,role,rating,message").eq("approved", true)
@@ -49,14 +52,22 @@ export function ReviewsSection() {
         </div>
 
         {reviews.length > 0 ? (
-          <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
-            {reviews.map((r) => (
-              <figure key={r.id} className="flex flex-col rounded-2xl bg-glass p-6 ring-1 ring-white/10">
-                <div className="text-primary" aria-label={`${r.rating} sur 5`}>{"★".repeat(r.rating)}<span className="text-muted-foreground/40">{"★".repeat(5 - r.rating)}</span></div>
-                <blockquote className="mt-4 flex-1 text-sm leading-6 text-muted-foreground">« {r.message} »</blockquote>
-                <figcaption className="mt-5 text-sm font-semibold">{r.name}{r.role && <span className="font-normal text-muted-foreground"> · {r.role}</span>}</figcaption>
-              </figure>
-            ))}
+          <div className="mt-12">
+            <div ref={track} className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+              {reviews.map((r) => (
+                <figure key={r.id} onMouseMove={spotlightMove} className="spotlight flex w-[85%] shrink-0 snap-start flex-col rounded-2xl bg-glass p-6 ring-1 ring-white/10 transition-all hover:ring-primary sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.7rem)]">
+                  <div className="text-lg text-primary" aria-label={`${r.rating} sur 5`}>{"★".repeat(r.rating)}<span className="text-muted-foreground/40">{"★".repeat(5 - r.rating)}</span></div>
+                  <blockquote className="mt-4 flex-1 text-sm leading-6 text-muted-foreground">« {r.message} »</blockquote>
+                  <figcaption className="mt-5 text-sm font-semibold">{r.name}{r.role && <span className="font-normal text-muted-foreground"> · {r.role}</span>}</figcaption>
+                </figure>
+              ))}
+            </div>
+            {reviews.length > 1 && (
+              <div className="mt-6 flex gap-2">
+                <button type="button" aria-label="Avis précédent" onClick={() => scroll(-1)} className="grid size-11 place-items-center rounded-full border border-border transition-colors hover:border-primary hover:text-primary">←</button>
+                <button type="button" aria-label="Avis suivant" onClick={() => scroll(1)} className="grid size-11 place-items-center rounded-full border border-border transition-colors hover:border-primary hover:text-primary">→</button>
+              </div>
+            )}
           </div>
         ) : (
           <p className="mt-8 text-sm text-muted-foreground">Les premiers avis arrivent bientôt. Tu as fait une séance ? Partage ton retour.</p>
