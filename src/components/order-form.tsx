@@ -180,7 +180,7 @@ export function OrderForm({
           </div>
           <p className="mt-2 text-xs text-muted-foreground">
             {isTrial
-              ? "25 € par personne. Une seule séance d'essai par joueur."
+              ? "25 € par personne, seul ou à 2, 3 ou 4. Une seule séance d'essai par joueur."
               : "Paie seulement ta place ou celles de plusieurs joueurs du groupe. Remplis une fiche par personne payée."}
           </p>
         </div>
