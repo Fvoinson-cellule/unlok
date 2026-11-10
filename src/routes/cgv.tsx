@@ -88,7 +88,7 @@ function CGV() {
                   <tr>
                     <td className="px-4 py-3 text-foreground">Séance d'essai</td>
                     <td className="px-4 py-3">{formatEuro(TRIAL_PRICE)} / personne</td>
-                    <td className="px-4 py-3">Une seule séance d'essai par joueur, sans engagement.</td>
+                    <td className="px-4 py-3">Une seule séance d'essai par joueur, sans engagement. Possible seul ou à 2, 3 ou 4.</td>
                   </tr>
                   {GROUPS.map((group) => (
                     ["seance", "carte5", "carte10"] as const

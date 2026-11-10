@@ -46,7 +46,9 @@ function Tarifs() {
           <div>
             <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Pour commencer</div>
             <h2 className="mt-2 font-display text-3xl tracking-tight">Séance d'essai · 60 min</h2>
-            <p className="mt-1 text-sm text-muted-foreground">Une fois par joueur, pour découvrir la méthode.</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Une fois par joueur, pour découvrir la méthode. Seul, ou à 2, 3 ou 4.
+            </p>
           </div>
           <div className="font-display text-5xl text-primary">
             {formatEuro(TRIAL_PRICE)}
