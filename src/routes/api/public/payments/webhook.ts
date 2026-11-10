@@ -37,12 +37,28 @@ async function handleCheckoutCompleted(session: any, env: StripeEnv) {
     return;
   }
 
+  const buyerEmail = String(session.customer_details?.email ?? session.customer_email ?? "").toLowerCase();
+  const addCustomer = async (segment: "coach" | "joueur", detail: string) => {
+    if (!buyerEmail) return;
+    const { error } = await getSupabase().from("customers").upsert(
+      { segment, email: buyerEmail, name: session.customer_details?.name ?? null, detail: detail.slice(0, 500), amount_cents: session.amount_total ?? null, source_id: `stripe:${session.id}` },
+      { onConflict: "source_id", ignoreDuplicates: true },
+    );
+    if (error) console.error("customers insert a échoué", error);
+  };
+
   // Book RAMP : livraison par lien de téléchargement après vérification du paiement.
-  if (session.metadata?.product === "ramp") return;
+  if (session.metadata?.product === "ramp") {
+    await addCustomer("coach", "Book RAMP");
+    return;
+  }
 
   const bookingId = session.metadata?.bookingId;
   // Paiement express d'une séance déjà convenue : rien à confirmer en base.
   if (!bookingId && session.metadata?.express) {
+    const m = session.metadata;
+    const players = Object.keys(m).filter((k) => k.startsWith("joueur")).sort().map((k) => m[k]).join(" | ");
+    await addCustomer("joueur", `${m.express} · format ${m.format} · ${m.personnes} place(s) · ${players}`);
     const trialEmails = String(session.metadata?.trialEmails ?? "").split(",").filter(Boolean);
     if (trialEmails.length) {
       const { error } = await getSupabase()

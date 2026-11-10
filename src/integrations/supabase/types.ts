@@ -211,6 +211,39 @@ export type Database = {
         }
         Relationships: []
       }
+      customers: {
+        Row: {
+          amount_cents: number | null
+          created_at: string
+          detail: string | null
+          email: string
+          id: string
+          name: string | null
+          segment: string
+          source_id: string | null
+        }
+        Insert: {
+          amount_cents?: number | null
+          created_at?: string
+          detail?: string | null
+          email: string
+          id?: string
+          name?: string | null
+          segment: string
+          source_id?: string | null
+        }
+        Update: {
+          amount_cents?: number | null
+          created_at?: string
+          detail?: string | null
+          email?: string
+          id?: string
+          name?: string | null
+          segment?: string
+          source_id?: string | null
+        }
+        Relationships: []
+      }
       discovery_bookings: {
         Row: {
           created_at: string
@@ -289,6 +322,36 @@ export type Database = {
           starts_at?: string
           stripe_url?: string
           time_label?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          approved: boolean
+          created_at: string
+          id: string
+          message: string
+          name: string
+          rating: number
+          role: string | null
+        }
+        Insert: {
+          approved?: boolean
+          created_at?: string
+          id?: string
+          message: string
+          name: string
+          rating: number
+          role?: string | null
+        }
+        Update: {
+          approved?: boolean
+          created_at?: string
+          id?: string
+          message?: string
+          name?: string
+          rating?: number
+          role?: string | null
         }
         Relationships: []
       }

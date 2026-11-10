@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { ReviewsSection } from "@/components/reviews-section";
 import portrait from "@/assets/florian-portrait.png";
 
 
@@ -166,6 +167,8 @@ function Index() {
         </div>
       </section>
 
+
+      <ReviewsSection />
 
       {/* CREDENTIALS STRIP */}
       <section id="preuves" className="bg-court text-court-foreground border-t border-border">
