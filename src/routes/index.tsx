@@ -97,6 +97,10 @@ function Index() {
                   Découvrir la méthode
                 </Link>
               </div>
+
+              <p className="mt-4 text-xs text-muted-foreground">
+                Séance d'essai possible seul ou à 2, 3 ou 4 · 25 € par personne.
+              </p>
             </div>
 
             {/* Colonne portrait */}
