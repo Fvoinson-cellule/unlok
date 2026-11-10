@@ -25,3 +25,5 @@
 - [x] Vérifier le montant de 25 € de la séance d’essai dans le paiement Stripe (formulaire test ouvert, sans débit).
 - [x] Restructurer l'accueil (3 profils fusionnés, avis + confiance, appel final).
 - [x] Effets visuels : tracés de terrain, halo au survol, carrousel d'avis.
+- [x] Remplacer le terrain de basket complet par de simples lignes en fond.
+- [x] Indiquer que la séance d'essai se fait aussi à 2, 3 ou 4.
