@@ -23,3 +23,5 @@
 - [x] Renommer « Clubs » en « Ebook Gratuit » dans le menu.
 - [x] Aligner les conditions de vente sur tous les tarifs actuels, sans abonnement.
 - [x] Vérifier le montant de 25 € de la séance d’essai dans le paiement Stripe (formulaire test ouvert, sans débit).
+- [x] Restructurer l'accueil (3 profils fusionnés, avis + confiance, appel final).
+- [x] Effets visuels : tracés de terrain, halo au survol, carrousel d'avis.
