@@ -106,7 +106,7 @@ function Admin() {
       <div className="mt-4 grid gap-3">
         {data.reviews.map((r) => (
           <div key={r.id} className="rounded-xl border border-border p-4">
-            <div className="text-sm"><span className="text-primary">{"★".repeat(r.rating)}</span> <b>{r.name}</b> {r.role && `· ${r.role}`} · {r.approved ? "En ligne" : "En attente"}</div>
+            <div className="text-sm"><span className="text-primary">{"★".repeat(r.rating)}</span> <span className="rounded bg-primary/15 px-2 py-0.5 text-xs text-primary">{r.topic === "ramp" ? "Book RAMP" : "Séances"}</span> <b>{r.name}</b> {r.role && `· ${r.role}`} · {r.approved ? "En ligne" : "En attente"}</div>
             <p className="mt-2 text-sm text-muted-foreground">{r.message}</p>
             <div className="mt-3 flex gap-2">
               {r.approved

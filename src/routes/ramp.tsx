@@ -4,6 +4,7 @@ import { getStripe, getStripeEnvironment } from "@/lib/stripe";
 import { createRampCheckout, getRampDownload } from "@/lib/ramp.functions";
 import { useEffect, useState } from "react";
 import { SiteNav } from "@/components/site-nav";
+import { ReviewsSection } from "@/components/reviews-section";
 import { SiteFooter } from "@/components/site-footer";
 import { RAMP, isRampLaunch } from "@/lib/pricing";
 
@@ -177,6 +178,7 @@ function Ramp() {
           </ol>
         </div>
       </section>
+      <ReviewsSection topic="ramp" />
 
       <SiteFooter />
     </div>

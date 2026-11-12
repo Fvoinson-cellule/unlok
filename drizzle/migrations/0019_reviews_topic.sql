@@ -1,0 +1,1 @@
+ALTER TABLE public.reviews ADD COLUMN IF NOT EXISTS topic text NOT NULL DEFAULT 'seances' CHECK (topic IN ('seances','ramp'));

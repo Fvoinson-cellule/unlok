@@ -334,6 +334,7 @@ export type Database = {
           name: string
           rating: number
           role: string | null
+          topic: string
         }
         Insert: {
           approved?: boolean
@@ -343,6 +344,7 @@ export type Database = {
           name: string
           rating: number
           role?: string | null
+          topic?: string
         }
         Update: {
           approved?: boolean
@@ -352,6 +354,7 @@ export type Database = {
           name?: string
           rating?: number
           role?: string | null
+          topic?: string
         }
         Relationships: []
       }
