@@ -141,6 +141,13 @@
       "when": 1794476507964,
       "tag": "0019_reviews_topic",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1794572315235,
+      "tag": "0020_reviews_auto_publish",
+      "breakpoints": true
     }
   ]
 }

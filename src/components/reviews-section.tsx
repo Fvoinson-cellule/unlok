@@ -37,10 +37,12 @@ export function ReviewsSection({ topic = "seances" }: { topic?: Topic }) {
     setState("sending");
     const { error } = await supabase.from("reviews").insert({
       name: name.slice(0, 60), role: form.role.trim().slice(0, 60) || null,
-      topic, rating: form.rating, message: message.slice(0, 800),
+      topic, rating: form.rating, message: message.slice(0, 800), approved: true,
     });
     if (error) { setState("idle"); return setError("L'envoi n'a pas fonctionné, réessaie."); }
     setState("done");
+    const { data } = await supabase.from("reviews").select("id,name,role,rating,message").eq("approved", true).eq("topic", topic).order("created_at", { ascending: false }).limit(12);
+    setReviews(data ?? []);
   }
 
   return (
@@ -82,7 +84,7 @@ export function ReviewsSection({ topic = "seances" }: { topic?: Topic }) {
         )}
 
         {state === "done" ? (
-          <p className="mx-auto mt-10 max-w-2xl rounded-xl border border-primary/40 bg-card p-5 text-center text-sm">Merci pour ton avis ! Il apparaîtra ici après validation.</p>
+          <p className="mx-auto mt-10 max-w-2xl rounded-xl border border-primary/40 bg-card p-5 text-center text-sm">Merci pour ton avis ! Il est maintenant en ligne.</p>
         ) : open && (
           <form onSubmit={submit} className="mx-auto mt-10 grid max-w-2xl gap-3 rounded-2xl border border-primary/40 bg-card p-6">
             <div className="flex gap-1" role="radiogroup" aria-label="Note">
