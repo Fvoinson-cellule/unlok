@@ -148,6 +148,13 @@
       "when": 1794572315235,
       "tag": "0020_reviews_auto_publish",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1794572546901,
+      "tag": "0021_club_guide_leads_strict_insert",
+      "breakpoints": true
     }
   ]
 }
