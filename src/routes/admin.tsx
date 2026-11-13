@@ -46,7 +46,7 @@ function Admin() {
     const lines = [["date", "email", "nom", "détail", "montant €"], ...rows.map((r) => [
       new Date(r.created_at).toLocaleDateString("fr-FR"), r.email, r.name ?? "", r.detail ?? "",
       r.amount_cents != null ? (r.amount_cents / 100).toFixed(2) : "",
-    ])].map((l) => l.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(";"));
+    ])].map((l) => l.map((v) => `"${String(v).replace(/^([=+\-@\t\r])/, "'$1").replace(/"/g, '""')}"`).join(";"));
     const url = URL.createObjectURL(new Blob(["\ufeff" + lines.join("\n")], { type: "text/csv" }));
     Object.assign(document.createElement("a"), { href: url, download: `unlok-${seg}.csv` }).click();
   }

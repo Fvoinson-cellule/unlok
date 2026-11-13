@@ -21,64 +21,6 @@ export const PRICE_IDS = {
 
 export const PROMO_CODES = ["VIP25", "OCTOBRE26"] as const;
 
-export const createCheckoutSession = createServerFn({ method: "POST" })
-  .inputValidator((data: {
-    priceId: string;
-    customerEmail: string;
-    bookingId: string;
-    slotId: string;
-    sessionDate: string | null;
-    bookingType: "trial" | "subscription" | "card5" | "card10";
-    returnUrl: string;
-    environment: StripeEnv;
-  }) => {
-    if (!/^[a-zA-Z0-9_-]+$/.test(data.priceId)) throw new Error("Invalid priceId");
-    if (!/^[0-9a-fA-F-]{36}$/.test(data.bookingId)) throw new Error("Invalid bookingId");
-    if (!/^[0-9a-fA-F-]{36}$/.test(data.slotId)) throw new Error("Invalid slotId");
-    return data;
-  })
-  .handler(async ({ data }): Promise<CheckoutSessionResult> => {
-    try {
-      const stripe = createStripeClient(data.environment);
-
-      const prices = await stripe.prices.list({ lookup_keys: [data.priceId] });
-      if (!prices.data.length) throw new Error("Price not found");
-      const stripePrice = prices.data[0]!;
-      const isRecurring = stripePrice.type === "recurring";
-
-      const metadata = {
-        bookingId: data.bookingId,
-        slotId: data.slotId,
-        bookingType: data.bookingType,
-        sessionDate: data.sessionDate ?? "",
-      };
-
-      // Achat anonyme (pas de compte utilisateur) : customer_email suffit.
-      // Le compte Stripe est créé par Stripe à partir de l'email.
-      const session = await stripe.checkout.sessions.create({
-        line_items: [{ price: stripePrice!.id, quantity: 1 }],
-        mode: isRecurring ? "subscription" : "payment",
-        ui_mode: "embedded_page",
-        return_url: data.returnUrl,
-        customer_email: data.customerEmail,
-        metadata,
-        // Séances en personne : le traitement fiscal automatique de Stripe
-        // n'est pas éligible. TVA non applicable (art. 293 B du CGI), aucun
-        // paramètre fiscal sur la session.
-        ...(isRecurring && {
-          subscription_data: {
-            metadata: { bookingId: data.bookingId, slotId: data.slotId },
-          },
-        }),
-      } as Parameters<typeof stripe.checkout.sessions.create>[0]);
-
-      return { clientSecret: session.client_secret ?? "" };
-    } catch (error) {
-      return { error: getStripeErrorMessage(error) };
-    }
-  });
-
-// Réservation liée à une session de paiement (page de retour).
 export const getBookingByCheckoutSession = createServerFn({ method: "GET" })
   .inputValidator((data: { sessionId: string }) => {
     if (!/^cs_[A-Za-z0-9_-]{10,}$/.test(data.sessionId)) throw new Error("Invalid sessionId");
@@ -194,6 +136,8 @@ export const createCoachingOrder = createServerFn({ method: "POST" })
     };
   })
   .handler(async ({ data }): Promise<CheckoutSessionResult> => {
+    const { assertSameOrigin } = await import("@/lib/return-url.server");
+    assertSameOrigin(data.returnUrl);
     try {
       const formule = data.formule as Formule;
       const unit = pricePerPerson(formule, data.groupSize);

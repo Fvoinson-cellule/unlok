@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { type StripeEnv, createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
 import { rampPriceCents } from "@/lib/pricing";
+import { getCookie, setCookie } from "@tanstack/react-start/server";
 
 const NAME = "Book RAMP UNLOK · 40 échauffements (PDF)";
 
@@ -12,6 +13,8 @@ export const createRampCheckout = createServerFn({ method: "POST" })
     return { ...data, email: data.email.trim().slice(0, 100) };
   })
   .handler(async ({ data }): Promise<{ clientSecret: string } | { error: string }> => {
+    const { assertSameOrigin } = await import("@/lib/return-url.server");
+    assertSameOrigin(data.returnUrl);
     try {
       const stripe = createStripeClient(data.environment);
       const session = await stripe.checkout.sessions.create({
@@ -26,6 +29,8 @@ export const createRampCheckout = createServerFn({ method: "POST" })
         payment_intent_data: { description: NAME },
         metadata: { product: "ramp" },
       } as Parameters<typeof stripe.checkout.sessions.create>[0]);
+      // Lie la session de paiement au navigateur de l'acheteur.
+      setCookie("ramp_cs", session.id, { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 30 });
       return { clientSecret: session.client_secret ?? "" };
     } catch (error) {
       return { error: getStripeErrorMessage(error) };
@@ -41,6 +46,7 @@ export const getRampDownload = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }): Promise<{ url: string } | { error: string }> => {
     try {
+      if (getCookie("ramp_cs") !== data.sessionId) return { error: "forbidden" };
       const stripe = createStripeClient(data.environment);
       const s = await stripe.checkout.sessions.retrieve(data.sessionId);
       if (s.metadata?.['product'] !== "ramp") return { error: "not_ramp" };

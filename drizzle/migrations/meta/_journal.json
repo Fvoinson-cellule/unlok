@@ -155,6 +155,13 @@
       "when": 1794572546901,
       "tag": "0021_club_guide_leads_strict_insert",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1794575848496,
+      "tag": "0022_lock_privileged_booking_functions",
+      "breakpoints": true
     }
   ]
 }
