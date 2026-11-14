@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { ReviewsSection } from "@/components/reviews-section";
 import { SiteFooter } from "@/components/site-footer";
+import { FreeEbook } from "@/components/free-ebook";
 import { RAMP, isRampLaunch } from "@/lib/pricing";
 
 export const Route = createFileRoute("/ramp")({
@@ -161,6 +162,7 @@ function Ramp() {
         </div>
       </section>
 
+      <FreeEbook />
       <section className="border-b border-border bg-court text-court-foreground">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Le modèle RAMP</div>
