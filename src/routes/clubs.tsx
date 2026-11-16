@@ -3,12 +3,13 @@ import { useState } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { supabase } from "@/integrations/supabase/client";
+import guide from "@/assets/Guide-clubs-10-choses-Unlok.pdf.asset.json";
 
 export const Route = createFileRoute("/clubs")({
   head: () => ({
     meta: [
       { title: "Espace clubs · Le guide gratuit · Unlok" },
-      { name: "description", content: "Guide gratuit pour les clubs de basket : 10 choses à mettre en place dans son club. Reçu par email." },
+      { name: "description", content: "Guide gratuit pour les clubs de basket : 10 choses à mettre en place dans son club. Téléchargement immédiat." },
       { property: "og:title", content: "Espace clubs · Unlok" },
       { property: "og:description", content: "10 choses à mettre en place dans son club de basket. Guide gratuit." },
       { property: "og:type", content: "website" },
@@ -58,7 +59,7 @@ function Clubs() {
             </h1>
             <p className="mt-6 max-w-[48ch] text-lg text-muted-foreground text-pretty">
               Un guide concret pour les dirigeants et les éducateurs : organisation, formation des
-              joueurs, accompagnement des coachs. Gratuit, envoyé par email.
+              joueurs, accompagnement des coachs. Gratuit, en téléchargement immédiat.
             </p>
           </div>
           <div className="rounded-2xl bg-glass p-6 ring-1 ring-white/10 md:p-8">
@@ -66,8 +67,12 @@ function Clubs() {
               <div>
                 <h2 className="font-display text-3xl">Merci !</h2>
                 <p className="mt-3 text-sm text-muted-foreground">
-                  C'est noté. Le guide arrive dans ta boîte mail très vite.
+                  Ton guide est prêt.
                 </p>
+                <a href={guide.url} download="Guide-clubs-10-choses-Unlok.pdf" target="_blank" rel="noopener"
+                  className="mt-6 inline-block rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow">
+                  Télécharger le guide (PDF)
+                </a>
               </div>
             ) : (
               <form onSubmit={submit} className="space-y-4">
@@ -80,9 +85,9 @@ function Clubs() {
                   disabled={state === "sending"}
                   className="w-full rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 hover:shadow-glow-lg disabled:opacity-60"
                 >
-                  {state === "sending" ? "Envoi…" : "Recevoir le guide gratuit →"}
+                  {state === "sending" ? "Envoi…" : "Télécharger le guide gratuit →"}
                 </button>
-                <p className="text-xs text-muted-foreground">Ton email sert uniquement à t'envoyer le guide et des nouvelles d'Unlok.</p>
+                <p className="text-xs text-muted-foreground">Ton email sert uniquement à t'envoyer des nouvelles d'Unlok.</p>
               </form>
             )}
           </div>
