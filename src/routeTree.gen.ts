@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CgvRouteImport } from './routes/cgv'
 import { Route as ClubsRouteImport } from './routes/clubs'
+import { Route as CoachRouteImport } from './routes/coach'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as MethodeRouteImport } from './routes/methode'
 import { Route as OffreRouteImport } from './routes/offre'
@@ -41,6 +42,11 @@ const CgvRoute = CgvRouteImport.update({
 const ClubsRoute = ClubsRouteImport.update({
   id: '/clubs',
   path: '/clubs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoachRoute = CoachRouteImport.update({
+  id: '/coach',
+  path: '/coach',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/cgv': typeof CgvRoute
   '/clubs': typeof ClubsRoute
+  '/coach': typeof CoachRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/methode': typeof MethodeRoute
   '/offre': typeof OffreRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/cgv': typeof CgvRoute
   '/clubs': typeof ClubsRoute
+  '/coach': typeof CoachRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/methode': typeof MethodeRoute
   '/offre': typeof OffreRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/cgv': typeof CgvRoute
   '/clubs': typeof ClubsRoute
+  '/coach': typeof CoachRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/methode': typeof MethodeRoute
   '/offre': typeof OffreRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/cgv'
     | '/clubs'
+    | '/coach'
     | '/mentions-legales'
     | '/methode'
     | '/offre'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/cgv'
     | '/clubs'
+    | '/coach'
     | '/mentions-legales'
     | '/methode'
     | '/offre'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/cgv'
     | '/clubs'
+    | '/coach'
     | '/mentions-legales'
     | '/methode'
     | '/offre'
@@ -189,6 +201,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   CgvRoute: typeof CgvRoute
   ClubsRoute: typeof ClubsRoute
+  CoachRoute: typeof CoachRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   MethodeRoute: typeof MethodeRoute
   OffreRoute: typeof OffreRoute
@@ -228,6 +241,13 @@ declare module '@tanstack/react-router' {
       path: '/clubs'
       fullPath: '/clubs'
       preLoaderRoute: typeof ClubsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coach': {
+      id: '/coach'
+      path: '/coach'
+      fullPath: '/coach'
+      preLoaderRoute: typeof CoachRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mentions-legales': {
@@ -301,6 +321,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   CgvRoute: CgvRoute,
   ClubsRoute: ClubsRoute,
+  CoachRoute: CoachRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   MethodeRoute: MethodeRoute,
   OffreRoute: OffreRoute,

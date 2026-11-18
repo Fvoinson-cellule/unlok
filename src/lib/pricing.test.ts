@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isRampLaunch, orderTotal, pricePerPerson } from "./pricing";
+import { bookPriceCents, isRampLaunch, orderTotal, pricePerPerson } from "./pricing";
 
 describe("grille tarifaire", () => {
   it("individuel : 50 / 240 / 450", () => {
@@ -24,5 +24,13 @@ describe("grille tarifaire", () => {
   it("book RAMP : lancement jusqu'au 31 décembre", () => {
     expect(isRampLaunch(new Date("2026-12-31T22:00:00+01:00"))).toBe(true);
     expect(isRampLaunch(new Date("2027-01-01T00:30:00+01:00"))).toBe(false);
+  });
+  it("book Tir : 14,90 € pendant le lancement puis 24,90 €", () => {
+    expect(bookPriceCents("tir", new Date("2026-12-31T22:00:00+01:00"))).toBe(1490);
+    expect(bookPriceCents("tir", new Date("2027-01-01T00:30:00+01:00"))).toBe(2490);
+  });
+  it("pack des deux books : 24,90 € même après le lancement", () => {
+    expect(bookPriceCents("pack", new Date("2026-11-18T10:00:00+01:00"))).toBe(2490);
+    expect(bookPriceCents("pack", new Date("2027-01-01T00:30:00+01:00"))).toBe(2490);
   });
 });

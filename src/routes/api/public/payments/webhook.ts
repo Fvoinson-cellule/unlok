@@ -47,9 +47,11 @@ async function handleCheckoutCompleted(session: any, env: StripeEnv) {
     if (error) console.error("customers insert a échoué", error);
   };
 
-  // Book RAMP : livraison par lien de téléchargement après vérification du paiement.
-  if (session.metadata?.product === "ramp") {
-    await addCustomer("coach", "Book RAMP");
+  // Books numériques : livraison par téléchargement après vérification du paiement.
+  const digitalProduct = session.metadata?.product;
+  if (digitalProduct === "ramp" || digitalProduct === "tir" || digitalProduct === "pack") {
+    const detail = digitalProduct === "ramp" ? "Book RAMP" : digitalProduct === "tir" ? "Book Tir" : "Pack Book RAMP + Book Tir";
+    await addCustomer("coach", detail);
     return;
   }
 

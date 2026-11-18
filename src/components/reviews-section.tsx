@@ -6,10 +6,11 @@ type Review = { id: string; name: string; role: string | null; rating: number; m
 const field =
   "w-full rounded-lg border border-foreground/30 bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none";
 
-type Topic = "seances" | "ramp";
+type Topic = "seances" | "ramp" | "tir";
 const COPY = {
   seances: { eyebrow: "Avis · Séances terrain", title: "Ils s'entraînent avec Florian.", hook: "Tu as fait une séance ? Raconte ton expérience sur le terrain.", cta: "Donner mon avis sur les séances", role: "Joueur, parent… (facultatif)" },
   ramp: { eyebrow: "Avis · Book RAMP", title: "Les coachs en parlent.", hook: "Tu utilises le Book RAMP ? Dis-nous ce qu'il change dans tes échauffements.", cta: "Donner mon avis sur le Book RAMP", role: "Coach, club… (facultatif)" },
+  tir: { eyebrow: "Avis · Book Tir", title: "Ils font progresser le tir.", hook: "Tu utilises le Book Tir ? Partage ton retour sur les exercices et la boîte à outils.", cta: "Donner mon avis sur le Book Tir", role: "Coach, joueur… (facultatif)" },
 };
 
 export function ReviewsSection({ topic = "seances" }: { topic?: Topic }) {
@@ -26,7 +27,7 @@ export function ReviewsSection({ topic = "seances" }: { topic?: Topic }) {
     supabase.from("reviews").select("id,name,role,rating,message").eq("approved", true).eq("topic", topic)
       .order("created_at", { ascending: false }).limit(12)
       .then(({ data }) => setReviews(data ?? []));
-  }, []);
+  }, [topic]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();

@@ -162,6 +162,13 @@
       "when": 1794575848496,
       "tag": "0022_lock_privileged_booking_functions",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1794996520735,
+      "tag": "0023_add_tir_review_topic",
+      "breakpoints": true
     }
   ]
 }

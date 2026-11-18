@@ -27,3 +27,6 @@
 - [x] Effets visuels : tracés de terrain, halo au survol, carrousel d'avis.
 - [x] Remplacer le terrain de basket complet par de simples lignes en fond.
 - [x] Indiquer que la séance d'essai se fait aussi à 2, 3 ou 4.
+- [x] Créer l'espace Coach avec les onglets Book RAMP et Book Tir, leurs extraits gratuits et le pack des deux books.
+- [x] Ajouter le Book Tir et le pack aux paiements, téléchargements et contacts admin.
+- [x] Renommer les entrées du menu en Joueur, Coach et Club, puis vérifier les parcours.

@@ -160,8 +160,8 @@ function Index() {
           <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
             {[
               { tag: "Joueur ou parent", title: "Coaching basket", text: "Séances de 60 minutes, seul, en duo ou en petit groupe, en complément du club. Pour mieux lire le jeu et décider sous pression.", to: "/tarifs" as const, cta: "Séance d'essai · 25 €", primary: true },
-              { tag: "Coach", title: "40 échauffements RAMP", text: "Des échauffements prêts à l'emploi, pensés selon l'approche par contraintes, pour préparer le corps et la tête au jeu.", to: "/ramp" as const, cta: "Découvrir le book", primary: false },
-              { tag: "Clubs & structures", title: "Le guide des clubs", text: "10 choses à mettre en place dans son club. Gratuit, reçu par email. Un service d'individualisation sans coût pour vous.", to: "/clubs" as const, cta: "Recevoir l'ebook gratuit", primary: false },
+              { tag: "Coach", title: "Books RAMP & Tir", text: "70 exercices prêts à l'emploi pour préparer vos séances, faire progresser le tir et gagner du temps. Extraits gratuits disponibles.", to: "/coach" as const, cta: "Découvrir les books", primary: false },
+              { tag: "Clubs & structures", title: "Le guide des clubs", text: "10 choses à mettre en place dans son club. Gratuit, en téléchargement immédiat. Un service d'individualisation sans coût pour vous.", to: "/clubs" as const, cta: "Télécharger l'ebook gratuit", primary: false },
             ].map((u) => (
               <Link key={u.tag} to={u.to} onMouseMove={spotlightMove} className="spotlight group flex flex-col rounded-2xl bg-glass p-6 ring-1 ring-white/10 backdrop-blur-md transition-all hover:-translate-y-1 hover:ring-primary">
                 <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">{u.tag}</div>

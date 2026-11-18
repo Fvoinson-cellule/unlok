@@ -31,9 +31,9 @@ export function SiteFooter() {
             <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Pages</div>
             <div className="mt-4 space-y-1 text-sm text-muted-foreground">
               <Link to="/methode" className="block hover:text-foreground transition-colors">La méthode</Link>
-              <Link to="/tarifs" className="block hover:text-foreground transition-colors">Tarifs & inscription</Link>
-              <Link to="/ramp" className="block hover:text-foreground transition-colors">Book RAMP</Link>
-              <Link to="/clubs" className="block hover:text-foreground transition-colors">Espace clubs</Link>
+              <Link to="/tarifs" className="block hover:text-foreground transition-colors">Joueur · Tarifs & inscription</Link>
+              <Link to="/coach" className="block hover:text-foreground transition-colors">Coach · Books RAMP & Tir</Link>
+              <Link to="/clubs" className="block hover:text-foreground transition-colors">Club · Ebook gratuit</Link>
             </div>
             <div className="mt-8 font-mono text-xs uppercase tracking-[0.15em] text-primary">Mentions</div>
             <div className="mt-4 space-y-1 text-sm text-muted-foreground">

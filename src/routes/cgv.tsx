@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { GROUPS, RAMP, SESSION_MINUTES, TRIAL_PRICE, formatEuro, pricePerPerson } from "@/lib/pricing";
+import { BOOKS, BOOK_PACK, GROUPS, SESSION_MINUTES, TRIAL_PRICE, formatEuro, pricePerPerson } from "@/lib/pricing";
 
 export const Route = createFileRoute("/cgv")({
   head: () => ({
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/cgv")({
       { property: "og:title", content: "CGV · Unlok" },
       {
         property: "og:description",
-        content: "Conditions générales de vente des séances, cartes de coaching basket et Book RAMP Unlok.",
+        content: "Conditions générales de vente des séances, cartes de coaching basket, books RAMP et Tir et pack numérique Unlok.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -33,7 +33,7 @@ function CGV() {
         </Link>
         <h1 className="mt-6 font-display text-4xl tracking-tight">Conditions générales de vente</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Version du 9 novembre 2026, saison 2026-2027.
+          Version du 18 novembre 2026, saison 2026-2027.
         </p>
 
         <div className="mt-10 space-y-8 text-sm text-muted-foreground">
@@ -59,8 +59,8 @@ function CGV() {
             <p className="mt-2">
               Les présentes conditions régissent la vente de séances de coaching de basketball
               individualisé, en individuel, en duo ou en petit groupe de 3 à 4 joueurs, destinées aux joueurs et joueuses,
-              jeunes et adultes, en complément de l'entraînement en club, ainsi que du Book RAMP numérique. Toute commande
-              implique l'acceptation sans réserve des présentes conditions.
+              jeunes et adultes, en complément de l'entraînement en club, ainsi que des books numériques Unlok
+              (RAMP et Tir), vendus séparément ou en pack. Toute commande implique l'acceptation sans réserve des présentes conditions.
             </p>
           </section>
 
@@ -103,10 +103,17 @@ function CGV() {
                       </td>
                     </tr>
                   )))}
+                  {(["ramp", "tir"] as const).map((book) => (
+                    <tr key={book}>
+                      <td className="px-4 py-3 text-foreground">{BOOKS[book].label} numérique</td>
+                      <td className="px-4 py-3">{BOOKS[book].launchPrice} jusqu'au 31/12/2026 inclus, puis {BOOKS[book].regularPrice}</td>
+                      <td className="px-4 py-3">Achat unique, téléchargement après paiement.</td>
+                    </tr>
+                  ))}
                   <tr>
-                    <td className="px-4 py-3 text-foreground">Book RAMP numérique</td>
-                    <td className="px-4 py-3">{RAMP.launchPrice} jusqu'au 31/12/2026 inclus, puis {RAMP.regularPrice}</td>
-                    <td className="px-4 py-3">Achat unique, téléchargement après paiement.</td>
+                    <td className="px-4 py-3 text-foreground">{BOOK_PACK.label}</td>
+                    <td className="px-4 py-3">{BOOK_PACK.price}</td>
+                    <td className="px-4 py-3">Achat unique, téléchargement des deux PDF après paiement.</td>
                   </tr>
                 </tbody>
               </table>
@@ -145,15 +152,15 @@ function CGV() {
           </section>
 
           <section>
-            <h2 className="font-display text-xl tracking-tight text-foreground">6. Organisation des séances et accès au Book RAMP</h2>
+            <h2 className="font-display text-xl tracking-tight text-foreground">6. Organisation des séances et accès aux books numériques</h2>
             <p className="mt-2">
               Après l'achat d'une séance ou d'une carte, Florian contacte le payeur pour convenir
               des dates et du lieu, selon les disponibilités. Si la séance est déjà convenue,
               le paiement confirme l'achat de la formule choisie. Les cartes sont nominatives et sans renouvellement automatique.
             </p>
             <p className="mt-2">
-              Le Book RAMP est fourni au format PDF. Le lien de téléchargement est disponible
-              après confirmation du paiement.
+              Les books RAMP et Tir sont fournis au format PDF, séparément ou ensemble dans le pack.
+              Les liens de téléchargement sont disponibles après confirmation du paiement.
             </p>
           </section>
 
@@ -179,7 +186,7 @@ function CGV() {
               n'ouvre plus droit à rétractation (article L221-28, 1°).
             </p>
             <p className="mt-2">
-              Pour le Book RAMP, l'accès immédiat au PDF nécessite votre accord exprès pour la fourniture
+              Pour les books numériques et le pack, l'accès immédiat aux PDF nécessite votre accord exprès pour la fourniture
               du contenu numérique avant la fin du délai de 14 jours et votre renonciation expresse au droit
               de rétractation. Ces accords sont recueillis avant le paiement. Une fois la fourniture commencée
               avec ces accords, le droit de rétractation ne s'applique plus (article L221-28, 13°).

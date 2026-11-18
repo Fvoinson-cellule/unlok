@@ -50,16 +50,57 @@ export function formatEuro(n: number): string {
   return `${n.toLocaleString("fr-FR")} €`;
 }
 
-// Book RAMP : prix de lancement jusqu'au 31/12/2026 inclus, puis prix normal.
+// Books numériques : prix de lancement jusqu'au 31/12/2026 inclus, puis prix normal.
+// Le pack reste à 24,90 € et donne accès aux deux PDF.
+export type BookKey = "ramp" | "tir";
+export type BookProduct = BookKey | "pack";
+
+export const BOOK_LAUNCH_ENDS_AT = new Date("2027-01-01T00:00:00+01:00");
+export const BOOKS = {
+  ramp: {
+    label: "Book RAMP",
+    checkoutName: "Book RAMP UNLOK · 40 échauffements (PDF)",
+    launchPrice: "14,90 €",
+    regularPrice: "24,90 €",
+  },
+  tir: {
+    label: "Book Tir",
+    checkoutName: "Book Tir UNLOK · 30 exercices (PDF)",
+    launchPrice: "14,90 €",
+    regularPrice: "24,90 €",
+  },
+} as const;
+
+export const BOOK_PACK = {
+  label: "Pack Book RAMP + Book Tir",
+  checkoutName: "Pack UNLOK · Book RAMP + Book Tir (2 PDF)",
+  price: "24,90 €",
+  priceCents: 2490,
+} as const;
+
+export function isBookLaunch(now: Date = new Date()): boolean {
+  return now < BOOK_LAUNCH_ENDS_AT;
+}
+
+export function isBookProduct(value: unknown): value is BookProduct {
+  return value === "ramp" || value === "tir" || value === "pack";
+}
+
+/** Prix en centimes d'un book ou du pack à une date donnée. */
+export function bookPriceCents(product: BookProduct, now: Date = new Date()): number {
+  if (product === "pack") return BOOK_PACK.priceCents;
+  return isBookLaunch(now) ? 1490 : 2490;
+}
+
+// Alias conservés pour les pages et tests existants.
 export const RAMP = {
-  launchPrice: "14,90 €",
-  regularPrice: "24,90 €",
-  launchEndsAt: new Date("2027-01-01T00:00:00+01:00"),
+  launchPrice: BOOKS.ramp.launchPrice,
+  regularPrice: BOOKS.ramp.regularPrice,
+  launchEndsAt: BOOK_LAUNCH_ENDS_AT,
 };
 export function isRampLaunch(now: Date = new Date()): boolean {
-  return now < RAMP.launchEndsAt;
+  return isBookLaunch(now);
 }
-/** Prix du Book RAMP en centimes à une date donnée. */
 export function rampPriceCents(now: Date = new Date()): number {
-  return isRampLaunch(now) ? 1490 : 2490;
+  return bookPriceCents("ramp", now);
 }
