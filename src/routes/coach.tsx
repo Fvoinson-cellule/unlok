@@ -56,7 +56,7 @@ const CONTENT = {
       ["01", "Précision et rythme", "12 exercices pour travailler la gestuelle, la répétition et le rythme, seul ou à deux."],
       ["02", "Tir sous opposition", "10 exercices pour lire son défenseur et tirer sous pression."],
       ["03", "Tir en équipe et jeux", "8 jeux compétitifs pour tirer sous la pression du score et des coéquipiers."],
-      ["+", "Boîte à outils & bonus", "10 leviers pour faire évoluer chaque exercice et 10 contraintes de match en bonus."],
+      ["+", "Boîte à outils & bonus", "10 leviers pour faire évoluer chaque exercice."],
     ],
   },
 } as const;
