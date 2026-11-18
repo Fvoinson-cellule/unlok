@@ -145,24 +145,31 @@ function Ramp() {
             Des échauffements prêts à l'emploi, pensés pour le basket, pour les joueurs comme pour
             les coachs. Finis les tours de terrain : on prépare le corps et la tête au jeu.
           </p>
-          <div className="mt-8 flex flex-wrap items-end gap-4">
-            {launch ? (
-              <>
-                <span className="font-display text-6xl text-primary">{RAMP.launchPrice}</span>
-                <span className="pb-2 text-xl text-muted-foreground line-through">{RAMP.regularPrice}</span>
-                <span className="pb-2 text-sm text-muted-foreground">Prix de lancement jusqu'au 31 décembre</span>
-              </>
-            ) : (
-              <span className="font-display text-6xl text-primary">{RAMP.regularPrice}</span>
-            )}
-          </div>
-          <div className="mt-8 max-w-xl">
-            {session_id ? <RampDownload sessionId={session_id} /> : <RampBuy />}
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            <FreeEbook compact />
+            <div className="flex flex-col rounded-2xl border border-border bg-card p-6 md:p-8">
+              <div className="inline-flex w-fit items-center gap-2 rounded-lg border border-border px-3 py-1 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                <span className="size-1.5 rounded-full bg-primary" /> Pack complet · 40 séances
+              </div>
+              <div className="mt-4 flex flex-wrap items-end gap-3">
+                {launch ? (
+                  <>
+                    <span className="font-display text-5xl text-primary">{RAMP.launchPrice}</span>
+                    <span className="pb-1 text-lg text-muted-foreground line-through">{RAMP.regularPrice}</span>
+                    <span className="w-full text-sm text-muted-foreground">Prix de lancement jusqu'au 31 décembre</span>
+                  </>
+                ) : (
+                  <span className="font-display text-5xl text-primary">{RAMP.regularPrice}</span>
+                )}
+              </div>
+              <div className="mt-6">
+                {session_id ? <RampDownload sessionId={session_id} /> : <RampBuy />}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <FreeEbook />
       <section className="border-b border-border bg-court text-court-foreground">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="font-mono text-xs uppercase tracking-[0.15em] text-primary">Le modèle RAMP</div>

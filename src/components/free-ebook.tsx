@@ -8,7 +8,7 @@ const STEPS = [
   ["P", "Chasseur et chassé", "4 min"],
 ] as const;
 
-export function FreeEbook() {
+export function FreeEbook({ compact = false }: { compact?: boolean }) {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
   const [url, setUrl] = useState("");
@@ -28,6 +28,45 @@ export function FreeEbook() {
       setState("idle");
       setErr("Ça n'a pas fonctionné. Réessaie ou écris à unlok.basketball@gmail.com.");
     }
+  }
+
+  if (compact) {
+    return (
+      <div id="extrait-gratuit" className="flex h-full flex-col rounded-2xl border border-primary/50 bg-gradient-to-b from-primary/15 to-card p-6 md:p-8">
+        <div className="inline-flex w-fit items-center gap-2 rounded-lg border border-primary/40 px-3 py-1 font-mono text-xs uppercase tracking-[0.15em] text-primary">
+          <span className="size-1.5 rounded-full bg-primary" /> Extrait offert · 15 min
+        </div>
+        <h2 className="mt-4 font-display text-3xl uppercase leading-none">Séance spéciale <span className="text-primary">défense</span></h2>
+        <ul className="mt-4 space-y-1.5">
+          {STEPS.map(([l, n, d]) => (
+            <li key={l} className="flex items-center gap-3 text-sm">
+              <span className="grid size-7 place-items-center rounded-md bg-primary font-display text-primary-foreground">{l}</span>
+              <span className="flex-1">{n}</span>
+              <span className="font-mono text-xs text-muted-foreground">{d}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-6">
+          {state === "done" ? (
+            <a href={url} download="Echauffement-defensif-RAMP-Unlok.pdf" target="_blank" rel="noopener"
+              className="inline-block w-full rounded-lg bg-primary px-6 py-3 text-center font-display uppercase text-primary-foreground shadow-glow">
+              Télécharger le PDF
+            </a>
+          ) : (
+            <form onSubmit={submit} className="space-y-3">
+              <input type="email" placeholder="Ton email" value={email} onChange={(e) => setEmail(e.target.value)}
+                className="w-full rounded-lg border border-foreground/30 bg-background px-3 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+              {err && <p className="text-sm text-destructive">{err}</p>}
+              <button type="submit" disabled={state === "sending"}
+                className="w-full rounded-lg bg-primary px-6 py-3 font-display uppercase text-primary-foreground shadow-glow disabled:opacity-60">
+                {state === "sending" ? "Envoi…" : "Télécharger l'extrait gratuit →"}
+              </button>
+              <p className="text-xs text-muted-foreground">Gratuit, en PDF. Ton email sert à te tenir au courant des nouveautés Unlok.</p>
+            </form>
+          )}
+        </div>
+      </div>
+    );
   }
 
   return (
