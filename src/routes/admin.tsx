@@ -96,7 +96,8 @@ function Admin() {
         })}
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
-        <a className={btn} href={`mailto:unlok.basketball@gmail.com?bcc=${encodeURIComponent(emails.join(","))}`}>Écrire à ce groupe</a>
+        <a className={btn} href={`mailto:unlok.basketball@gmail.com?bcc=${encodeURIComponent(emails.join(","))}`}>Écrire via mon appli</a>
+        <a className={btn} target="_blank" rel="noopener noreferrer" href={`https://mail.google.com/mail/?authuser=unlok.basketball@gmail.com&view=cm&fs=1&bcc=${encodeURIComponent(emails.join(","))}`}>Ouvrir dans Gmail</a>
         <button className={btn} onClick={async () => { await navigator.clipboard.writeText(emails.join(", ")); setCopied(true); setTimeout(() => setCopied(false), 1500); }}>
           {copied ? "Copié !" : `Copier les ${emails.length} emails`}
         </button>
