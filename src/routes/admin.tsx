@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMemo, useState } from "react";
-import { getAdminData, moderateReview } from "@/lib/admin.functions";
+import { deleteCustomers, getAdminData, moderateReview } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -28,6 +28,7 @@ const SEGMENTS = [
 function Admin() {
   const load = useServerFn(getAdminData);
   const moderate = useServerFn(moderateReview);
+  const remove = useServerFn(deleteCustomers);
   const [code, setCode] = useState("");
   const [data, setData] = useState<Data | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,6 +42,22 @@ function Admin() {
 
   const rows = useMemo(() => (data?.customers ?? []).filter((c) => c.segment === seg), [data, seg]);
   const emails = useMemo(() => [...new Set(rows.map((r) => r.email))], [rows]);
+
+  const duplicates = useMemo(() => {
+    const seen = new Set<string>();
+    return [...rows].reverse().filter((r) => {
+      const k = r.email.trim().toLowerCase();
+      if (seen.has(k)) return true;
+      seen.add(k);
+      return false;
+    }).map((r) => r.id);
+  }, [rows]);
+
+  async function removeIds(ids: string[], msg: string) {
+    if (!ids.length || !confirm(msg)) return;
+    try { await remove({ data: { code, ids } }); } catch { alert("La suppression n'a pas fonctionné."); }
+    refresh();
+  }
 
   function csv() {
     const lines = [["date", "email", "nom", "détail", "montant €"], ...rows.map((r) => [
@@ -84,10 +101,13 @@ function Admin() {
           {copied ? "Copié !" : `Copier les ${emails.length} emails`}
         </button>
         <button className={btn} onClick={csv}>Télécharger (Excel)</button>
+        <button className={btn} disabled={!duplicates.length} onClick={() => removeIds(duplicates, `Supprimer ${duplicates.length} doublon(s) ? Le plus ancien de chaque email est gardé.`)}>
+          Supprimer les doublons ({duplicates.length})
+        </button>
       </div>
       <div className="mt-6 overflow-x-auto rounded-xl border border-border">
         <table className="w-full text-left text-sm">
-          <thead className="text-muted-foreground"><tr><th className="p-3">Date</th><th className="p-3">Email</th><th className="p-3">Nom</th><th className="p-3">Détail</th><th className="p-3">Montant</th></tr></thead>
+          <thead className="text-muted-foreground"><tr><th className="p-3">Date</th><th className="p-3">Email</th><th className="p-3">Nom</th><th className="p-3">Détail</th><th className="p-3">Montant</th><th className="p-3"></th></tr></thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.id} className="border-t border-border align-top">
@@ -95,9 +115,10 @@ function Admin() {
                 <td className="p-3">{r.email}</td><td className="p-3">{r.name}</td>
                 <td className="p-3 text-muted-foreground">{r.detail}</td>
                 <td className="p-3 whitespace-nowrap">{r.amount_cents != null ? `${(r.amount_cents / 100).toFixed(2)} €` : "Gratuit"}</td>
+                <td className="p-3"><button className="text-xs text-muted-foreground underline hover:text-destructive" onClick={() => removeIds([r.id], `Supprimer ${r.email} ?`)}>Supprimer</button></td>
               </tr>
             ))}
-            {!rows.length && <tr><td className="p-3 text-muted-foreground" colSpan={5}>Aucun contact pour l'instant.</td></tr>}
+            {!rows.length && <tr><td className="p-3 text-muted-foreground" colSpan={6}>Aucun contact pour l'instant.</td></tr>}
           </tbody>
         </table>
       </div>

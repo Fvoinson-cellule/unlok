@@ -32,3 +32,17 @@ export const moderateReview = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export const deleteCustomers = createServerFn({ method: "POST" })
+  .inputValidator((d: { code: string; ids: string[] }) => {
+    if (!Array.isArray(d.ids) || d.ids.length > 1000 || !d.ids.every((i) => /^[0-9a-f-]{36}$/i.test(i))) throw new Error("ids");
+    return d;
+  })
+  .handler(async ({ data }) => {
+    check(data.code);
+    if (!data.ids.length) return { ok: true };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("customers").delete().in("id", data.ids);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
