@@ -136,6 +136,15 @@ function BookDownload({ product, sessionId }: { product: BookProduct; sessionId:
       <p className="mt-1 text-sm text-muted-foreground">{product === "pack" ? "Tes deux books sont prêts." : "Ton book est prêt."}</p>
       {downloads.length ? (
         <div className="mt-4 grid gap-2">
+          {downloads.length > 1 && (
+            <button type="button" onClick={() => downloads.forEach((d, i) => setTimeout(() => {
+              const a = document.createElement("a"); a.href = d.url; a.download = d.filename; a.target = "_blank"; a.rel = "noopener";
+              document.body.appendChild(a); a.click(); a.remove();
+            }, i * 800))}
+              className="rounded-lg border-2 border-primary px-5 py-3 text-center text-sm font-semibold uppercase text-primary shadow-glow">
+              Tout télécharger · les {downloads.length} books
+            </button>
+          )}
           {downloads.map((download) => (
             <a key={download.url} href={download.url} download={download.filename} target="_blank" rel="noopener"
               className="rounded-lg bg-primary px-5 py-3 text-center text-sm font-semibold uppercase text-primary-foreground shadow-glow">
