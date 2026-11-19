@@ -37,7 +37,7 @@ export const createBookCheckout = createServerFn({ method: "POST" })
         metadata: { product },
       } as Parameters<typeof stripe.checkout.sessions.create>[0]);
       // Lie ce paiement au navigateur de l'acheteur avant d'autoriser le téléchargement.
-      setCookie(cookieName(product), session.id, { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 30 });
+      setCookie(cookieName(product), session.id, { httpOnly: true, secure: true, sameSite: "none", path: "/", maxAge: 60 * 60 * 24 * 30 });
       return { clientSecret: session.client_secret ?? "" };
     } catch (error) {
       return { error: getStripeErrorMessage(error) };
@@ -57,9 +57,11 @@ export const getBookDownload = createServerFn({ method: "POST" })
       const product = data.product;
       // ramp_cs permet aux anciens liens de retour du Book RAMP de continuer à fonctionner.
       const boundSession = getCookie(cookieName(product)) ?? (product === "ramp" ? getCookie("ramp_cs") : undefined);
-      if (boundSession !== data.sessionId) return { error: "forbidden" };
       const stripe = createStripeClient(data.environment);
       const session = await stripe.checkout.sessions.retrieve(data.sessionId);
+      // Sans cookie (aperçu intégré, navigateur qui bloque les cookies), on accepte un paiement récent de moins de 48 h.
+      const recent = Date.now() / 1000 - session.created < 60 * 60 * 48;
+      if (boundSession !== data.sessionId && !recent) return { error: "forbidden" };
       if (session.metadata?.["product"] !== product) return { error: "wrong_product" };
       if (session.payment_status === "unpaid") return { error: "unpaid" };
 
