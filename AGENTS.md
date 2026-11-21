@@ -9,3 +9,5 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 - Coaching prices are computed only in src/lib/pricing.ts (shared by browser and checkout server function) so displayed and charged amounts never diverge.
+- Book checkout and download UI lives in a shared component with a configurable return path so funnels reuse the existing payment behavior.
+- Video excerpt leads use a shared Zod schema and store explicit consent with its server timestamp in customers.detail because the existing lead tables have no consent columns.

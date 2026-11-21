@@ -16,6 +16,8 @@ export const Route = createFileRoute("/paiement/retour")({
       { name: "description", content: "Confirmation de ta réservation UNLOK après paiement." },
       { property: "og:title", content: "Paiement confirmé · UNLOK" },
       { property: "og:description", content: "Confirmation de ta réservation UNLOK après paiement." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: RetourPaiement,

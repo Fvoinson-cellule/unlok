@@ -6,12 +6,12 @@ export const getFreeEbook = createServerFn({ method: "POST" })
     const email = String(data?.email ?? "").trim().toLowerCase().slice(0, 200);
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Error("Invalid email");
     const book = data.book ?? "ramp";
-    if (book !== "ramp" && book !== "tir") throw new Error("Invalid book");
+    if (book !== "ramp") throw new Error("Invalid book");
     return { email, book };
   })
   .handler(async ({ data }): Promise<{ url: string } | { error: string }> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const detail = data.book === "tir" ? "Extrait gratuit Book Tir" : "Extrait gratuit RAMP (défense)";
+    const detail = "Extrait gratuit RAMP (défense)";
     const { error } = await supabaseAdmin.from("customers").upsert(
       { segment: "coach", email: data.email, detail, source_id: `free-${data.book}:${data.email}` },
       { onConflict: "source_id" },
@@ -20,8 +20,6 @@ export const getFreeEbook = createServerFn({ method: "POST" })
       console.error("free ebook insert", error);
       return { error: "save_failed" };
     }
-    const asset = data.book === "tir"
-      ? (await import("@/assets/Extrait-Book-Tir-Unlok.pdf.asset.json")).default
-      : (await import("@/assets/Echauffement-defensif-RAMP-Unlok.pdf.asset.json")).default;
+    const asset = (await import("@/assets/Echauffement-defensif-RAMP-Unlok.pdf.asset.json")).default;
     return { url: asset.url };
   });

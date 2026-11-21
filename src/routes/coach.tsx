@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { FreeEbook } from "@/components/free-ebook";
 import { ReviewsSection } from "@/components/reviews-section";
-import { getStripe, getStripeEnvironment } from "@/lib/stripe";
-import { createBookCheckout, getBookDownload } from "@/lib/books.functions";
+import { CheckoutForm, BookDownload } from "@/components/book-checkout";
+import { Button } from "@/components/ui/button";
+import { Play, ArrowRight } from "lucide-react";
 import { BOOKS, BOOK_PACK, isBookLaunch, type BookKey, type BookProduct } from "@/lib/pricing";
 
 type CoachSearch = { book?: BookKey | undefined; product?: BookProduct | undefined; session_id?: string | undefined };
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/coach")({
   head: () => ({
     meta: [
       { title: "Books pour coachs · RAMP, Tir et pack · Unlok" },
-      { name: "description", content: "Books RAMP et Tir pour préparer tes entraînements : extraits gratuits, books à 14,90 € jusqu'au 31 décembre, ou pack des deux à 24,90 €." },
+      { name: "description", content: "Books RAMP et Tir pour préparer tes entraînements : extraits vidéo et PDF gratuits, books à 14,90 € jusqu'au 31 décembre, ou pack des deux à 24,90 €." },
       { property: "og:title", content: "Books RAMP et Tir pour coachs · Unlok" },
       { property: "og:description", content: "70 exercices prêts à l'emploi, deux extraits gratuits et un pack des deux books à 24,90 €." },
       { property: "og:type", content: "website" },
@@ -61,102 +61,6 @@ const CONTENT = {
   },
 } as const;
 
-function CheckoutForm({ product, currentBook }: { product: BookProduct; currentBook: BookKey }) {
-  const [email, setEmail] = useState("");
-  const [cgv, setCgv] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [err, setErr] = useState("");
-  const valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) && cgv;
-
-  async function fetchClientSecret() {
-    const result = await createBookCheckout({
-      data: {
-        product,
-        email,
-        returnUrl: `${window.location.origin}/coach?book=${currentBook}&product=${product}&session_id={CHECKOUT_SESSION_ID}`,
-        environment: getStripeEnvironment(),
-      },
-    });
-    if ("error" in result) throw new Error(result.error);
-    return result.clientSecret;
-  }
-
-  if (open) {
-    return (
-      <div className="rounded-lg bg-card p-2">
-        <EmbeddedCheckoutProvider stripe={getStripe()} options={{ fetchClientSecret }}>
-          <EmbeddedCheckout />
-        </EmbeddedCheckoutProvider>
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={(event) => {
-      event.preventDefault();
-      try { getStripeEnvironment(); setOpen(true); }
-      catch { setErr("Le paiement n'est pas disponible ici. Écris à unlok.basketball@gmail.com."); }
-    }} className="space-y-3">
-      <label className="block text-sm text-muted-foreground">
-        Ton email (pour le reçu)
-        <input type="email" required value={email} onChange={(event) => setEmail(event.target.value)}
-          className="mt-1 w-full rounded-md border border-foreground/30 bg-background px-3 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-      </label>
-      <label className="flex items-start gap-2 text-sm text-muted-foreground">
-        <input type="checkbox" checked={cgv} onChange={(event) => setCgv(event.target.checked)} className="mt-1" />
-        <span>J'accepte les <Link to="/cgv" className="underline">CGV</Link> et je demande l'accès immédiat au contenu numérique, en renonçant à mon droit de rétractation.</span>
-      </label>
-      {err && <p className="text-sm text-destructive">{err}</p>}
-      <button disabled={!valid} className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all hover:-translate-y-0.5 disabled:opacity-40">
-        {product === "pack" ? "Acheter le pack" : "Acheter le book"} <span>→</span>
-      </button>
-    </form>
-  );
-}
-
-function BookDownload({ product, sessionId }: { product: BookProduct; sessionId: string }) {
-  const [downloads, setDownloads] = useState<Array<{ label: string; url: string; filename: string }>>([]);
-  const [err, setErr] = useState(false);
-
-  useEffect(() => {
-    try {
-      getBookDownload({ data: { product, sessionId, environment: getStripeEnvironment() } })
-        .then((result) => ("downloads" in result ? setDownloads(result.downloads) : setErr(true)))
-        .catch(() => setErr(true));
-    } catch { setErr(true); }
-  }, [product, sessionId]);
-
-  if (err) {
-    return <p className="text-sm text-muted-foreground">Paiement introuvable. Écris à <a className="underline" href="mailto:unlok.basketball@gmail.com">unlok.basketball@gmail.com</a>, je t'envoie ton contenu.</p>;
-  }
-
-  return (
-    <div className="rounded-lg border border-primary/40 bg-primary/10 p-5">
-      <p className="font-display text-2xl uppercase">Merci, paiement reçu !</p>
-      <p className="mt-1 text-sm text-muted-foreground">{product === "pack" ? "Tes deux books sont prêts." : "Ton book est prêt."}</p>
-      {downloads.length ? (
-        <div className="mt-4 grid gap-2">
-          {downloads.length > 1 && (
-            <button type="button" onClick={() => downloads.forEach((d, i) => setTimeout(() => {
-              const a = document.createElement("a"); a.href = d.url; a.download = d.filename; a.target = "_blank"; a.rel = "noopener";
-              document.body.appendChild(a); a.click(); a.remove();
-            }, i * 800))}
-              className="rounded-lg border-2 border-primary px-5 py-3 text-center text-sm font-semibold uppercase text-primary shadow-glow">
-              Tout télécharger · les {downloads.length} books
-            </button>
-          )}
-          {downloads.map((download) => (
-            <a key={download.url} href={download.url} download={download.filename} target="_blank" rel="noopener"
-              className="rounded-lg bg-primary px-5 py-3 text-center text-sm font-semibold uppercase text-primary-foreground shadow-glow">
-              Télécharger · {download.label}
-            </a>
-          ))}
-        </div>
-      ) : <p className="mt-4 text-sm">Vérification du paiement…</p>}
-    </div>
-  );
-}
-
 function Coach() {
   const search = Route.useSearch();
   const book = search.book ?? "ramp";
@@ -199,7 +103,17 @@ function Coach() {
             <p className="mt-4 text-muted-foreground">{content.description}</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
-            <FreeEbook key={book} book={book} />
+            {book === "ramp" ? <FreeEbook book="ramp" /> : (
+              <div className="flex flex-col rounded-lg border border-primary/50 bg-card p-6 md:p-8">
+                <Play className="size-10 text-primary" aria-hidden="true" />
+                <p className="mt-5 font-mono text-xs uppercase text-primary">Extrait gratuit · Vidéo</p>
+                <h2 className="mt-3 font-display text-3xl">Regarde 3 exercices du Book Tir en vidéo</h2>
+                <p className="mt-4 text-sm leading-6 text-muted-foreground">Moins de 3 minutes pour découvrir les exercices en action.</p>
+                <Button asChild className="mt-auto h-auto whitespace-normal py-3 shadow-glow">
+                  <Link to="/extrait-tir">Voir l'extrait <ArrowRight /></Link>
+                </Button>
+              </div>
+            )}
             <div className="flex flex-col rounded-2xl border border-border bg-card p-6 md:p-8">
               <div className="inline-flex w-fit items-center gap-2 rounded-lg border border-border px-3 py-1 font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
                 <span className="size-1.5 rounded-full bg-primary" /> {content.badge}

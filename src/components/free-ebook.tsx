@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { getFreeEbook } from "@/lib/free-ebook.functions";
-import type { BookKey } from "@/lib/pricing";
 
 const CONTENT = {
   ramp: {
@@ -15,20 +14,9 @@ const CONTENT = {
       ["P", "Chasseur et chassé", "4 min"],
     ],
   },
-  tir: {
-    badge: "Extrait offert · 3 exercices",
-    title: "Découvre le Book Tir",
-    description: "3 exercices, le sommaire complet et 3 outils pour tester le book avant de l'acheter.",
-    filename: "Extrait-Book-Tir-Unlok.pdf",
-    steps: [
-      ["05", "Passeur opposé", "8 min"],
-      ["16", "Fontaine de tir", "3 paniers"],
-      ["25", "Poussée de plots", "2 équipes"],
-    ],
-  },
 } as const;
 
-export function FreeEbook({ book = "ramp" }: { book?: BookKey }) {
+export function FreeEbook({ book = "ramp" }: { book?: "ramp" }) {
   const content = CONTENT[book];
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
